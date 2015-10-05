@@ -1,0 +1,19 @@
+{
+  "name": "quasar-cli",
+  "version": "0.0.1",
+  "description": "Quasar Framework CLI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rstoenescu/quasar-cli.git"
+  },
+  "author": "Razvan Stoenescu <Razvan.Stoenescu@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rstoenescu/quasar-cli/issues"
+  },
+  "homepage": "https://github.com/rstoenescu/quasar-cli#readme"
+}
