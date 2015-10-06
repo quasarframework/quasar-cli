@@ -1,3 +1,5 @@
+[![Circle CI](https://circleci.com/gh/rstoenescu/quasar-cli.svg?style=svg)](https://circleci.com/gh/rstoenescu/quasar-cli)
+
 ## Description
 
 Quasar Framework CLI
