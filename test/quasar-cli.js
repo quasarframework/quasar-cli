@@ -1,8 +1,8 @@
 'use strict';
 
-var assert = require("assert");
 var exec = require('child_process').exec;
 var path = require('path');
+var expect = require('chai').expect;
 
 describe('quasar-cli bin', function(){
 	var cmd = 'node '+path.join(__dirname, '../bin/quasar-cli')+' ';
@@ -10,14 +10,14 @@ describe('quasar-cli bin', function(){
 
 	it('--help should run without errors', function(done) {
 		exec(cmd+'--help', function (error, stdout, stderr) {
-			assert(!error);
+			expect(error).to.not.exist;
 			done();
 		});
 	});
 
 	it('--version should run without errors', function(done) {
 		exec(cmd+'--version', function (error, stdout, stderr) {
-			assert(!error);
+			expect(error).to.not.exist;
 			done();
 		});
 	});
@@ -26,19 +26,18 @@ describe('quasar-cli bin', function(){
         this.timeout(4000);
 
 		exec(cmd, function (error, stdout, stderr) {
-			assert(error);
-			assert.equal(error.code,1);
+			expect(error).to.exist;
+			expect(error.code).to.equal(1);
 			done();
 		});
-
 	});
 
 	it('should return error on unknown command', function(done) {
         this.timeout(4000);
 
 		exec(cmd+'junkcmd', function (error, stdout, stderr) {
-			assert(error);
-			assert.equal(error.code,1);
+			expect(error).to.exist;
+			expect(error.code).to.equal(1);
 			done();
 		});
 	});
