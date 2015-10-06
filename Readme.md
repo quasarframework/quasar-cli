@@ -1,5 +1,3 @@
-#quasar-cli
-
 ## Description
 
 Quasar Framework CLI
