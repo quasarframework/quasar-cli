@@ -1,10 +1,8 @@
-<p align="center">
-  <a href="https://circleci.com/gh/rstoenescu/quasar-cli/tree/master"><img src="https://circleci.com/gh/rstoenescu/quasar-cli/tree/master.svg?style=shield" alt="Build Status"></a>
-</p>
+# Quasar Framework CLI [![Circle CI](https://circleci.com/gh/rstoenescu/quasar-cli/tree/master.svg?style=shield)](https://circleci.com/gh/rstoenescu/quasar-cli/tree/master) [![npm version](https://badge.fury.io/js/quasar-cli.svg)](https://badge.fury.io/js/quasar-cli)
 
 ## Description
 
-Quasar Framework CLI
+In active development
 
 ## Usage
 
