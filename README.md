@@ -1,4 +1,6 @@
-[![Circle CI](https://circleci.com/gh/rstoenescu/quasar-cli.svg?style=svg)](https://circleci.com/gh/rstoenescu/quasar-cli)
+<p align="center">
+  <a href="https://circleci.com/gh/rstoenescu/quasar-cli/tree/master"><img src="https://circleci.com/gh/rstoenescu/quasar-cli/tree/master.svg?style=shield" alt="Build Status"></a>
+</p>
 
 ## Description
 
