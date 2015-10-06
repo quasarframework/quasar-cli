@@ -4,19 +4,20 @@ var exec = require('child_process').exec;
 var path = require('path');
 var expect = require('chai').expect;
 
-describe('main functionality', function(){
-    var cmd = 'node '+path.join(__dirname, '../bin/quasar-cli')+' ';
-    console.log(cmd);
+describe('bin', function(){
+    before(function () {
+        this.cmd = 'node '+path.join(__dirname, '../bin/quasar-cli')+' ';
+    });
 
-    it('--help should run without errors', function(done) {
-        exec(cmd+'--help', function (error, stdout, stderr) {
+    it('should run --help without errors', function(done) {
+        exec(this.cmd+'--help', function (error, stdout, stderr) {
             expect(error).to.not.exist;
             done();
         });
     });
 
-    it('--version should run without errors', function(done) {
-        exec(cmd+'--version', function (error, stdout, stderr) {
+    it('should run --version without errors', function(done) {
+        exec(this.cmd+'--version', function (error, stdout, stderr) {
             expect(error).to.not.exist;
             done();
         });
@@ -25,7 +26,7 @@ describe('main functionality', function(){
     it('should return error on missing command', function(done) {
         this.timeout(4000);
 
-        exec(cmd, function (error, stdout, stderr) {
+        exec(this.cmd, function (error, stdout, stderr) {
             expect(error).to.exist;
             expect(error.code).to.equal(1);
             done();
@@ -35,7 +36,7 @@ describe('main functionality', function(){
     it('should return error on unknown command', function(done) {
         this.timeout(4000);
 
-        exec(cmd+'junkcmd', function (error, stdout, stderr) {
+        exec(this.cmd+'junkcmd', function (error, stdout, stderr) {
             expect(error).to.exist;
             expect(error.code).to.equal(1);
             done();

@@ -20,10 +20,15 @@
   "license": "MIT",
   "bugs": "https://github.com/rstoenescu/quasar-cli/issues",
   "dependencies": {
-    "commander": "~2.0.0",
-    "autocmdr": "~0.0.7"
+    "autocmdr": "~0.0.7",
+    "commander": "~2.8.1",
+    "conventional-recommended-bump": "0.0.3",
+    "fs": "0.0.2",
+    "lodash": "^3.10.1",
+    "path": "^0.12.7"
   },
   "devDependencies": {
-    "chai": "^3.3.0"
+    "chai": "^3.3.0",
+    "moquire": "^1.5.5"
   }
 }
