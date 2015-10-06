@@ -24,6 +24,6 @@
     "autocmdr": "~0.0.7"
   },
   "devDependencies": {
-    "chai": "^3.3.0"
+    "chai": ">=3.3.0"
   }
 }
