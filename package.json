@@ -2,6 +2,7 @@
   "name": "quasar-cli",
   "version": "0.0.4",
   "description": "Quasar Framework CLI",
+  "preferGlobal": true,
   "bin": {
     "quasar": "./bin/quasar-cli"
   },
