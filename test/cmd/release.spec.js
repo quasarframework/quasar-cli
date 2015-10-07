@@ -7,7 +7,7 @@ var expect = require('chai').expect;
 describe('bin: release', function () {
 
     before(function () {
-        this.cmd = 'node '+path.join(__dirname, '../bin/quasar-cli')+' ';
+        this.cmd = 'node '+path.join(__dirname, '../../bin/quasar-cli')+' ';
     });
     
 

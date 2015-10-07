@@ -5,7 +5,7 @@ var expect = require('chai').expect;
 describe('lib: release-management', function () {
 
     before(function () {
-        this.release = require('../lib/release-management');
+        this.release = require('../../lib/release-management');
     });
 
 

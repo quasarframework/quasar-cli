@@ -5,6 +5,10 @@ var moquire = require('moquire');
 
 describe('lib: find-root', function () {
 
+    before(function () {
+        this.module = '../../lib/get-root';
+    });
+
     it('should search for package.json when called with no param', function (done) {
         var fs = {
           existsSync: function (path) {
@@ -12,7 +16,7 @@ describe('lib: find-root', function () {
           }
         };
 
-        var getRoot = moquire('../lib/get-root', {fs: fs});
+        var getRoot = moquire(this.module, {fs: fs});
         var result = getRoot('/foo');
 
         expect(result).to.exist;
@@ -27,7 +31,7 @@ describe('lib: find-root', function () {
           }
         };
 
-        var getRoot = moquire('../lib/get-root', {fs: fs});
+        var getRoot = moquire(this.module, {fs: fs});
         var result = getRoot('/foo', 'file.json');
 
         expect(result).to.exist;
@@ -49,7 +53,7 @@ describe('lib: find-root', function () {
             '/foo/file.json'
         ];
 
-        var getRoot = moquire('../lib/get-root', {fs: fs});
+        var getRoot = moquire(this.module, {fs: fs});
         var result = getRoot('/foo/bar/baz', 'file.json');
 
         expect(result).to.exist;
@@ -65,7 +69,7 @@ describe('lib: find-root', function () {
           }
         };
 
-        var getRoot = moquire('../lib/get-root', {fs: fs});
+        var getRoot = moquire(this.module, {fs: fs});
 
         expect(function() {
             getRoot('/foo/bar');

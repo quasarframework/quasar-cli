@@ -6,7 +6,7 @@
     "quasar": "./bin/quasar-cli"
   },
   "scripts": {
-    "test": "mocha -R spec"
+    "test": "mocha -R dot test/**"
   },
   "author": {
     "name": "Razvan Stoenescu",

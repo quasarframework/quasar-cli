@@ -5,7 +5,7 @@ var expect = require('chai').expect;
 describe('lib: package-json', function () {
 
     before(function () {
-        this.pkg = require('../lib/package-json');
+        this.pkg = require('../../lib/package-json');
     });
 
 
