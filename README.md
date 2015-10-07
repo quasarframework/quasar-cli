@@ -2,7 +2,10 @@
 
 ## Description
 
-In active development
+<span style="background-color:red">
+IN ACTIVE DEVELOPMENT!!!
+FAR FROM READY FOR PRODUCTION!!!
+</span>
 
 ## Usage
 
@@ -12,10 +15,17 @@ To install quasar-cli from npm, run:
 $ npm install -g quasar-cli
 ```
 
-Then run it:
+Then run it inside your Quasar Project folder:
 
 ```
 $ quasar --help
+```
+
+Some examples. Will be documented on website.
+```
+$ quasar release:recommend
+$ quasar release <type:patch,minor,major,preminor,...>
+$ quasar release:version <version>
 ```
 
 ## License
