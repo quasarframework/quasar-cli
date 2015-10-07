@@ -5,6 +5,7 @@ var path = require('path');
 var expect = require('chai').expect;
 
 describe('bin: package', function () {
+
     before(function () {
         this.cmd = 'node '+path.join(__dirname, '../bin/quasar-cli')+' ';
     });
@@ -16,6 +17,5 @@ describe('bin: package', function () {
             done();
         });
     });
-
 
 });

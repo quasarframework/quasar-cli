@@ -4,7 +4,8 @@ var exec = require('child_process').exec;
 var path = require('path');
 var expect = require('chai').expect;
 
-describe('bin', function(){
+describe('bin', function() {
+
     before(function () {
         this.cmd = 'node '+path.join(__dirname, '../bin/quasar-cli')+' ';
     });
@@ -42,4 +43,5 @@ describe('bin', function(){
             done();
         });
     });
+
 });

@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "description": "Quasar Framework CLI",
   "bin": {
-    "quasar-cli": "./bin/quasar-cli"
+    "quasar": "./bin/quasar-cli"
   },
   "scripts": {
     "test": "mocha -R spec"

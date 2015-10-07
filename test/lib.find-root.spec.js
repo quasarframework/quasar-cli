@@ -5,6 +5,7 @@ var expect = require('chai').expect;
 var moquire = require('moquire');
 
 describe('lib: find-root', function () {
+
     it('should search for package.json when called with no param', function (done) {
         var fs = {
           existsSync: function (path) {
@@ -72,4 +73,5 @@ describe('lib: find-root', function () {
         }).to.throw(/not found/);
         done();
     });
+
 });
