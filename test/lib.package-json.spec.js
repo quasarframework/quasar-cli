@@ -10,47 +10,36 @@ describe('lib: package-json', function () {
     });
 
 
-    it('should not throw error when calling version', function (done) {
+    it('should return version when calling getVersion()', function () {
+        var result;
+
         expect(function() {
-            this.pkg.version();
+            result = this.pkg.getVersion();
         }.bind(this)).to.not.throw();
 
-        done();
-    });
-
-    it('should return version when calling version', function (done) {
-        var result = this.pkg.version();
         expect(result).to.exist;
-        done();
     });
 
+    it('should set version when calling setVersion()', function () {
+        var content = this.pkg.getContent();
 
-    it('should throw error when calling recommend with no callback', function (done) {
         expect(function() {
-            this.pkg.recommend();
-        }.bind(this)).to.throw(/No callback/);
-
-        done();
-    });
-
-    it('should return recommendation when calling recommend', function (done) {
-        expect(function() {
-            this.pkg.recommend(function() {});
+            var version = this.pkg.getVersion();
+            this.pkg.setVersion(version);
         }.bind(this)).to.not.throw();
 
-        this.pkg.recommend(function(type) {
-            expect(type).to.exist;
-            done();
-        });
+        var newContent = this.pkg.getContent();
+        expect(content).to.deep.equal(newContent);
     });
 
+    it('should return current version when calling getVersion()', function () {
+        var result;
 
-    it('should throw error when calling bump with no params', function (done) {
         expect(function() {
-            this.pkg.bump();
-        }.bind(this)).to.throw(/No type/);
+            result = this.pkg.getVersion();
+        }.bind(this)).not.to.throw();
 
-        done();
+        expect(result).to.exist;
     });
 
 });
