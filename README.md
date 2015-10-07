@@ -1,4 +1,4 @@
-# Quasar Framework CLI [![Circle CI](https://circleci.com/gh/rstoenescu/quasar-cli/tree/master.svg?style=shield)](https://circleci.com/gh/rstoenescu/quasar-cli/tree/master) [![npm version](https://badge.fury.io/js/quasar-cli.svg)](https://badge.fury.io/js/quasar-cli) [![dependencies](https://david-dm.org/rstoenescu/quasar-cli.svg)](https://david-dm.org/rstoenescu/quasar-cli) 
+# Quasar Framework CLI<br>[![Circle CI](https://circleci.com/gh/rstoenescu/quasar-cli/tree/master.svg?style=shield)](https://circleci.com/gh/rstoenescu/quasar-cli/tree/master) [![npm version](https://badge.fury.io/js/quasar-cli.svg)](https://badge.fury.io/js/quasar-cli) [![dependencies](https://david-dm.org/rstoenescu/quasar-cli.svg)](https://david-dm.org/rstoenescu/quasar-cli) 
 
 ## Description
 
@@ -12,7 +12,9 @@ To install quasar-cli from npm, run:
 $ npm install -g quasar-cli
 ```
 
-```node ./bin/quasar-cli --help```
+Then run it:
+
+```quasar --help```
 
 ## License
 
