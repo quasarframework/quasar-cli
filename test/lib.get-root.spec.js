@@ -1,6 +1,5 @@
 'use strict';
 
-var exec = require('child_process').exec;
 var expect = require('chai').expect;
 var moquire = require('moquire');
 
@@ -13,8 +12,8 @@ describe('lib: find-root', function () {
           }
         };
 
-        var findRoot = moquire('../lib/find-root', {fs: fs});
-        var result = findRoot('/foo');
+        var getRoot = moquire('../lib/get-root', {fs: fs});
+        var result = getRoot('/foo');
 
         expect(result).to.exist;
         expect(result).to.equal('/foo');
@@ -28,8 +27,8 @@ describe('lib: find-root', function () {
           }
         };
 
-        var findRoot = moquire('../lib/find-root', {fs: fs});
-        var result = findRoot('/foo', 'file.json');
+        var getRoot = moquire('../lib/get-root', {fs: fs});
+        var result = getRoot('/foo', 'file.json');
 
         expect(result).to.exist;
         expect(result).to.equal('/foo');
@@ -50,8 +49,8 @@ describe('lib: find-root', function () {
             '/foo/file.json'
         ];
 
-        var findRoot = moquire('../lib/find-root', {fs: fs});
-        var result = findRoot('/foo/bar/baz', 'file.json');
+        var getRoot = moquire('../lib/get-root', {fs: fs});
+        var result = getRoot('/foo/bar/baz', 'file.json');
 
         expect(result).to.exist;
         expect(result).to.equal('/foo');
@@ -66,10 +65,10 @@ describe('lib: find-root', function () {
           }
         };
 
-        var findRoot = moquire('../lib/find-root', {fs: fs});
+        var getRoot = moquire('../lib/get-root', {fs: fs});
 
         expect(function() {
-            findRoot('/foo/bar');
+            getRoot('/foo/bar');
         }).to.throw(/not found/);
         done();
     });

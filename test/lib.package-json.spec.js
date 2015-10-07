@@ -1,6 +1,5 @@
 'use strict';
 
-var exec = require('child_process').exec;
 var expect = require('chai').expect;
 
 describe('lib: package-json', function () {

@@ -25,7 +25,8 @@
     "conventional-recommended-bump": "0.0.3",
     "fs": "0.0.2",
     "lodash": "^3.10.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "semver": "^5.0.3"
   },
   "devDependencies": {
     "chai": "^3.3.0",
