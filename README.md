@@ -14,7 +14,9 @@ $ npm install -g quasar-cli
 
 Then run it:
 
-```quasar --help```
+```
+$ quasar --help
+```
 
 ## License
 
