@@ -24,6 +24,8 @@ $ quasar --help
 
 Some examples. Will be documented on website.
 ```
+$ quasar create <project_folder>
+
 $ quasar release:recommend
 $ quasar release &lt;type:patch,minor,major,preminor,...&gt;
 $ quasar release:version <version>
