@@ -1,11 +1,11 @@
-# Quasar Framework CLI<br>[![Circle CI](https://circleci.com/gh/rstoenescu/quasar-cli/tree/master.svg?style=shield)](https://circleci.com/gh/rstoenescu/quasar-cli/tree/master) [![npm version](https://badge.fury.io/js/quasar-cli.svg)](https://badge.fury.io/js/quasar-cli) [![dependencies](https://david-dm.org/rstoenescu/quasar-cli.svg)](https://david-dm.org/rstoenescu/quasar-cli) 
+# Quasar Framework CLI<br><a href="https://circleci.com/gh/rstoenescu/quasar-cli/tree/master"><img src="https://circleci.com/gh/rstoenescu/quasar-cli/tree/master.svg?style=shield"></a> <a href="https://badge.fury.io/js/quasar-cli"><img src="https://badge.fury.io/js/quasar-cli.svg"></a> <a href="https://david-dm.org/rstoenescu/quasar-cli"><img src="https://david-dm.org/rstoenescu/quasar-cli.svg"></a>
 
 ## Description
 
-<span style="background-color:red">
 IN ACTIVE DEVELOPMENT!!!
-FAR FROM READY FOR PRODUCTION!!!
-</span>
+
+FAR FROM READY!!!
+
 Do not take an interest in this yet.
 
 ## Usage
@@ -25,7 +25,7 @@ $ quasar --help
 Some examples. Will be documented on website.
 ```
 $ quasar release:recommend
-$ quasar release <type:patch,minor,major,preminor,...>
+$ quasar release &lt;type:patch,minor,major,preminor,...&gt;
 $ quasar release:version <version>
 ```
 

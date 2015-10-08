@@ -1,6 +1,6 @@
 'use strict';
 
-var expect = require('chai').expect;
+var path = require('path');
 
 describe('lib: package-json', function () {
 
@@ -8,6 +8,13 @@ describe('lib: package-json', function () {
         this.pkg = require('../../lib/package-json');
     });
 
+
+    it('should return package.json path from this project when calling getPath', function () {
+        var result = this.pkg.getPath(__dirname);
+        var value = path.join(path.normalize(path.join(__dirname, '../../')), 'package.json');
+        
+        expect(result).to.equal(value);
+    });
 
     it('should return version when calling getVersion()', function () {
         var result;

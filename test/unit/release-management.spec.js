@@ -1,7 +1,5 @@
 'use strict';
 
-var expect = require('chai').expect;
-
 describe('lib: release-management', function () {
 
     before(function () {

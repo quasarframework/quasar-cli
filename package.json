@@ -7,7 +7,7 @@
     "quasar": "./bin/quasar-cli"
   },
   "scripts": {
-    "test": "mocha -R dot test/**"
+    "test": "mocha  -r test/setup.js test/**/*.spec.js"
   },
   "author": {
     "name": "Razvan Stoenescu",
@@ -26,6 +26,7 @@
     "conventional-changelog": "^0.5.0",
     "conventional-recommended-bump": "0.0.3",
     "fs": "0.0.2",
+    "fs-extra": "^0.24.0",
     "lodash": "^3.10.1",
     "path": "^0.12.7",
     "semver": "^5.0.3"

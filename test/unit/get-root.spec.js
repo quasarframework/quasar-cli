@@ -1,12 +1,9 @@
 'use strict';
 
-var expect = require('chai').expect;
-var moquire = require('moquire');
-
-describe('lib: find-root', function () {
+describe('lib: get-root', function () {
 
     before(function () {
-        this.module = '../../lib/get-root';
+        this.module = '../lib/get-root';
     });
 
     it('should search for package.json when called with no param', function (done) {
