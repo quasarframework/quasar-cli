@@ -7,7 +7,7 @@
     "quasar": "./bin/quasar-cli"
   },
   "scripts": {
-    "test": "mocha  -r test/setup.js test/**/*.spec.js"
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha -- -r test/setup.js test/**/*.spec.js  && cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js"
   },
   "author": {
     "name": "Razvan Stoenescu",
@@ -33,6 +33,9 @@
   },
   "devDependencies": {
     "chai": "^3.3.0",
+    "codecov.io": "^0.1.6",
+    "istanbul": "^0.3.22",
+    "mocha": "^2.3.3",
     "moquire": "^1.5.5"
   }
 }
