@@ -4,6 +4,7 @@
 <a href="https://codecov.io/github/rstoenescu/quasar-cli"><img src="http://codecov.io/github/rstoenescu/quasar-cli/coverage.svg" alt="Coverage via Codecov"></a>
 <a href="https://badge.fury.io/js/quasar-cli"><img src="https://badge.fury.io/js/quasar-cli.svg"></a>
 <a href="https://david-dm.org/rstoenescu/quasar-cli"><img src="https://david-dm.org/rstoenescu/quasar-cli.svg"></a>
+<a href="https://codeclimate.com/github/rstoenescu/quasar-cli"><img src="https://codeclimate.com/github/rstoenescu/quasar-cli/badges/gpa.svg"></a>
 
 ## Description
 
