@@ -8,7 +8,7 @@ FAR FROM READY!!!
 
 Do not take an interest in this yet.
 
-## Usage
+## Installation
 
 To install quasar-cli from npm, run:
 
@@ -16,20 +16,18 @@ To install quasar-cli from npm, run:
 $ npm install -g quasar-cli
 ```
 
-Then run it inside your Quasar Project folder:
+## Usage
 
+Some examples:
 ```
-$ quasar --help
-```
-
-Some examples. Will be documented on website.
-```
-$ quasar create <project_folder>
-
+$ quasar create:project &lt;name&gt;
 $ quasar release:recommend
-$ quasar release &lt;type:patch,minor,major,preminor,...&gt;
-$ quasar release:version <version>
+$ quasar release:version &lt;version&gt;
 ```
+
+## Documentation
+
+Head on to [Quasar Framework Website](http://quasar-framework.org/docs/commands.html).
 
 ## License
 
