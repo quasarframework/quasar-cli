@@ -22,7 +22,7 @@ module.exports = function(program) {
         .description('Recommend a release type: patch, minor, major')
         .action(function() {
             program.log.info('Current version:', release.getVersion());
-            var version = release.recommend(function(version) {
+            release.recommend(function(version) {
                 program.log.info('It is recommended to do a', version, 'release type.');
             });
         });
