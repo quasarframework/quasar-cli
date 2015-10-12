@@ -3,6 +3,6 @@
  * (only for testing)
  */
 
-expect = require('chai').expect;
-moquire = require('moquire');
-//sinon = require('sinon');
+expect = require('chai').expect,
+moquire = require('moquire'),
+sinon = require('sinon');

@@ -1,35 +1,35 @@
 'use strict';
 
 var
-    path = require('path'),
-    fs = require('fs'),
-    fse = require('fs-extra')
-;
+  path = require('path'),
+  fs = require('fs'),
+  fse = require('fs-extra');
 
 module.exports = function(program) {
-    program
-        .command('create <folder>')
-        .alias('create:project')
-        .description('Create a Quasar project folder')
-        .action(function(folder) {
-            var src = path.normalize(path.join(__dirname, '../assets/project'));
-            var dest = path.normalize(path.join(process.cwd(), folder));
+  program
+  .command('create <folder>')
+  .alias('create:project')
+  .description('Create a Quasar project folder')
+  .action(function(folder) {
+    var src = path.normalize(path.join(__dirname, '../assets/project'));
+    var dest = path.normalize(path.join(process.cwd(), folder));
 
-            if (fs.existsSync(dest)) {
-                program.log.error('Folder already exists!');
-                process.exit(1);
-            }
+    if (fs.existsSync(dest)) {
+      program.log.error('Folder already exists!');
+      process.exit(1);
+    }
 
-            program.log.info('Initializing folder for Quasar project...');
+    program.log.info('Initializing folder for Quasar project...');
 
-            var err = fse.copySync(src, dest);
-            if (err) {
-                // notify of error
-                program.log.error('Error initializing. Abort.', err);
+    var err = fse.copySync(src, dest);
 
-                process.exit(1); // <<<--- EARLY EXIT
-            }
+    if (err) {
+      // notify of error
+      program.log.error('Error initializing. Abort.', err);
 
-            program.log.info('Project folder created.');
-        });
+      process.exit(1); // <<<--- EARLY EXIT
+    }
+
+    program.log.info('Project folder created.');
+  });
 };
