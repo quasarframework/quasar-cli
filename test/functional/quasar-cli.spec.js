@@ -7,9 +7,12 @@ describe('bin', function() {
 
   var cmd = 'node ' + path.join(__dirname, '../../bin/quasar-cli') + ' ';
 
-  function run(done, command) {
+  function run(done, command, code) {
     exec(cmd + (command ? command : ''), function(error) {
       expect(error).to.not.exist;
+      if (code) {
+        expect(error.code).to.equal(code);
+      }
       done();
     });
   }
@@ -25,22 +28,12 @@ describe('bin', function() {
 
   it('should return error on missing command', function(done) {
     this.timeout(4000);
-
-    exec(cmd, function(error) {
-      expect(error).to.exist;
-      expect(error.code).to.equal(1);
-      done();
-    });
+    run(done, '', 1);
   });
 
   it('should return error on unknown command', function(done) {
     this.timeout(4000);
-
-    exec(cmd + 'junkcmd', function(error) {
-      expect(error).to.exist;
-      expect(error.code).to.equal(1);
-      done();
-    });
+    run(done, 'junkcmd', 1);
   });
 
 });
