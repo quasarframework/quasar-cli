@@ -2,23 +2,23 @@
   "extends": "defaults/configurations/google",
 
   "env": {
-    "browser": 0,
-    "node": 1
+    "browser": false,
+    "node": true
   },
 
   "globals": {
-    "require": 1,
-    "$": 1,
+    "require": true,
+    "$": true,
 
-    "moquire": 1,
-    "expect": 1,
-    "sinon": 1,
-    "describe": 1,
-    "it": 1,
-    "before": 1,
-    "after": 1,
-    "beforeEach": 1,
-    "afterEach": 1
+    "moquire": true,
+    "expect": true,
+    "sinon": true,
+    "describe": true,
+    "it": true,
+    "before": true,
+    "after": true,
+    "beforeEach": true,
+    "afterEach": true
   },
 
   "rules": {
