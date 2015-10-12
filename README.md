@@ -6,6 +6,9 @@
 <a href="https://david-dm.org/rstoenescu/quasar-cli"><img src="https://david-dm.org/rstoenescu/quasar-cli.svg"></a>
 <a href="https://codeclimate.com/github/rstoenescu/quasar-cli"><img src="https://codeclimate.com/github/rstoenescu/quasar-cli/badges/gpa.svg"></a>
 
+<a href="https://www.bithound.io/github/rstoenescu/quasar-cli"><img src="https://www.bithound.io/github/rstoenescu/quasar-cli/badges/score.svg" alt="bitHound Score"></a>
+<a href="https://www.bithound.io/github/rstoenescu/quasar-cli/master/dependencies/npm"><img src="https://www.bithound.io/github/rstoenescu/quasar-cli/badges/dependencies.svg" alt="bitHound Dependencies"></a>
+
 ## Description
 
 IN ACTIVE DEVELOPMENT!!!
