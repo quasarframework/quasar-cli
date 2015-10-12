@@ -21,10 +21,10 @@
   "license": "MIT",
   "bugs": "https://github.com/rstoenescu/quasar-cli/issues",
   "dependencies": {
-    "autocmdr": "~0.0.7",
-    "commander": "~2.8.1",
+    "autocmdr": "^0.0.7",
+    "commander": "^2.8.1",
     "conventional-changelog": "^0.5.0",
-    "conventional-recommended-bump": "0.0.3",
+    "conventional-recommended-bump": "^0.0.3",
     "fs": "0.0.2",
     "fs-extra": "^0.24.0",
     "lodash": "^3.10.1",

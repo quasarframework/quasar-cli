@@ -9,9 +9,12 @@ describe('bin', function() {
 
   function run(done, command, code) {
     exec(cmd + (command ? command : ''), function(error) {
-      expect(error).to.not.exist;
       if (code) {
+        expect(error).to.exist;
         expect(error.code).to.equal(code);
+      }
+      else {
+        expect(error).to.not.exist;
       }
       done();
     });
