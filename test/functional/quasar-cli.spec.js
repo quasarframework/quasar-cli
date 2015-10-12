@@ -5,28 +5,28 @@ var path = require('path');
 
 describe('bin', function() {
 
-  before(function() {
-    this.cmd = 'node ' + path.join(__dirname, '../../bin/quasar-cli') + ' ';
-  });
+  var cmd = 'node ' + path.join(__dirname, '../../bin/quasar-cli') + ' ';
 
-  it('should run --help without errors', function(done) {
-    exec(this.cmd + '--help', function(error) {
+  function run(done, command) {
+    exec(cmd + (command ? command : ''), function(error) {
       expect(error).to.not.exist;
       done();
     });
+  }
+
+
+  it('should run --help without errors', function(done) {
+    run(done, '--help');
   });
 
   it('should run --version without errors', function(done) {
-    exec(this.cmd + '--version', function(error) {
-      expect(error).to.not.exist;
-      done();
-    });
+    run(done, '--version');
   });
 
   it('should return error on missing command', function(done) {
     this.timeout(4000);
 
-    exec(this.cmd, function(error) {
+    exec(cmd, function(error) {
       expect(error).to.exist;
       expect(error.code).to.equal(1);
       done();
@@ -36,7 +36,7 @@ describe('bin', function() {
   it('should return error on unknown command', function(done) {
     this.timeout(4000);
 
-    exec(this.cmd + 'junkcmd', function(error) {
+    exec(cmd + 'junkcmd', function(error) {
       expect(error).to.exist;
       expect(error.code).to.equal(1);
       done();
