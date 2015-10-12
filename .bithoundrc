@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "unused-ignores": ["autocmdr"]
+  }
+}
