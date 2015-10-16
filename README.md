@@ -2,11 +2,13 @@
 
 <a href="https://badge.fury.io/js/quasar-cli"><img src="https://badge.fury.io/js/quasar-cli.svg"></a>
 <a href="https://circleci.com/gh/rstoenescu/quasar-cli/tree/master"><img src="https://circleci.com/gh/rstoenescu/quasar-cli/tree/master.svg?style=shield"></a>
-<a href="https://codecov.io/github/rstoenescu/quasar-cli"><img src="http://codecov.io/github/rstoenescu/quasar-cli/coverage.svg" alt="Coverage via Codecov"></a>
 
+<a href="https://david-dm.org/rstoenescu/quasar-cli" title="Dependency status"><img src="https://david-dm.org/rstoenescu/quasar-cli.svg"/></a>
+<a href="https://david-dm.org/rstoenescu/quasar-cli#info=devDependencies" title="devDependency status"><img src="https://david-dm.org/rstoenescu/quasar-cli/dev-status.svg"/></a>
+
+<a href="https://codecov.io/github/rstoenescu/quasar-cli"><img src="http://codecov.io/github/rstoenescu/quasar-cli/coverage.svg" alt="Coverage via Codecov"></a>
 <a href="https://codeclimate.com/github/rstoenescu/quasar-cli"><img src="https://codeclimate.com/github/rstoenescu/quasar-cli/badges/gpa.svg" /></a>
 <a href="https://www.bithound.io/github/rstoenescu/quasar-cli"><img src="https://www.bithound.io/github/rstoenescu/quasar-cli/badges/score.svg" alt="bitHound Score"></a>
-<a href="https://www.bithound.io/github/rstoenescu/quasar-cli/master/dependencies/npm"><img src="https://www.bithound.io/github/rstoenescu/quasar-cli/badges/dependencies.svg" alt="bitHound Dependencies"></a>
 
 ## Description
 
@@ -26,7 +28,7 @@ $ npm install -g quasar-cli
 
 ## Documentation
 
-Head on to the Quasar official website: [http://quasar-framework.org](http://quasar-framework.org/docs/cli-commands.html).
+Head on to the Quasar Framework official website: [http://quasar-framework.org](http://quasar-framework.org/docs/cli-commands.html).
 
 ## Related Components
 
