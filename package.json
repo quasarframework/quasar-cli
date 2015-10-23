@@ -36,7 +36,7 @@
     "codecov.io": "^0.1.6",
     "eslint": "^1.6.0",
     "eslint-config-defaults": "^7.0.1",
-    "istanbul": "^0.3.22",
+    "istanbul": "^0.4.0",
     "mocha": "^2.3.3",
     "moquire": "^1.5.5",
     "sinon": "^1.17.1"
