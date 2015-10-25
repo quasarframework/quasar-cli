@@ -7,8 +7,8 @@ var
 
 module.exports = function(program) {
   program
-  .command('create <folder>')
-  .alias('create:project')
+  .command('new <folder>')
+  .alias('new:project')
   .description('Create a Quasar project folder')
   .action(function(folder) {
     var src = path.normalize(path.join(__dirname, '../assets/project'));
