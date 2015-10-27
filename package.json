@@ -7,7 +7,8 @@
     "quasar": "./bin/quasar-cli"
   },
   "scripts": {
-    "test": "./npm-test.sh"
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha -- -r test/setup.js test/**/*.spec.js",
+    "coverage": "google-chrome ./coverage/lcov-report/index.html"
   },
   "author": {
     "name": "Razvan Stoenescu",
@@ -25,8 +26,8 @@
     "commander": "^2.8.1",
     "conventional-changelog": "^0.5.0",
     "conventional-recommended-bump": "^0.0.3",
-    "fs": "0.0.2",
-    "fs-extra": "^0.24.0",
+    "fs": "^0.0.2",
+    "fs-extra": "^0.26.0",
     "lodash": "^3.10.1",
     "path": "^0.12.7",
     "semver": "^5.0.3"

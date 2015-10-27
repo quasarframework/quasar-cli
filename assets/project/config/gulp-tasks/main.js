@@ -14,8 +14,7 @@ gulp.task('clean', function() {
 gulp.task('build', function(done) {
   runSequence(
     'clean',
-    'build-dev',
-    'banner',
+    ['dev:deps', 'dev:build'],
     done
   );
 });
@@ -23,7 +22,7 @@ gulp.task('build', function(done) {
 gulp.task('dist', function(done) {
   runSequence(
     'clean',
-    ['build-dev', 'build-prod'],
+    ['prod:deps', 'prod:build'],
     'dist:clean',
     'dist:copy',
     done
@@ -34,5 +33,11 @@ gulp.task('dist', function(done) {
 /**
 * Helpers
 */
-gulp.task('build-dev', ['development:style', 'development:script']);
-gulp.task('build-prod', ['production:style', 'production:script']);
+gulp.task('dev:build',  function(done) {
+  runSequence(
+    ['dev:pages', 'dev:html',  'dev:css'/*, 'dev:js'*/],
+    'dev:js',
+    done
+  );
+});
+gulp.task('prod:build', ['prod:pages', 'prod:html', 'prod:css', 'prod:js']);

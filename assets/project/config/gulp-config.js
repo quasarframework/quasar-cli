@@ -8,16 +8,6 @@ var
   dist        = './dist'
   ;
 
-var preview = (function() {
-  var base = './preview';
-
-  return {
-    base: base,
-    preprocess: base + '/preprocess',
-    processed: base + '/processed',
-  };
-}());
-
 function mapToNodeModules(suffix, list) {
   return _.map(list, function(item) {
     if (item.indexOf('!') === 0) {
@@ -32,97 +22,92 @@ module.exports = {
   plugins: require('gulp-load-plugins')(),
   clean: [build],
 
-  banner: {
-    src: [
-      build + '/**/*.js',
-      build + '/**/*.css'
-    ],
-    dest: build
-  },
-
   dist: {
     src: build + '/**/*',
     dest: dist
   },
 
-  script: {
-    watch: src + '/js/**/*.js',
+  deps: {
+    name: 'app-dependencies',
+    js: {
+      src: mapToNodeModules('.js', [
+        'quasar-framework/dist/js/quasar-dependencies',
+        'quasar-framework/dist/js/quasar'
+      ]),
+      dest: build + '/js'
+    },
+    css: {
+      src: mapToNodeModules('.css', [
+        'quasar-framework/dist/css/quasar-dependencies',
+        'quasar-framework/dist/css/quasar'
+      ]),
+      dest: build + '/css'
+    }
+  },
+
+  js: {
+    watch: src + '/js/**/*',
     entry: [
-      src + '/js/quasar.js'
+      src + '/js/app.js'
     ],
-    dest: build + '/js',
-    depsName: 'quasar-dependencies',
-    deps: mapToNodeModules('.js', [
-      'jquery/dist/jquery',
-      'lodash/index',
-      'vue/dist/vue',
-      'fastclick/lib/fastclick',
-      'quasar-semantic/dist/semantic'
-      //'touchswipe/index.js',
-      //gsap
-    ]),
-    webpack: {
-      dev: {
-        devtool: '#inline-source-map',
-        output: {
-          libraryTarget: 'umd'
-        }
-        //devtool: '#cheap-module-eval-source-map'
-      },
-      prod: {
-        output: {
-          libraryTarget: 'umd'
-        }
+    dest: build + '/js'
+  },
+
+  webpack: {
+    dev: {
+      devtool: '#inline-source-map',
+      output: {
+        libraryTarget: 'commonjs2'
+      }
+    },
+    prod: {
+      output: {
+        libraryTarget: 'commonjs2'
       }
     }
   },
 
-  style: {
-    watch: src + '/style/**/*.styl',
+  pages: {
+    src: src + '/pages/**/*',
+    dest: build + '/pages',
+    assets: {
+      watch: src + '/pages/*/assets/**/*'
+    },
+    js: {
+      watch: src + '/pages/**/*.js',
+      entry: build + '/pages/**/page.*.js',
+    },
+    css: {
+      watch: src + '/pages/*/css/**/*.styl',
+      entry: build + '/pages/*/css/page.*.styl'
+    },
+    html: {
+      watch: src + '/pages/*/html/**/*.tpl'
+    },
+    clean: [build + '/pages/**/css/**/*.styl', build + '/pages/*/html']
+  },
+
+  css: {
+    watch: src + '/css/**/*',
     entry: [
-      src + '/style/quasar.styl'
+      src + '/css/app.styl'
     ],
-    dest: build + '/style',
-    depsName: 'quasar-dependencies',
-    deps: mapToNodeModules('.css', [
-      'quasar-semantic/dist/semantic'
-    ]),
+    dest: build + '/css',
     autoprefixer: {browsers: ['last 3 versions']}
   },
 
-  preview: {
-    server: {
-      port: 3000,
-      ui: {port: 3001},
-      open: false,
-      reloadOnRestart: true,
-      server: {
-        baseDir: preview.base
-      }
-    },
-    clean: [preview.processed],
-    watch: [
-      preview.base + '**/*',
-      '!' + preview.base + '/quasar/**/*',
-      '!' + preview.preprocess + '/**/*',
-      '!' + preview.processed + '/**/*'
-    ],
-    style: {
-      watch: preview.preprocess + '/style/**/*.styl',
-      entry: [
-        preview.preprocess + '/style/project.styl'
-      ],
-      dest: preview.processed + '/style',
-    },
-    script: {
-      watch: preview.preprocess + '/pages/**/*.js',
-      entry: [
-        preview.preprocess + '/pages/**/*.js'
-      ],
-      dest: preview.processed + '/pages',
-      webpack: {
-        devtool: '#inline-source-map'
-      }
+  html: {
+    watch: [src + '/**/*.html', '!' + src + '/pages'],
+    dest: build,
+    settings: {
+      removeComments: true,
+      collapseWhitespace: true,
+      collapseBooleanAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      removeOptionalTags: true,
+      minifyJS: true,
+      minifyCSS: true
     }
   }
 };
