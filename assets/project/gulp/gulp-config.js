@@ -44,7 +44,16 @@ module.exports = {
       src + '/js/*.js',
       src + '/pages/*/js/*.js'
     ],
-    dest: build
+    dest: build,
+    manifest: src + '/pages/*/page.*.yml',
+    tmp: {
+      src: [
+        '.tmp/js/*.js',
+        '.tmp/pages/*/js/*.js'
+      ],
+      pages: '.tmp/pages/*/js/page.*.js',
+      dest: '.tmp'
+    }
   },
 
   webpack: {
