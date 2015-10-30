@@ -20,4 +20,10 @@ gulp.task('dist:finalize', function() {
     .pipe(gulp.dest(config.dist.dest));
 });
 
-gulp.task('prod:build', ['prod:js', 'prod:html', 'prod:css', 'prod:assets']);
+gulp.task('prod:build', function(done) {
+  runSequence(
+    ['prod:html', 'prod:css', 'prod:assets'],
+    'prod:js',
+    done
+  );
+});

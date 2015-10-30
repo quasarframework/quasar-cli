@@ -38,7 +38,8 @@ function compileCss(production) {
       prod: production,
       name: config.deps.name
     }))
-    .pipe(gulp.dest(config.deps.css.dest));
+    .pipe(gulp.dest(config.deps.css.dest))
+    .pipe(config.browser.stream());
 }
 
 gulp.task('dev:css:deps', function() {

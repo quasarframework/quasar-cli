@@ -6,10 +6,7 @@ var
   plugins = config.plugins,
   runSequence = require('run-sequence'),
   del = require('del'),
-  through = require('through2'),
-  path = require('path'),
-  fs = require('fs'),
-  yaml = require('js-yaml')
+  quasarPipes = require('../quasar-pipes')
   ;
 
 gulp.task('js:lint', function() {
@@ -62,59 +59,8 @@ gulp.task('js:clean', function() {
 });
 
 
-function pageCompiler() {
-  function compile(file, enc, callback) {
-    if (file.isNull()) {
-      return callback(null, file);
-    }
-
-    var lastIndex = file.path.lastIndexOf('/');
-    var additions = '';
-
-    var pageName = file.path.substr(lastIndex + 1).match(/^page\.(.*)\.js$/)[1];
-    var pageFolder = path.resolve(file.path.substr(0, lastIndex), '../');
-
-    if (pageName !== pageFolder.substr(pageFolder.lastIndexOf('/') + 1)) {
-      console.log('ERROR!!!!!!! wrongly named file!');
-    }
-
-    var originalPageFolder = path.resolve(pageFolder, '../../../src/pages/' + pageName);
-    var yamlFile = originalPageFolder + '/page.' + pageName + '.yml';
-
-    var manifest = yaml.load(fs.readFileSync(yamlFile));
-
-    if (!manifest.css) {
-      var cssFile = originalPageFolder + '/css/page.' + pageName + '.styl';
-
-      if (fs.existsSync(cssFile)) {
-        manifest.css = 'pages/' + pageName + '/css/page.' + pageName + '.css';
-      }
-    }
-
-    if (!manifest.html) {
-      var htmlFile = originalPageFolder + '/html/page.' + pageName + '.html';
-
-      if (fs.existsSync(cssFile)) {
-        additions += 'exports.__config.html = require(\'raw!' + htmlFile + '\');';
-      }
-    }
-
-
-    file.contents = new Buffer(
-    //console.log(
-      'exports.__config = ' + JSON.stringify(manifest, null, 2) + ';\n' +
-      additions + '\n\n' + file.contents
-    );
-
-    this.push(file);
-    callback();
-  }
-
-  return through.obj(compile);
-}
-
 gulp.task('js:manifest', function() {
   return gulp.src(config.js.tmp.pages, {base: config.js.tmp.dest})
-    .pipe(pageCompiler())
+    .pipe(quasarPipes.pageCompiler())
     .pipe(gulp.dest(config.js.tmp.dest));
 });

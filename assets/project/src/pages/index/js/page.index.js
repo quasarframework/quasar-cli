@@ -1,1 +1,1 @@
-console.log('page index js');
+console.log('page index js ');

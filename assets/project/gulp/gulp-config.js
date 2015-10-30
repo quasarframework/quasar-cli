@@ -20,9 +20,9 @@ function mapToNodeModules(suffix, list) {
 
 module.exports = {
 
-  plugins: require('gulp-load-plugins')(),
   clean: [build],
   base: src,
+  plugins: require('gulp-load-plugins')(),
 
   dist: {
     src: build + '/**',
@@ -53,7 +53,8 @@ module.exports = {
       ],
       pages: '.tmp/pages/*/js/page.*.js',
       dest: '.tmp'
-    }
+    },
+    yml: src + '/pages/*/page.*.yml'
   },
 
   webpack: {
@@ -94,6 +95,18 @@ module.exports = {
         'quasar-framework/dist/css/quasar'
       ]),
       dest: build + '/css'
+    }
+  },
+
+  preview: {
+    server: {
+      port: 3000,
+      ui: {port: 3001},
+      open: false,
+      reloadOnRestart: true,
+      server: {
+        baseDir: build
+      }
     }
   }
 

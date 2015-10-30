@@ -14,4 +14,10 @@ gulp.task('build', function(done) {
   );
 });
 
-gulp.task('dev:build', ['dev:js', 'dev:html',  'dev:css', 'dev:assets']);
+gulp.task('dev:build', function(done) {
+  runSequence(
+    ['dev:html',  'dev:css', 'dev:assets'],
+    'dev:js',
+    done
+  );
+});

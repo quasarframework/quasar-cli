@@ -24,6 +24,7 @@
     "eslint-config-defaults": "^7.0.1",
     "front-matter": "^2.0.0",
     "gulp": "^3.9.0",
+    "gulp-if": "^2.0.0",
     "gulp-load-plugins": "^1.0.0",
     "gulp-pipes": "^0.0.7",
     "gulp-watch": "^4.3.5",

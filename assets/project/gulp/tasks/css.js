@@ -16,12 +16,12 @@ function compile(production) {
     .pipe(plugins.pipes.css.compile({
       prod: production
     }))
-    .pipe(gulp.dest(config.css.dest));
+    .pipe(gulp.dest(config.css.dest))
+    .pipe(config.browser.stream());
 }
 
 gulp.task('dev:css', ['css:lint'], function() {
   return compile(false);
-    //.pipe(config.browser.stream());
 });
 
 gulp.task('prod:css', ['css:lint'], function() {
