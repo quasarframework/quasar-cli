@@ -1,7 +1,9 @@
 'use strict';
 
-var exec = require('child_process').exec;
-var path = require('path');
+var
+  exec = require('child_process').exec,
+  path = require('path')
+  ;
 
 describe('bin: release', function() {
 

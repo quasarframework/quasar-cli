@@ -4,7 +4,8 @@ var
   exec = require('child_process').exec,
   path = require('path'),
   fs = require('fs'),
-  fse = require('fs-extra');
+  fse = require('fs-extra')
+  ;
 
 describe('bin: new', function() {
 

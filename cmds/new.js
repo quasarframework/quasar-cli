@@ -19,7 +19,7 @@ module.exports = function(program) {
       process.exit(1);
     }
 
-    program.log.info('Initializing folder for Quasar project...');
+    program.log.info('Generating Quasar Project folder...');
 
     var err = fse.copySync(src, dest);
 
@@ -30,6 +30,6 @@ module.exports = function(program) {
       process.exit(1); // <<<--- EARLY EXIT
     }
 
-    program.log.info('Project folder created.');
+    program.log.success('Project folder created.');
   });
 };
