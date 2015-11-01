@@ -28,7 +28,7 @@ $ npm install -g quasar-cli
 
 ## Documentation
 
-Head on to the Quasar Framework official website: [http://quasar-framework.org](http://quasar-framework.org/docs/cli-commands.html).
+Head on to the Quasar Framework official website: [http://quasar-framework.org](http://quasar-framework.org/guide/cli-commands.html).
 
 ## Related Components
 
