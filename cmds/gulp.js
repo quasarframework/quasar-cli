@@ -17,6 +17,18 @@ var commands = [
     description: 'Build Quasar Project for PRODUCTION',
     task: 'dist',
     message: 'Building Quasar Project for ' + 'PRODUCTION'.red
+  },
+  {
+    name: 'preview',
+    description: 'Live Preview Quasar Project',
+    task: 'preview',
+    message: 'Live Previewing Quasar Project'
+  },
+  {
+    name: 'clean',
+    description: 'Clean Quasar Project',
+    task: 'clean:all',
+    message: 'Cleaning Quasar Project'
   }
 ];
 
@@ -55,7 +67,7 @@ module.exports = function(program) {
 
       injectDebug(
         program,
-        require('../lib/gulp/register-tasks').start(command.task)
+        require('../lib/gulp/load-tasks').start(command.task)
       );
     });
   });

@@ -40,5 +40,8 @@
     "sinon": "^1.17.1",
     "sinon-chai": "^2.8.0",
     "webpack": "^1.12.2"
+  },
+  "dependencies": {
+    "quasar-framework": "0.0.6"
   }
 }
