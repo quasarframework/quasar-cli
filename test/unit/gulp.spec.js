@@ -9,7 +9,7 @@ var
   _ = require('lodash')
   ;
 
-describe.only('gulp', function() {
+describe('gulp', function() {
 
   var folder = process.cwd() + '/test-project/';
   var program = {
