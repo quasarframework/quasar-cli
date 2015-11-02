@@ -1,4 +1,5 @@
 /node_modules/
 /coverage
 /assets/project/node_modules
-npm-debug.log
+/assets/project/build
+/assets/project/dist
