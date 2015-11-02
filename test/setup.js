@@ -3,6 +3,12 @@
  * (only for testing)
  */
 
-expect = require('chai').expect,
-moquire = require('moquire'),
-sinon = require('sinon');
+var chai = require('chai');
+
+global.expect = chai.expect;
+global.moquire = require('moquire');
+global.sinon = require('sinon');
+
+var sinonChai = require('sinon-chai');
+
+chai.use(sinonChai);
