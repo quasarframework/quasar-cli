@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Quasar Framework CLI",
   "preferGlobal": true,
   "bin": {
@@ -58,6 +58,7 @@
     "mocha": "^2.3.3",
     "moquire": "^1.5.5",
     "sinon": "^1.17.1",
-    "sinon-chai": "^2.8.0"
+    "sinon-chai": "^2.8.0",
+    "sync-request": "^2.1.0"
   }
 }
