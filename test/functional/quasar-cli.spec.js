@@ -11,7 +11,7 @@ describe('bin', function() {
   var cmd = 'node ' + path.join(__dirname, '../../bin/quasar-cli') + ' ';
 
   function run(done, command, code) {
-    exec(cmd + (command ? command : ''), function(error) {
+    var child = exec(cmd + (command ? command : ''), function(error) {
       if (_.isNumber(code)) {
         expect(error).to.exist;
         expect(error.code).to.equal(code);
@@ -20,6 +20,10 @@ describe('bin', function() {
         expect(error).to.not.exist;
       }
       done();
+    });
+
+    child.stdout.on('data', function(data) {
+      process.stdout.write(data);
     });
   }
 
