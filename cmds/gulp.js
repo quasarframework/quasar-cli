@@ -53,7 +53,7 @@ function injectDebug(program, runner) {
     .on('task_err', function(e) {
       program.log.error('\'' + e.task.cyan + '\'', 'errored after'.red, prettyTime(e.hrDuration).magenta);
     })
-    .on('err', function(e) {
+    .on('err', function() {
       program.log.error('FAILED');
     });
 
