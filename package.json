@@ -1,10 +1,10 @@
 {
   "name": "quasar-cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Quasar Framework CLI",
   "preferGlobal": true,
   "bin": {
-    "quasar": "./bin/quasar-cli"
+    "quasar": "./bin/quasar"
   },
   "scripts": {
     "test": "istanbul cover ./node_modules/mocha/bin/_mocha -- -r test/setup.js test/**/*.spec.js",

@@ -2,7 +2,7 @@
 
 module.exports = function(program) {
   program
-  .command('new:page <name>')
+  .command('new:page <page-name>')
   .description('Create a Quasar Project Page')
   .action(function(name) {
     process.exit(require('../lib/cmds/pages').create(program, name));

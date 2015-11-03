@@ -25,6 +25,12 @@ var commands = [
     message: 'Live Previewing Quasar Project'
   },
   {
+    name: 'monitor',
+    description: 'Monitor Quasar Project & auto-build',
+    task: 'monitor',
+    message: 'Monitoring Quasar Project source files'
+  },
+  {
     name: 'clean',
     description: 'Clean Quasar Project',
     task: 'clean:all',
