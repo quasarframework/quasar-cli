@@ -1,11 +1,17 @@
 {
   "name": "quasar-cli",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Quasar Framework CLI",
   "preferGlobal": true,
   "bin": {
     "quasar": "./bin/quasar"
   },
+  "files": [
+    "assets",
+    "bin",
+    "cmds",
+    "lib"
+  ],
   "scripts": {
     "test": "istanbul cover ./node_modules/mocha/bin/_mocha -- -r test/setup.js test/**/*.spec.js",
     "coverage": "google-chrome ./coverage/lcov-report/index.html"

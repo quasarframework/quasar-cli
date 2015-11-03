@@ -8,7 +8,7 @@ var
 
 describe('bin', function() {
 
-  var cmd = 'node ' + path.join(__dirname, '../../bin/quasar-cli') + ' ';
+  var cmd = 'node ' + path.join(__dirname, '../../bin/quasar') + ' ';
 
   function run(done, command, code) {
     var child = exec(cmd + (command ? command : ''), function(error) {
