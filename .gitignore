@@ -1,5 +1,5 @@
 /node_modules/
 /coverage
-/assets/project/node_modules
-/assets/project/build
-/assets/project/dist
+/assets/app/node_modules
+/assets/app/build
+/assets/app/dist

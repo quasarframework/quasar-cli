@@ -15,8 +15,8 @@ describe('lib: file-system', function() {
       expect(quasarfs.getWorkingPath()).to.equal(process.cwd());
     });
 
-    it('should get project root', function() {
-      expect(quasarfs.getProjectPath()).to.equal(process.cwd());
+    it('should get app root', function() {
+      expect(quasarfs.getAppPath()).to.equal(process.cwd());
     });
 
     it('should be able to join paths', function() {
@@ -25,15 +25,15 @@ describe('lib: file-system', function() {
 
     it('should get path to assets', function() {
       expect(
-        quasarfs.getPathToAsset('project')
+        quasarfs.getPathToAsset('app')
       ).to.equal(
-        path.join(process.cwd(), 'assets/project')
+        path.join(process.cwd(), 'assets/app')
       );
     });
 
-    it('should get path to a folder within the project', function() {
+    it('should get path to a folder within the app', function() {
       expect(
-        quasarfs.getPathToFolderFromProject('cmds/whatever.js')
+        quasarfs.getPathToFolderFromApp('cmds/whatever.js')
       ).to.equal(
         path.join(process.cwd(), 'cmds/whatever.js')
       );

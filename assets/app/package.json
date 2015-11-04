@@ -1,7 +1,7 @@
 {
-  "name": "quasar-project",
+  "name": "quasar-app",
   "version": "0.0.1",
-  "description": "Project built by Quasar Framework",
+  "description": "App built by Quasar Framework",
   "private": true,
   "directories": {},
   "scripts": {

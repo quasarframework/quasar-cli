@@ -1,13 +1,13 @@
 'use strict';
 
 var
-  project = require('../../lib/cmds/project'),
+  app = require('../../lib/cmds/app'),
   fs = require('../../lib/file-system'),
   logger = require('../../lib/logger')
   ;
 
-describe('command: project', function() {
-  var folder = process.cwd() + '/test-project/';
+describe('command: app', function() {
+  var folder = process.cwd() + '/test-app/';
   var program = {
     normalize: function() {
       return '';
@@ -32,7 +32,7 @@ describe('command: project', function() {
 
   it('should be able to generate one', function() {
     expect(fs.exists(folder)).to.equal(false);
-    var result = project.create(program, 'test-project');
+    var result = app.create(program, 'test-app');
 
     expect(result).to.equal(0);
     expect(fs.exists(folder)).to.equal(true);
@@ -41,7 +41,7 @@ describe('command: project', function() {
 
   it('should output error when generating over existing folder', function() {
     expect(fs.exists(folder)).to.equal(true);
-    var result = project.create(program, 'test-project');
+    var result = app.create(program, 'test-app');
 
     expect(result).to.not.equal(0);
     expect(console.log).to.have.been.calledOnce;

@@ -8,33 +8,33 @@ var
 var commands = [
   {
     name: 'build',
-    description: 'Build Quasar Project for Development',
+    description: 'Build Quasar App for Development',
     task: 'build',
-    message: 'Building Quasar Project for ' + 'Development'.yellow
+    message: 'Building Quasar App for ' + 'Development'.yellow
   },
   {
     name: 'dist',
-    description: 'Build Quasar Project for PRODUCTION',
+    description: 'Build Quasar App for PRODUCTION',
     task: 'dist',
-    message: 'Building Quasar Project for ' + 'PRODUCTION'.red
+    message: 'Building Quasar App for ' + 'PRODUCTION'.red
   },
   {
     name: 'preview',
-    description: 'Live Preview Quasar Project',
+    description: 'Live Preview Quasar App',
     task: 'preview',
-    message: 'Live Previewing Quasar Project'
+    message: 'Live Previewing Quasar App'
   },
   {
     name: 'monitor',
-    description: 'Monitor Quasar Project & auto-build',
+    description: 'Monitor Quasar App & auto-build',
     task: 'monitor',
-    message: 'Monitoring Quasar Project source files'
+    message: 'Monitoring Quasar App source files'
   },
   {
     name: 'clean',
-    description: 'Clean Quasar Project',
+    description: 'Clean Quasar App',
     task: 'clean:all',
-    message: 'Cleaning Quasar Project'
+    message: 'Cleaning Quasar App'
   }
 ];
 
@@ -67,6 +67,8 @@ module.exports = function(program) {
     .command(command.name)
     .description(command.description)
     .action(function() {
+      program.helpers.assertInsideAppFolder();
+
       program.log();
       program.log.info(command.message);
       program.log();
