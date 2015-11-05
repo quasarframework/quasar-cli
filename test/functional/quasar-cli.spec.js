@@ -11,13 +11,15 @@ describe('bin', function() {
   var cmd = 'node ' + path.join(__dirname, '../../bin/quasar') + ' ';
 
   function run(done, command, code) {
-    var child = exec(cmd + (command ? command : ''), function(error) {
+    var child = exec(cmd + (command ? command : ''), function(error, stdout, stderr) {
       if (_.isNumber(code)) {
         expect(error).to.exist;
         expect(error.code).to.equal(code);
       }
       else {
         expect(error).to.not.exist;
+        expect(stdout).to.not.contain('error');
+        expect(stderr).to.be.empty;
       }
       done();
     });

@@ -1,0 +1,150 @@
+'use strict';
+
+var
+  exec = require('child_process').exec,
+  path = require('path'),
+  fs = require('../../lib/file-system'),
+  _ = require('lodash'),
+  request = require('sync-request')
+  ;
+
+describe('bin - gulp', function() {
+
+  var
+    timeout = 15 * 1000,
+    folder = 'test-app-gulp',
+    cmd = 'node ' + path.join(__dirname, '../../bin/quasar') + ' ',
+    cwd = path.join(process.cwd(), folder)
+    ;
+
+  function run(callback, opts, args) {
+    return exec(
+      cmd + args + ' -d',
+      opts,
+      function(error, stdout, stderr) {
+        expect(stdout).to.not.contain('[ERROR]');
+
+        if (error && error.killed && error.signal == 'SIGKILL') {
+          callback();
+          return;
+        }
+
+        expect(error).to.not.exist;
+        expect(stderr).to.be.empty;
+        callback();
+      }
+    );
+  }
+
+  before(function() {
+    fs.remove(folder);
+  });
+  after(function() {
+    fs.remove(folder);
+  });
+
+  this.timeout(timeout);
+
+  it('should be able to create a new App', function(done) {
+    run(done, {}, 'new ' + folder);
+  });
+
+  it('should be able to build App for Development', function(done) {
+    run(
+      function() {
+        expect(fs.exists(folder + '/build')).to.equal(true);
+        done();
+      },
+      {cwd: cwd},
+      'build'
+    );
+  });
+
+  it('should be able to build App for Production', function(done) {
+    run(
+      function() {
+        expect(fs.exists(folder + '/dist')).to.equal(true);
+        done();
+      },
+      {cwd: cwd},
+      'dist'
+    );
+  });
+
+  it('should be able to clean App after builds', function(done) {
+    run(
+      function() {
+        expect(fs.exists(folder + '/build')).to.equal(false);
+        expect(fs.exists(folder + '/dist')).to.equal(false);
+        done();
+      },
+      {cwd: cwd},
+      'clean'
+    );
+  });
+
+  it('should be able to monitor App', function(done) {
+    var child = run(
+      function() {},
+      {cwd: cwd, timeout: timeout / 2},
+      'monitor'
+    );
+
+    child.on('error', function() {
+      throw new Error('Should not error out.');
+    });
+    child.stderr.on('data', function() {
+      throw new Error('Should not write to stderr.');
+    });
+    child.on('close', function() {
+      expect(fs.exists(folder + '/build')).to.equal(true);
+      done();
+    });
+    child.kill('SIGKILL');
+  });
+
+  it('should be able to preview App', function(done) {
+    var serverWorking;
+
+    var child = run(
+      function() {},
+      {cwd: cwd, timeout: timeout - 100},
+      'preview'
+    );
+
+    child.on('error', function() {
+      throw new Error('Should not error out.');
+    });
+    child.stderr.on('data', function() {
+      throw new Error('Should not write to stderr.');
+    });
+    child.on('close', function(code) {
+      expect(fs.exists(folder + '/build')).to.equal(true);
+      expect(serverWorking).to.equal(true);
+      done();
+    });
+
+    var fn = function() {
+      var req;
+
+      try {
+        req = request('GET', 'http://localhost:3000', {
+          timeout: 200
+        });
+      }
+      catch(e) {
+      }
+
+      if (req && req.statusCode === 200) {
+        serverWorking = true;
+        child.kill('SIGKILL');
+        return;
+      }
+
+      setTimeout(fn, 100);
+    };
+
+    setTimeout(fn, 1000);
+  });
+
+});

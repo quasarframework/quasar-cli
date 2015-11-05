@@ -4,11 +4,12 @@
 var program  = require('commander');
 
 require('../lib/logger')(program);
+require('../lib/helpers')(program);
+
 require('autocmdr/lib/loader')(program);
 require('autocmdr/lib/completion')(program);
 require('autocmdr/lib/package')(program);
 require('autocmdr/lib/help')(program);
-require('../lib/helpers')(program);
 
 program.parse(process.argv);
 
