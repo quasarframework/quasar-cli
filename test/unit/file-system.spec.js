@@ -56,7 +56,7 @@ describe('lib: file-system', function() {
       it('should test', function() {
         expect(quasarfs.exists(dest)).to.equal(true);
         expect(quasarfs.exists(dest + '/js')).to.equal(true);
-        expect(quasarfs.exists(dest + '/js/page.___page___.js')).to.equal(true);
+        expect(quasarfs.exists(dest + '/js/script.___page___.js')).to.equal(true);
       });
       it('should rename', function() {
         quasarfs.move(dest, finalDest);
@@ -70,7 +70,7 @@ describe('lib: file-system', function() {
     });
 
     describe('file', function() {
-      var src = quasarfs.getPathToAsset('page/___page___/js/page.___page___.js');
+      var src = quasarfs.getPathToAsset('page/___page___/js/script.___page___.js');
 
       it('should copy', function() {
         quasarfs.copy(src, dest);

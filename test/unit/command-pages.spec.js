@@ -8,7 +8,7 @@ var
 
 describe('command: pages', function() {
   function getTestFile(pageName) {
-    return '/js/page.' + pageName + '.js';
+    return '/js/script.' + pageName + '.js';
   }
 
   var pageName = 'test-page';
