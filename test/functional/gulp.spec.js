@@ -8,7 +8,7 @@ var
   request = require('sync-request')
   ;
 
-describe('bin - gulp', function() {
+!process.env.CIRCLECI && describe('bin - gulp', function() {
 
   var
     timeout = 15 * 1000,
