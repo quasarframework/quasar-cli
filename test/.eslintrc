@@ -7,7 +7,17 @@
   },
 
   "globals": {
-    "require": true
+    "require": true,
+
+    "moquire": true,
+    "expect": true,
+    "sinon": true,
+    "describe": true,
+    "it": true,
+    "before": true,
+    "after": true,
+    "beforeEach": true,
+    "afterEach": true
   },
 
   "rules": {
