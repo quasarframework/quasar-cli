@@ -8,8 +8,16 @@ module.exports.prepare = function(opts, done) {
  */
 
  /*
+  * Compute Vue scope
+  *
+ module.exports.scope = function(data, opts) {
+   return {};
+ };
+  */
+
+ /*
   * Use as page starting point
   *
-module.exports.render = function(data, opts, manifest) {
+module.exports.render = function(data, vm, opts, manifest) {
 };
  */
