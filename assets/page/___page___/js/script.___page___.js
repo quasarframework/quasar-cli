@@ -7,5 +7,9 @@ module.exports.prepare = function(opts, done) {
 };
  */
 
-module.exports.render = function(manifest, opts, data) {
+ /*
+  * Use as page starting point
+  *
+module.exports.render = function(data, opts, manifest) {
 };
+ */
