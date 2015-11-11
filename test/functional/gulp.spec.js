@@ -71,6 +71,16 @@ var
     );
   });
 
+  it('should be able to test App', function(done) {
+    run(
+      function() {
+        done();
+      },
+      {cwd: cwd},
+      'test'
+    );
+  });
+
   it('should be able to clean App after builds', function(done) {
     run(
       function() {

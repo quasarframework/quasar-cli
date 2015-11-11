@@ -35,6 +35,12 @@ var commands = [
     description: 'Clean Quasar App',
     task: 'clean:all',
     message: 'Cleaning Quasar App'
+  },
+  {
+    name: 'test',
+    description: 'Run Quasar App test suites',
+    task: 'test',
+    message: 'Testing Quasar App'
   }
 ];
 
@@ -72,6 +78,8 @@ module.exports = function(program) {
       program.log();
       program.log.info(command.message);
       program.log();
+
+      process.chdir(require('../lib/file-system').getAppPath());
 
       injectDebug(
         program,
