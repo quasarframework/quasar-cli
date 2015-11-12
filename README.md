@@ -1,3 +1,5 @@
+![Quasar Framework logo](http://quasar-framework.org/images/quasar-logo.png)
+
 # Quasar Framework CLI
 
 <a href="https://badge.fury.io/js/quasar-cli"><img src="https://badge.fury.io/js/quasar-cli.svg"></a>

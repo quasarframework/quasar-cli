@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 4.1.1
+    version: 4.2.0
 test:
   post:
       - cat /home/ubuntu/quasar-cli/coverage/coverage.json | /home/ubuntu/quasar-cli/node_modules/codecov.io/bin/codecov.io.js

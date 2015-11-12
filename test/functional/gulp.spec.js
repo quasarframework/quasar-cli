@@ -8,10 +8,10 @@ var
   request = require('sync-request')
   ;
 
-!process.env.CIRCLECI && describe('bin - gulp', function() {
+describe('bin - gulp', function() {
 
   var
-    timeout = 15 * 1000,
+    timeout = (process.env.CIRCLECI ? 26 : 15) * 1000,
     folder = 'test-app-gulp',
     cmd = 'node ' + path.join(__dirname, '../../bin/quasar') + ' ',
     cwd = path.join(process.cwd(), folder)
@@ -22,7 +22,7 @@ var
       cmd + args + ' -d',
       opts,
       function(error, stdout, stderr) {
-        expect(stdout).to.not.contain('[ERROR]');
+        expect(stdout).to.not.contain('ERROR');
 
         if (error && error.killed && error.signal == 'SIGKILL') {
           callback();
@@ -47,6 +47,13 @@ var
 
   it('should be able to create a new App', function(done) {
     run(done, {}, 'new ' + folder);
+  });
+
+  it('should run "npm init"', function(done) {
+    exec('npm install', {cwd: cwd}, function(err) {
+      expect(err).to.not.exist;
+      done();
+    });
   });
 
   it('should be able to build App for Development', function(done) {
