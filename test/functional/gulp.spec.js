@@ -49,13 +49,6 @@ describe('bin - gulp', function() {
     run(done, {}, 'new ' + folder);
   });
 
-  it('should run "npm init"', function(done) {
-    exec('npm install', {cwd: cwd}, function(err) {
-      expect(err).to.not.exist;
-      done();
-    });
-  });
-
   it('should be able to build App for Development', function(done) {
     run(
       function() {

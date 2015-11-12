@@ -5,6 +5,8 @@ module.exports = function(program) {
   .command('new <app-folder>')
   .description('Create Quasar App')
   .action(function(folder) {
-    process.exit(require('../lib/cmds/app').create(program, folder));
+    require('../lib/cmds/app').create(program, folder, function(exitCode) {
+      process.exit(exitCode);
+    });
   });
 };

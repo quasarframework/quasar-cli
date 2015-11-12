@@ -30,21 +30,24 @@ describe('command: app', function() {
     fs.remove(folder);
   });
 
-  it('should be able to generate one', function() {
+  it('should be able to generate one', function(done) {
+    this.timeout(15000);
     expect(fs.exists(folder)).to.equal(false);
-    var result = app.create(program, 'test-app');
-
-    expect(result).to.equal(0);
-    expect(fs.exists(folder)).to.equal(true);
-    expect(fs.exists(folder + 'package.json')).to.equal(true);
+    app.create(program, 'test-app', function(result) {
+      expect(result).to.equal(0);
+      expect(fs.exists(folder)).to.equal(true);
+      expect(fs.exists(folder + 'package.json')).to.equal(true);
+      done();
+    });
   });
 
-  it('should output error when generating over existing folder', function() {
+  it('should output error when generating over existing folder', function(done) {
     expect(fs.exists(folder)).to.equal(true);
-    var result = app.create(program, 'test-app');
-
-    expect(result).to.not.equal(0);
-    expect(console.log).to.have.been.calledOnce;
+    app.create(program, 'test-app', function(result) {
+      expect(result).to.not.equal(0);
+      expect(console.log).to.have.been.calledOnce;
+      done();
+    });
   });
 
 });
