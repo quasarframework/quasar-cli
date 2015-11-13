@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Quasar Framework CLI",
   "preferGlobal": true,
   "bin": {
@@ -41,7 +41,7 @@
     "find-root": "^0.1.1",
     "fs": "^0.0.2",
     "fs-extra": "^0.26.0",
-    "glob": "^5.0.15",
+    "glob": "^6.0.1",
     "gulp": "^3.9.0",
     "gulp-if": "^2.0.0",
     "gulp-load-plugins": "^1.0.0",
