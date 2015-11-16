@@ -4,7 +4,8 @@
   "description": "App built by Quasar Framework",
   "private": true,
   "scripts": {
-    "test": "quasar test"
+    "test": "quasar test",
+    "coverage": "google-chrome ./coverage/report-html/index.html"
   },
   "author": "",
   "license": "",
