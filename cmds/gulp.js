@@ -25,6 +25,12 @@ var commands = [
     message: 'Live Previewing Quasar App'
   },
   {
+    name: 'rpreview',
+    description: 'Live Preview Quasar App - Responsive View',
+    task: 'rpreview',
+    message: 'Live Previewing Quasar App with Responsive View'
+  },
+  {
     name: 'monitor',
     description: 'Monitor Quasar App & auto-build',
     task: 'monitor',

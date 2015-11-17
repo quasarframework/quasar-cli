@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Responsive Preview - Quasar App</title>
+    <link rel="shortcut icon" href="___responsive-preview/favicon.ico" type="image/x-icon">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      #top-container, #top-container * {
+        margin: 0;
+        padding: 0;
+      }
+      #top-container {
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      #top-links {
+        margin-left: auto;
+        margin-right: auto;
+        width: 250px;
+      }
+      #top-links img {
+        width: 32px;
+        height: 32px;
+        vertical-align: top;
+      }
+      #top-links ul {
+        /*padding: 0;*/
+        list-style-type: none;
+        display: inline-block;
+        margin-left: 20px;
+      }
+      #top-links li {
+        line-height: 16px;
+        position: relative;
+        top: 0;
+        left: 0;
+        opacity: 0.5;
+        display: inline-block;
+        cursor: pointer;
+      }
+      #top-links li:hover, #top-container li.active {
+        opacity: 1;
+      }
+      #top-links li.desktop {
+        background: url("___responsive-preview/sprite.png") no-repeat scroll 3px 0 transparent;
+        width: 34px;
+        height: 26px;
+        margin-right: 18px;
+      }
+      #top-links li.tablet-portrait {
+        background: url("___responsive-preview/sprite.png") no-repeat scroll -31px 4px transparent;
+        width: 23px;
+        height: 27px;
+      }
+      #top-links li.tablet-landscape {
+        background: url("___responsive-preview/sprite.png") no-repeat scroll -53px 8px transparent;
+        width: 23px;
+        height: 29px;
+        margin-right: 18px;
+      }
+      #top-links li.phone-portrait {
+        background: url("___responsive-preview/sprite.png") no-repeat scroll -79px 6px transparent;
+        width: 12px;
+        height: 29px;
+        margin-right: 4px;
+      }
+      #top-links li.phone-landscape {
+        background: url("___responsive-preview/sprite.png") no-repeat scroll -95px 14px transparent;
+        width: 22px;
+        height: 28px;
+        margin-right: 17px;
+      }
+
+      #main-container {
+        height: auto;
+        overflow: auto;
+        width: 100%;
+      }
+      #main-container.desktop #preview-wrapper {
+        background: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+      #main-container.tablet-portrait #preview-wrapper {
+        background: url('___responsive-preview/tablet-portrait.png');
+        width: 871px;
+        height: 1242px;
+        margin: 20px auto;
+      }
+      #main-container.tablet-landscape #preview-wrapper {
+        background: url('___responsive-preview/tablet-landscape.png');
+        width: 1242px;
+        height: 871px;
+        margin: 20px auto;
+        overflow: auto;
+      }
+      #main-container.phone-portrait #preview-wrapper {
+        background: url('___responsive-preview/phone-portrait.png');
+        width: 370px;
+        height: 707px;
+        margin: 20px auto;
+      }
+      #main-container.phone-landscape #preview-wrapper {
+        background: url('___responsive-preview/phone-landscape.png');
+        width: 707px;
+        height: 370px;
+        margin: 150px auto 20px;
+      }
+
+      #preview-container {
+        margin: auto;
+        background-color: white;
+        box-shadow: 0 0 30px #FFF;
+        width: 100%;
+        border: 1px solid #AAA;
+      }
+      #main-container.desktop #preview-container {
+        position: relative;
+        height: 100%;
+        border: 0;
+        width: 100%;
+        margin: 0;
+      }
+      #main-container.tablet-portrait #preview-container {
+        width: 785px;
+        height: 1040px !important;
+        margin: 105px 0 0 43px;
+      }
+      #main-container.tablet-landscape #preview-container {
+        width: 1040px;
+        height: 785px !important;
+        margin: 43px 0 0 97px;
+        overflow-x: hidden;
+      }
+      #main-container.phone-portrait #preview-container {
+        width: 337px;
+        height: 498px !important;
+        margin: 105px 0 0 19px;
+      }
+      #main-container.phone-landscape #preview-container {
+        width: 498px;
+        height: 337px !important;
+        margin: 19px 0 0 105px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="top-container">
+      <div id="top-links">
+        <img src="___responsive-preview/quasar-logo.png">
+        <ul>
+          <li class="desktop"></li>
+          <li class="tablet-portrait"></li>
+          <li class="tablet-landscape"></li>
+          <li class="phone-portrait"></li>
+          <li class="phone-landscape"></li>
+        </ul>
+      </div>
+    </div>
+    <div id="main-container">
+      <div id="preview-wrapper">
+        <iframe frameBorder="0" id="preview-container" src="index.html"></iframe>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+      var topContainer = $('#top-container');
+      var mainContainer = $('#main-container');
+      var previewContainer = $('#preview-container');
+      var links = $('#top-links li');
+
+      links.click(function() {
+        var self = $(this);
+        var type = self.attr('class');
+
+        links.removeClass('active');
+        self.addClass('active');
+        mainContainer.removeClass().addClass(type);
+        localStorage.setItem('quasar-preview-orientation', type);
+      });
+
+      var orientation = localStorage.getItem('quasar-preview-orientation') || 'destop';
+      $('#top-links li.' + orientation).click();
+
+      function resize() {
+        previewContainer.height($(window).height() - topContainer.outerHeight(true) - 5);
+      }
+      $(window).resize(resize);
+      resize();
+    </script>
+  </body>
+</html>

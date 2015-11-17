@@ -113,13 +113,17 @@ describe('bin - gulp', function() {
     child.kill('SIGKILL');
   });
 
-  it('should be able to preview App', function(done) {
-    var serverWorking;
+
+  function preview(command, done) {
+    var
+      serverWorking,
+      port = command === 'preview' ? '3000' : '3100'
+      ;
 
     var child = run(
       function() {},
       {cwd: cwd, timeout: timeout - 100},
-      'preview'
+      command
     );
 
     child.on('error', function() {
@@ -138,7 +142,7 @@ describe('bin - gulp', function() {
       var req;
 
       try {
-        req = request('GET', 'http://localhost:3000', {
+        req = request('GET', 'http://localhost:' + port, {
           timeout: 200
         });
       }
@@ -155,6 +159,12 @@ describe('bin - gulp', function() {
     };
 
     setTimeout(fn, 1000);
+  }
+  it('should be able to preview App', function(done) {
+    preview('preview', done);
+  });
+  it('should be able to preview App with Responsive View', function(done) {
+    preview('rpreview', done);
   });
 
 });
