@@ -38,6 +38,12 @@ Head on to the Quasar Framework official website: [http://quasar-framework.org](
 * [Quasar Framework](https://github.com/rstoenescu/quasar-framework)
 * [Quasar Semantic UI Build](https://github.com/rstoenescu/quasar-semantic)
 
+## Contributing
+
+I'm excited if you want to contribute to Quasar under any form (report bugs, write a plugin, fix an issue, write a new feature).
+
+I'm only asking that you [read this](http://quasar-framework.org/guide/contributing-to-quasar.html) first.
+
 ## License
 
 Copyright (c) 2015 Razvan Stoenescu
