@@ -19,6 +19,14 @@ describe('lib: file-system', function() {
       expect(quasarfs.getAppPath()).to.equal(process.cwd());
     });
 
+    it('should return undefined when calling get app root not inside an app folder', function() {
+      var cwd = process.cwd();
+
+      process.chdir('/');
+      expect(quasarfs.getAppPath()).to.not.exist;
+      process.chdir(cwd);
+    });
+
     it('should be able to join paths', function() {
       expect(quasarfs.joinPath('a', 'b', 'c')).to.equal('a/b/c');
     });

@@ -28,7 +28,7 @@
   "license": "MIT",
   "bugs": "https://github.com/rstoenescu/quasar-cli/issues",
   "dependencies": {
-    "autocmdr": "^0.0.7",
+    "autocmdr": "^0.0.8",
     "browser-sync": "^2.9.11",
     "chai": "^3.4.1",
     "colors": "^1.1.2",

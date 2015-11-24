@@ -28,8 +28,8 @@ describe('command: pages', function() {
   beforeEach(function() {
     fs.remove(process.cwd() + '/src');
   });
-  afterEach(function() {
-    //fs.remove(process.cwd() + '/src');
+  after(function() {
+    fs.remove(process.cwd() + '/src');
   });
 
   describe('create', function() {
@@ -84,27 +84,6 @@ describe('command: pages', function() {
       pages.create(program, 'name2');
 
       var result = pages.rename(program, 'name1', 'name2');
-
-      expect(result).to.not.equal(0);
-    });
-  });
-
-  describe('remove', function() {
-    it('should be able to remove existing page', function() {
-      var tmpName = 'page2';
-
-      pages.create(program, pageName);
-      pages.create(program, tmpName);
-
-      var result = pages.remove(program, pageName);
-
-      expect(result).to.equal(0);
-      expect(fs.exists(folder)).to.equal(false);
-      expect(fs.exists(root + tmpName + getTestFile(tmpName))).to.equal(true);
-    });
-
-    it('should output error when removing inexisting page', function() {
-      var result = pages.remove(program, pageName);
 
       expect(result).to.not.equal(0);
     });

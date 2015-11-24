@@ -32,13 +32,13 @@ var commands = [
   },
   {
     name: 'monitor',
-    description: 'Monitor Quasar App & auto-build',
+    description: 'Monitor Quasar App & auto rebuild',
     task: 'monitor',
     message: 'Monitoring Quasar App source files'
   },
   {
     name: 'clean',
-    description: 'Clean Quasar App',
+    description: 'Clean Quasar App build folders',
     task: 'clean:all',
     message: 'Cleaning Quasar App'
   },

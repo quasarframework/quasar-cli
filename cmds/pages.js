@@ -10,14 +10,6 @@ module.exports = function(program) {
   });
 
   program
-  .command('remove:page <page-name>')
-  .description('Remove a Quasar App Page')
-  .action(function(name) {
-    program.helpers.assertInsideAppFolder();
-    process.exit(require('../lib/cmds/pages').remove(program, name));
-  });
-
-  program
   .command('rename:page <old-name> <new-name>')
   .description('Rename a Quasar App Page')
   .action(function(oldName, newName) {

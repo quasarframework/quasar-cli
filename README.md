@@ -15,11 +15,17 @@
 
 ## Description
 
+Quasar Framework Command Line Interface
+
 IN ACTIVE DEVELOPMENT!!!
 
 FAR FROM READY!!!
 
 Do not take an interest in this yet.
+
+## Documentation
+
+Head on to the Quasar Framework official website: [http://quasar-framework.org](http://quasar-framework.org/guide/cli-commands.html).
 
 ## Installation
 
@@ -29,14 +35,9 @@ To install quasar-cli from npm, run:
 $ npm install -g quasar-cli
 ```
 
-## Documentation
-
-Head on to the Quasar Framework official website: [http://quasar-framework.org](http://quasar-framework.org/guide/cli-commands.html).
-
 ## Related Components
 
 * [Quasar Framework](https://github.com/rstoenescu/quasar-framework)
-* [Quasar Semantic UI Build](https://github.com/rstoenescu/quasar-semantic)
 
 ## Contributing
 
