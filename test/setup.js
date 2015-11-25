@@ -9,6 +9,4 @@ global.expect = chai.expect;
 global.moquire = require('moquire');
 global.sinon = require('sinon');
 
-var sinonChai = require('sinon-chai');
-
-chai.use(sinonChai);
+chai.use(require('sinon-chai'));
