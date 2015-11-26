@@ -52,11 +52,11 @@ describe('bin - gulp', function() {
   it('should be able to build App for Development', function(done) {
     run(
       function() {
-        expect(fs.exists(folder + '/build')).to.equal(true);
+        expect(fs.exists(folder + '/dist')).to.equal(true);
         done();
       },
       {cwd: cwd},
-      'build'
+      'dev'
     );
   });
 
@@ -67,7 +67,7 @@ describe('bin - gulp', function() {
         done();
       },
       {cwd: cwd},
-      'dist'
+      'prod'
     );
   });
 
@@ -84,7 +84,6 @@ describe('bin - gulp', function() {
   it('should be able to clean App after builds', function(done) {
     run(
       function() {
-        expect(fs.exists(folder + '/build')).to.equal(false);
         expect(fs.exists(folder + '/dist')).to.equal(false);
         done();
       },
@@ -107,7 +106,7 @@ describe('bin - gulp', function() {
       throw new Error('Should not write to stderr.');
     });
     child.on('close', function() {
-      expect(fs.exists(folder + '/build')).to.equal(true);
+      expect(fs.exists(folder + '/dist')).to.equal(true);
       done();
     });
     child.kill('SIGKILL');
@@ -133,7 +132,7 @@ describe('bin - gulp', function() {
       throw new Error('Should not write to stderr.');
     });
     child.on('close', function(code) {
-      expect(fs.exists(folder + '/build')).to.equal(true);
+      expect(fs.exists(folder + '/dist')).to.equal(true);
       expect(serverWorking).to.equal(true);
       done();
     });

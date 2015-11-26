@@ -7,15 +7,15 @@ var
 
 var commands = [
   {
-    name: 'build',
+    name: 'dev',
     description: 'Build Quasar App for Development',
-    task: 'build',
+    task: 'dev',
     message: 'Building Quasar App for ' + 'Development'.yellow
   },
   {
-    name: 'dist',
+    name: 'prod',
     description: 'Build Quasar App for PRODUCTION',
-    task: 'dist',
+    task: 'prod',
     message: 'Building Quasar App for ' + 'PRODUCTION'.red
   },
   {
@@ -39,7 +39,7 @@ var commands = [
   {
     name: 'clean',
     description: 'Clean Quasar App build folders',
-    task: 'clean:all',
+    task: 'clean',
     message: 'Cleaning Quasar App'
   },
   {
