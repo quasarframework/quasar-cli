@@ -56,7 +56,7 @@ describe('bin - gulp', function() {
         done();
       },
       {cwd: cwd},
-      'dev'
+      'build'
     );
   });
 
@@ -67,7 +67,7 @@ describe('bin - gulp', function() {
         done();
       },
       {cwd: cwd},
-      'prod'
+      'build -p'
     );
   });
 
@@ -85,6 +85,7 @@ describe('bin - gulp', function() {
     run(
       function() {
         expect(fs.exists(folder + '/dist')).to.equal(false);
+        expect(fs.exists(folder + '/coverage')).to.equal(false);
         done();
       },
       {cwd: cwd},
@@ -163,7 +164,7 @@ describe('bin - gulp', function() {
     preview('preview', done);
   });
   it('should be able to preview App with Responsive View', function(done) {
-    preview('rpreview', done);
+    preview('preview -r', done);
   });
 
 });

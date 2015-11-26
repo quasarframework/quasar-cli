@@ -7,28 +7,30 @@ var
 
 var commands = [
   {
-    name: 'dev',
-    description: 'Build Quasar App for Development',
+    name: 'build',
+    description: 'Build Quasar App',
     task: 'dev',
-    message: 'Building Quasar App for ' + 'Development'.yellow
-  },
-  {
-    name: 'prod',
-    description: 'Build Quasar App for PRODUCTION',
-    task: 'prod',
-    message: 'Building Quasar App for ' + 'PRODUCTION'.red
+    message: 'Building Quasar App for ' + 'Development'.yellow,
+    options: [
+      {
+        name: ['p', 'production', 'Build for ' + 'PRODUCTION'.red],
+        task: 'prod',
+        message: 'Building Quasar App for ' + 'PRODUCTION'.red
+      }
+    ]
   },
   {
     name: 'preview',
     description: 'Live Preview Quasar App',
     task: 'preview',
-    message: 'Live Previewing Quasar App'
-  },
-  {
-    name: 'rpreview',
-    description: 'Live Preview Quasar App - Responsive View',
-    task: 'rpreview',
-    message: 'Live Previewing Quasar App with Responsive View'
+    message: 'Live Previewing Quasar App',
+    options: [
+      {
+        name: ['r', 'responsive', 'with Responsive View'],
+        task: 'preview-resp',
+        message: 'Live Previewing Quasar App with Responsive View'
+      }
+    ]
   },
   {
     name: 'monitor',
@@ -38,7 +40,7 @@ var commands = [
   },
   {
     name: 'clean',
-    description: 'Clean Quasar App build folders',
+    description: 'Clean Quasar App from build artifacts',
     task: 'clean',
     message: 'Cleaning Quasar App'
   },
@@ -72,24 +74,53 @@ function injectDebug(program, runner) {
   return runner;
 }
 
+function parseCommand(opts, command) {
+  var config;
+
+  _.forEach(command.options, function(option) {
+    if (!config && opts[option.name[1]]) {
+      config = {
+        message: option.message,
+        task: option.task
+      };
+    }
+  });
+
+  if (config) {
+    return config;
+  }
+
+  return {
+    message: command.message,
+    task: command.task
+  };
+}
+
 module.exports = function(program) {
 
   _.forEach(commands, function(command) {
-    program
-    .command(command.name)
+    var cmd = program.command(command.name);
+
+    _.forEach(command.options, function(option) {
+      cmd.option('-' + option.name[0] + ', --' + option.name[1], option.name[2]);
+    });
+
+    cmd
     .description(command.description)
-    .action(function() {
+    .action(function(opts) {
       program.helpers.assertInsideAppFolder();
 
+      var config = parseCommand(opts, command);
+
       program.log();
-      program.log.info(command.message);
+      program.log.info(config.message);
       program.log();
 
       process.chdir(require('../lib/file-system').getAppPath());
 
       injectDebug(
         program,
-        require('../lib/gulp/load-tasks').start(command.task)
+        require('../lib/gulp/load-tasks').start(config.task)
       );
     });
   });
