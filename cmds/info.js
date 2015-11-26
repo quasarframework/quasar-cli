@@ -18,5 +18,6 @@ module.exports = function(program) {
     });
 
     program.log();
+    process.exit(0);
   });
 };
