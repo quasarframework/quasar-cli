@@ -6,7 +6,7 @@ var
   logger = require('../../lib/logger')
   ;
 
-describe('command: app', function() {
+describe('command: new', function() {
   var folder = process.cwd() + '/test-app/';
   var program = {
     normalize: function() {

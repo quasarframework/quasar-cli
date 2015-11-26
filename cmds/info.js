@@ -13,7 +13,7 @@ module.exports = function(program) {
     _.forEach(info, function(category) {
       program.log('\n', category.title.yellow);
       _.forEach(category.items, function(item) {
-        program.log(item[0], '\t', item[1]);
+        program.log(item[0] + ':\t', item[1]);
       });
     });
 

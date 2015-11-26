@@ -95,6 +95,12 @@ describe('lib: file-system', function() {
         quasarfs.remove(finalDest);
         expect(fs.existsSync(finalDest)).to.equal(false);
       });
+      it('should be able to generate symlink', function() {
+        expect(fs.existsSync(finalDest)).to.equal(false);
+        quasarfs.symlink('../', finalDest);
+        expect(fs.existsSync(src)).to.equal(true);
+        quasarfs.remove(finalDest);
+      });
     });
   });
 
