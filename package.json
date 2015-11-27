@@ -82,6 +82,7 @@
   },
   "devDependencies": {
     "codecov.io": "^0.1.6",
+    "mocha-eslint": "^1.0.0",
     "moquire": "^1.5.5",
     "sync-request": "^2.1.0"
   }
