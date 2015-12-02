@@ -1,3 +1,4 @@
+'use strict';
 
 /*
  * Use for Async operations before displaying page
