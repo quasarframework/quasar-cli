@@ -26,7 +26,7 @@ describe('logger', function() {
   it('should log a message', function() {
     program.log('msg');
     expect(console.log).to.have.been.calledOnce;
-    expect(console.log).to.have.been.calledWith('', 'msg');
+    expect(console.log).to.have.been.calledWith('msg');
   });
 
   it('should log empty line', function() {
