@@ -8,17 +8,17 @@ module.exports.prepare = function() {
 };
  */
 
- /*
-  * Compute Vue parameters
-  *
- module.exports.vue = function() {
-   return {};
- };
-  */
+/*
+ * Compute Vue parameters
+ *
+module.exports.vue = function() {
+ return {};
+};
+ */
 
- /*
-  * Use as page starting point
-  *
+/*
+ * Use as page starting point
+ *
 module.exports.start = function() {
 };
  */
