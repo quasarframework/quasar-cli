@@ -9,9 +9,9 @@ module.exports.prepare = function() {
  */
 
  /*
-  * Compute Vue scope
+  * Compute Vue parameters
   *
- module.exports.scope = function() {
+ module.exports.vue = function() {
    return {};
  };
   */
