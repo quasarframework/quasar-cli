@@ -112,7 +112,6 @@ module.exports = function(program) {
 
       var config = parseCommand(opts, command);
 
-      program.log();
       program.log.info(config.message);
       program.log();
 
