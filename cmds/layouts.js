@@ -3,7 +3,7 @@
 module.exports = function(program) {
   program
   .command('layout <layout-name> [new-name]')
-  .description('Create or rename a Quasar App Page')
+  .description('Create or rename a Quasar App Layout')
   .action(function(name, newName) {
     program.helpers.assertInsideAppFolder();
 

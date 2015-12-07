@@ -79,6 +79,7 @@ describe('command: pages', function() {
 
       expect(result).to.not.equal(0);
     });
+
     it('should output error when page with new name already exists', function() {
       pages.create(program, 'name1');
       pages.create(program, 'name2');
