@@ -7,7 +7,7 @@ var
   asset = require('../../lib/cmds/assets')
   ;
 
-describe('individual asset command', function() {
+describe.only('individual asset command', function() {
 
   function getTestFile(type, assetName, ext) {
     if (type === 'page') {
@@ -78,7 +78,7 @@ describe('individual asset command', function() {
 
       describe('rename', function() {
 
-        it('should be able to rename existing page', function() {
+        it('should be able to rename existing asset', function() {
           var tmpName = 'tmpName';
 
           asset.create(assetType, program, assetName);
@@ -88,13 +88,13 @@ describe('individual asset command', function() {
           expect(fs.exists(root + tmpName + getTestFile(assetType, tmpName))).to.equal(true);
         });
 
-        it('should output error when page does not exists', function() {
+        it('should output error when asset does not exists', function() {
           var result = asset.rename(assetType, program, 'bogusName', assetName);
 
           expect(result).to.not.equal(0);
         });
 
-        it('should output error when page with new name already exists', function() {
+        it('should output error when asset with new name already exists', function() {
           asset.create(assetType, program, 'name1');
           asset.create(assetType, program, 'name2');
 
@@ -102,6 +102,19 @@ describe('individual asset command', function() {
 
           expect(result).to.not.equal(0);
           expect(fs.exists(root + 'name2' + getTestFile(assetType, 'name2'))).to.equal(true);
+        });
+
+        it('should be able to rename existing asset with missing optionals', function() {
+          asset.create(assetType, program, 'asset');
+
+          if (fs.exists(root + 'asset/html')) {
+            fs.remove(root + 'asset/html');
+          }
+          if (fs.exists(root + 'asset/layout.asset.html')) {
+            fs.remove(root + 'asset/layout.asset.html');
+          }
+
+          expect(asset.rename(assetType, program, 'asset', 'asset2')).to.equal(0);
         });
 
       }); // describe
