@@ -6,7 +6,7 @@ var
   logger = require('../../lib/logger')
   ;
 
-describe.only('command: layout', function() {
+describe('command: layout', function() {
   function getJsFile(layoutName) {
     return '/layout.' + layoutName + '.js';
   }
