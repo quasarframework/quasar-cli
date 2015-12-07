@@ -7,7 +7,7 @@ var
   asset = require('../../lib/cmds/assets')
   ;
 
-describe.only('individual asset command', function() {
+describe('individual asset command', function() {
 
   function getTestFile(type, assetName, ext) {
     if (type === 'page') {
