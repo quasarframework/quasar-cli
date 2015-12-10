@@ -14,6 +14,9 @@ module.exports.prepare = function() {
 module.exports.vue = function() {
  return {};
 };
+ * or
+module.exports.vue = {
+};
  */
 
 /*
