@@ -1,27 +1,7 @@
 'use strict';
 
-/*
- * Use for Async operations before displaying page
- *
-module.exports.prepare = function() {
-  this.done({});
-};
- */
+var html = require('raw!../html/view.___page___.html');
 
-/*
- * Compute Vue parameters
- *
-module.exports.vue = function() {
- return {};
+module.exports = {
+  template: html
 };
- * or
-module.exports.vue = {
-};
- */
-
-/*
- * Use as page starting point
- *
-module.exports.start = function() {
-};
- */

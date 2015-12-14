@@ -1,16 +1,6 @@
 
-module.exports.template = require('raw!./layout.___layout___.html');
+var html = require('raw!./layout.___layout___.html');
 
-/*
- * Vue parameters
- *
-module.exports.vue = {
+module.exports = {
+  template: html
 };
- */
-
-/*
- * Use as layout starting point
- *
-module.exports.start = function() {
-};
- */
