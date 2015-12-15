@@ -7,7 +7,7 @@ var
   quasarfs = require('../../lib/file-system')
   ;
 
-describe('lib: file-system', function() {
+describe('file-system', function() {
 
   describe('path', function() {
 
@@ -49,7 +49,7 @@ describe('lib: file-system', function() {
 
   });
 
-  describe('inode methods', function() {
+  describe('inode', function() {
     var dest = path.join(process.cwd(), '.tmp');
     var finalDest = path.join(process.cwd(), '.tmp2');
 
@@ -59,17 +59,17 @@ describe('lib: file-system', function() {
       it('should copy', function() {
         quasarfs.copy(src, dest);
         expect(fs.existsSync(dest)).to.equal(true);
-        expect(fs.existsSync(dest + '/js')).to.equal(true);
+        expect(fs.existsSync(dest + '/assets')).to.equal(true);
       });
       it('should test', function() {
         expect(quasarfs.exists(dest)).to.equal(true);
-        expect(quasarfs.exists(dest + '/js')).to.equal(true);
-        expect(quasarfs.exists(dest + '/js/script.___page___.js')).to.equal(true);
+        expect(quasarfs.exists(dest + '/assets')).to.equal(true);
+        expect(quasarfs.exists(dest + '/script.___page___.js')).to.equal(true);
       });
       it('should rename', function() {
         quasarfs.move(dest, finalDest);
         expect(fs.existsSync(finalDest)).to.equal(true);
-        expect(fs.existsSync(finalDest + '/js')).to.equal(true);
+        expect(fs.existsSync(finalDest + '/assets')).to.equal(true);
       });
       it('should remove', function() {
         quasarfs.remove(finalDest);
@@ -78,7 +78,7 @@ describe('lib: file-system', function() {
     });
 
     describe('file', function() {
-      var src = quasarfs.getPathToAsset('page/___page___/js/script.___page___.js');
+      var src = quasarfs.getPathToAsset('page/___page___/script.___page___.js');
 
       it('should copy', function() {
         quasarfs.copy(src, dest);
