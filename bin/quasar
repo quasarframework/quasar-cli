@@ -13,7 +13,6 @@ require('../lib/helpers')(program);
 program.log();
 
 require('autocmdr/lib/loader')(program);
-require('autocmdr/lib/completion')(program);
 require('autocmdr/lib/package')(program);
 require('autocmdr/lib/help')(program);
 

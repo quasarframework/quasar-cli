@@ -5,7 +5,8 @@ var
   path = require('path'),
   fs = require('../../lib/file-system'),
   _ = require('lodash'),
-  request = require('sync-request')
+  request = require('sync-request'),
+  del = require('del')
   ;
 
 describe('bin - gulp', function() {
@@ -53,6 +54,7 @@ describe('bin - gulp', function() {
     run(
       function() {
         expect(fs.exists(folder + '/dist')).to.equal(true);
+        del.sync(folder + '/dist');
         done();
       },
       {cwd: cwd},
