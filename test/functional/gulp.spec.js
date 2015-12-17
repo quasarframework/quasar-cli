@@ -73,7 +73,7 @@ describe('bin - gulp', function() {
     );
   });
 
-  it('should be able to test App', function(done) {
+  it.skip('should be able to test App', function(done) {
     run(
       function() {
         done();
