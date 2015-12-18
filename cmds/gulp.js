@@ -10,33 +10,53 @@ var commands = [
     name: 'build',
     description: 'Build Quasar App',
     task: 'dev',
-    message: 'Building Quasar App for ' + 'Development'.yellow,
+    message: '[Development]'.yellow + ' Building Quasar App',
     options: [
       {
         name: ['p', 'production', 'Build for ' + 'PRODUCTION'.red],
         task: 'prod',
-        message: 'Building Quasar App for ' + 'PRODUCTION'.red
+        message: '[PRODUCTION]'.red + ' Building Quasar App'
       }
     ]
   },
   {
     name: 'preview',
     description: 'Live Preview Quasar App',
-    task: 'preview',
-    message: 'Live Previewing Quasar App',
+    task: 'preview:dev',
+    message: '[Development]'.yellow + ' Live Previewing Quasar App',
     options: [
       {
-        name: ['r', 'responsive', 'with Responsive View'],
-        task: 'preview-resp',
-        message: 'Live Previewing Quasar App with Responsive View'
+        name: ['p', 'production', 'Production Preview'],
+        task: 'preview:prod',
+        message: '[PRODUCTION]'.red + ' Live Previewing Quasar App'
+      }
+    ]
+  },
+  {
+    name: 'responsive',
+    description: 'Live Preview Quasar App with Responsive View',
+    task: 'responsive:dev',
+    message: '[Development]'.yellow + ' Live Previewing Quasar App with Responsive View',
+    options: [
+      {
+        name: ['p', 'production', 'Production Responsive Preview'],
+        task: 'responsive:prod',
+        message: '[PRODUCTION]'.red + ' Live Previewing Quasar App with Responsive View'
       }
     ]
   },
   {
     name: 'monitor',
     description: 'Monitor Quasar App & auto rebuild',
-    task: 'monitor',
-    message: 'Monitoring Quasar App source files'
+    task: 'monitor:dev',
+    message: '[Development]'.yellow + ' Monitoring Quasar App',
+    options: [
+      {
+        name: ['p', 'production', 'Production Monitoring'],
+        task: 'monitor:prod',
+        message: '[PRODUCTION]'.red + ' Monitoring Quasar App'
+      }
+    ]
   },
   {
     name: 'clean',
@@ -49,6 +69,11 @@ var commands = [
     description: 'Run Quasar App test suites',
     task: 'test',
     message: 'Testing Quasar App'
+  },
+  {
+    name: 'task <task>',
+    description: 'Run Quasar App Specific Task',
+    message: 'Running Quasar App Task: '
   }
 ];
 
@@ -76,6 +101,13 @@ function injectDebug(program, runner) {
 
 function parseCommand(opts, command) {
   var config;
+
+  if (command.name === 'task <task>') {
+    return {
+      message: command.message + '[' + opts.yellow + ']',
+      task: opts
+    };
+  }
 
   _.forEach(command.options, function(option) {
     if (!config && opts[option.name[1]]) {

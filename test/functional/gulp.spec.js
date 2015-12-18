@@ -166,7 +166,7 @@ describe('bin - gulp', function() {
     preview('preview', done);
   });
   it('should be able to preview App with Responsive View', function(done) {
-    preview('preview -r', done);
+    preview('responsive', done);
   });
 
 });
