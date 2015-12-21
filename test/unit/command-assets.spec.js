@@ -7,7 +7,7 @@ var
   asset = require('../../lib/cmds/assets')
   ;
 
-describe('command', function() {
+describe.only('command', function() {
 
   function getTestFile(type, assetName, ext) {
     if (type === 'page') {
@@ -103,11 +103,11 @@ describe('command', function() {
       it('should be able to rename existing asset with missing optionals', function() {
         asset.create(assetType, program, 'asset');
 
-        if (fs.exists(root + 'asset/html')) {
-          fs.remove(root + 'asset/html');
+        if (fs.exists(root + 'asset/style.asset.styl')) {
+          fs.remove(root + 'asset/style.asset.styl');
         }
-        if (fs.exists(root + 'asset/layout.asset.html')) {
-          fs.remove(root + 'asset/layout.asset.html');
+        if (fs.exists(root + 'asset/layout.asset.styl')) {
+          fs.remove(root + 'asset/layout.asset.styl');
         }
 
         expect(asset.rename(assetType, program, 'asset', 'asset2')).to.equal(0);
