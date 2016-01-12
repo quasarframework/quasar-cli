@@ -37,7 +37,7 @@
     "conventional-recommended-bump": "^0.0.3",
     "del": "^2.0.2",
     "eslint": "^1.9.0",
-    "eslint-config-defaults": "^7.1.1",
+    "eslint-config-defaults": "^8.0.2",
     "find-root": "^0.1.1",
     "fs": "^0.0.2",
     "fs-extra": "^0.26.0",
