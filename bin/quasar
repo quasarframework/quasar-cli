@@ -19,6 +19,7 @@ require('autocmdr/lib/help')(program);
 program.parse(process.argv);
 
 if (program.args.length < 1) {
+  program.log(require('fs').readFileSync(require('path').join(__dirname, '../lib/logo.art'), 'utf8'));
   program.outputHelp();
   process.exit(1);
 }
