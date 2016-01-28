@@ -15,12 +15,10 @@
 
 ## Description
 
-Quasar Framework Command Line Interface
+Command Line Interface for Quasar Framework
 
 IN ACTIVE DEVELOPMENT!!!
-
 FAR FROM READY!!!
-
 Do not take an interest in this yet.
 
 ## Documentation
@@ -38,6 +36,7 @@ $ npm install -g quasar-cli
 ## Related Components
 
 * [Quasar Framework](https://github.com/rstoenescu/quasar-framework)
+* [Gulp Pipes](https://github.com/rstoenescu/gulp-pipes)
 
 ## Contributing
 
