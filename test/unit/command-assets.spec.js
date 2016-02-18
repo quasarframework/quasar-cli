@@ -28,7 +28,7 @@ describe('command', function() {
 
   logger(program);
 
-  _.forEach(['page', 'layout'], function(assetType) {
+  ['page', 'layout'].forEach(function(assetType) {
     describe(assetType + ':', function() {
       var
         root = process.cwd() + '/src/' + assetType + 's/',

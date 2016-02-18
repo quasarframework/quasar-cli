@@ -1,20 +1,32 @@
-<quasar-layout shrink-header scroll-shadow>
+<div class="quasar-layout column full-height">
 
-  <quasar-header>
-    <quasar-row>
-      <quasar-button><quasar-icon sidebar></quasar-icon></quasar-button>
-      <quasar-title>Text {{text}}</quasar-title>
-      <quasar-button><quasar-icon alarm></quasar-icon></quasar-button>
-      <quasar-button><quasar-icon ellipsis vertical></quasar-icon></quasar-button>
-    </quasar-row>
-    <quasar-navigation>
-      <quasar-tab><quasar-icon database></quasar-icon>Tab 1</quasar-tab>
-      <quasar-tab><quasar-icon database></quasar-icon>Tab 2</quasar-tab>
-      <quasar-tab><quasar-icon database></quasar-icon>Tab 3</quasar-tab>
-    </quasar-navigation>
-  </quasar-header>
+  <!-- required, can be empty -->
+  <div class="quasar-layout-header">
+    <!--
+    <div class="row items-center" style="">
+      <i class="button quasar-drawer-toggle">menu</i>
+      <p class="auto">Title</p>
+      <i class="button">more_vert</i>
+    </div>
+    -->
+  </div>
 
-  <!-- required: -->
-  <quasar-page></quasar-page>
+  <!-- required -->
+  <div class="quasar-layout-content row full-height">
 
-</quasar-layout>
+    <!-- optional: place <quasar-drawer> besides .quasar-page-container -->
+
+    <!-- required -->
+    <div class="auto quasar-page-container">
+      <!-- 'smart-container' class can be omitted -->
+      <div class="quasar-page smart-container"></div>
+    </div>
+
+  </div>
+
+  <!-- required, can be empty -->
+  <div class="quasar-layout-footer">
+    <!-- rows are same as for header -->
+  </div>
+
+</div>
