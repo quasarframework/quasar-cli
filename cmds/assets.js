@@ -1,11 +1,9 @@
 'use strict';
 
-var _ = require('lodash');
-
 function injectCommand(config) {
   config.program
   .command(config.type + ' <' + config.type + '-name> [new-name]')
-  .description('Create or rename a Quasar App ' + _.capitalize(config.type))
+  .description('Create or rename a Quasar App ' + config.type.charAt(0).toUpperCase() + config.type.slice(1))
   .action(function(name, newName) {
     config.program.helpers.assertInsideAppFolder();
 

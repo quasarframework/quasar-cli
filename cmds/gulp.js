@@ -1,9 +1,6 @@
 'use strict';
 
-var
-  _ = require('lodash'),
-  prettyTime = require('pretty-hrtime')
-  ;
+var prettyTime = require('pretty-hrtime');
 
 var commands = [
   {
@@ -109,14 +106,18 @@ function parseCommand(opts, command) {
     };
   }
 
-  _.forEach(command.options, function(option) {
-    if (!config && opts[option.name[1]]) {
-      config = {
-        message: option.message,
-        task: option.task
-      };
-    }
-  });
+  if (command.options) {
+    Object.keys(command.options).forEach(function(key) {
+      var option = command.options[key];
+
+      if (!config && opts[option.name[1]]) {
+        config = {
+          message: option.message,
+          task: option.task
+        };
+      }
+    });
+  }
 
   if (config) {
     return config;
@@ -130,12 +131,16 @@ function parseCommand(opts, command) {
 
 module.exports = function(program) {
 
-  _.forEach(commands, function(command) {
+  commands.forEach(function(command) {
     var cmd = program.command(command.name);
 
-    _.forEach(command.options, function(option) {
-      cmd.option('-' + option.name[0] + ', --' + option.name[1], option.name[2]);
-    });
+    if (command.options) {
+      Object.keys(command.options).forEach(function(key) {
+        var option = command.options[key];
+
+        cmd.option('-' + option.name[0] + ', --' + option.name[1], option.name[2]);
+      });
+    }
 
     cmd
     .description(command.description)

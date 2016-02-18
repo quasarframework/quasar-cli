@@ -5,14 +5,11 @@ module.exports = function(program) {
   .command('info')
   .description('Gather information about your runtime')
   .action(function() {
-    var
-      _ = require('lodash'),
-      info = require('../lib/cmds/info')
-      ;
+    var info = require('../lib/cmds/info');
 
-    _.forEach(info, function(category) {
+    info.forEach(function(category) {
       program.log('\n', category.title.yellow);
-      _.forEach(category.items, function(item) {
+      category.items.forEach(function(item) {
         program.log('', item[0] + ':\t', item[1]);
       });
     });

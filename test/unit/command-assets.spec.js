@@ -3,7 +3,6 @@
 var
   fs = require('../../lib/file-system'),
   logger = require('../../lib/logger'),
-  _ = require('lodash'),
   asset = require('../../lib/cmds/assets')
   ;
 

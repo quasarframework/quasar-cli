@@ -4,7 +4,6 @@ var
   exec = require('child_process').exec,
   path = require('path'),
   fs = require('../../lib/file-system'),
-  _ = require('lodash'),
   request = require('sync-request'),
   del = require('del')
   ;

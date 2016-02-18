@@ -2,8 +2,7 @@
 
 var
   exec = require('child_process').exec,
-  path = require('path'),
-  _ = require('lodash')
+  path = require('path')
   ;
 
 describe('bin', function() {
@@ -12,7 +11,7 @@ describe('bin', function() {
 
   function run(done, command, code) {
     var child = exec(cmd + (command ? command : ''), function(error, stdout, stderr) {
-      if (_.isNumber(code)) {
+      if (typeof code === 'number') {
         expect(error).to.exist;
         expect(error.code).to.equal(code);
       }
