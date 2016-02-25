@@ -34,9 +34,9 @@
     "colors": "^1.1.2",
     "commander": "^2.8.1",
     "del": "^2.0.2",
-    "eslint": "^2.1.0",
+    "eslint": "^2.2.0",
     "eslint-config-defaults": "^9.0.0",
-    "find-root": "^0.1.1",
+    "find-root": "^1.0.0",
     "fs": "^0.0.2",
     "fs-extra": "^0.26.0",
     "glob": "^7.0.0",
@@ -58,10 +58,10 @@
     "karma-coverage": "^0.5.3",
     "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.2.0",
-    "karma-mocha-reporter": "^1.1.1",
+    "karma-mocha-reporter": "^1.2.2",
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-sinon": "^1.0.4",
-    "karma-sinon-chai": "^1.1.0",
+    "karma-sinon-chai": "^1.2.0",
     "karma-webpack": "^1.7.0",
     "log-symbols": "^1.0.2",
     "merge": "^1.2.0",
@@ -76,11 +76,11 @@
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",
     "through2": "^2.0.0",
-    "webpack": "^1.12.4"
+    "webpack": "^1.12.14"
   },
   "devDependencies": {
     "codecov.io": "^0.1.6",
-    "mocha-eslint": "^1.0.0",
+    "mocha-eslint": "^2.0.0",
     "moquire": "^1.5.5",
     "sync-request": "^2.1.0"
   }
