@@ -87,10 +87,10 @@ function injectDebug(program, runner) {
       program.log.success('Finished task', e.task.cyan, 'after', prettyTime(e.hrDuration).magenta);
     })
     .on('task_err', function(e) {
-      program.log.error('\'' + e.task.cyan + '\'', 'errored after'.red, prettyTime(e.hrDuration).magenta);
+      program.log.error('!!! \'' + e.task.cyan + '\'', 'errored after'.red, prettyTime(e.hrDuration).magenta);
     })
     .on('err', function() {
-      program.log.error('FAILED');
+      program.log.error('\n\n!!! FAILED task above. Bailing out!!!\n\n'.red);
     });
 
   return runner;
