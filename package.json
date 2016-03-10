@@ -65,6 +65,7 @@
     "log-symbols": "^1.0.2",
     "merge": "^1.2.0",
     "mocha": "^2.3.3",
+    "ora": "^0.2.0",
     "path": "^0.12.7",
     "phantomjs": "^1.9.18",
     "pretty-hrtime": "^1.0.1",
