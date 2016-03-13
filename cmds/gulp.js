@@ -88,9 +88,11 @@ function injectDebug(program, runner) {
     })
     .on('task_err', function(e) {
       program.log.error('!!! \'' + e.task.cyan + '\'', 'errored after'.red, prettyTime(e.hrDuration).magenta);
+      program.log.error(e);
     })
     .on('err', function() {
-      program.log.error('\n\n!!! FAILED task above. Bailing out!!!\n\n'.red);
+      program.log('\n\n');
+      program.log.error('!!! FAILED task above. Bailing out!!!\n\n'.red);
     });
 
   return runner;
