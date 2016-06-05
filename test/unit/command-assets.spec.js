@@ -77,14 +77,14 @@ describe('command', function() {
         var tmpName = 'tmpName';
 
         asset.create(assetType, program, assetName);
-        var result = asset.rename(assetType, program, assetName, tmpName);
+        var result = asset.rename(assetType, false, program, assetName, tmpName);
 
         expect(result).to.equal(0);
         expect(fs.exists(root + tmpName + getTestFile(assetType, tmpName))).to.equal(true);
       });
 
       it('should output error when asset does not exists', function() {
-        var result = asset.rename(assetType, program, 'bogusName', assetName);
+        var result = asset.rename(assetType, false, program, 'bogusName', assetName);
 
         expect(result).to.not.equal(0);
       });
@@ -93,7 +93,7 @@ describe('command', function() {
         asset.create(assetType, program, 'name1');
         asset.create(assetType, program, 'name2');
 
-        var result = asset.rename(assetType, program, 'name1', 'name2');
+        var result = asset.rename(assetType, false, program, 'name1', 'name2');
 
         expect(result).to.not.equal(0);
         expect(fs.exists(root + 'name2' + getTestFile(assetType, 'name2'))).to.equal(true);
@@ -109,7 +109,13 @@ describe('command', function() {
           fs.remove(root + 'asset/layout.asset.styl');
         }
 
-        expect(asset.rename(assetType, program, 'asset', 'asset2')).to.equal(0);
+        expect(asset.rename(assetType, false, program, 'asset', 'asset2')).to.equal(0);
+      });
+
+      it('should be able to copy asset', function() {
+        asset.create(assetType, program, 'from');
+
+        expect(asset.rename(assetType, true, program, 'from', 'to')).to.equal(0);
       });
 
     }); // describe assetType
