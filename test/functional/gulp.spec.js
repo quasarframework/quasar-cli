@@ -11,7 +11,7 @@ var
 describe('bin - gulp', function() {
 
   var
-    timeout = (process.env.CIRCLECI ? 26 : 15) * 1000,
+    timeout = (process.env.CIRCLECI ? 40 : 15) * 1000,
     folder = 'test-app-gulp',
     cmd = 'node ' + path.join(__dirname, '../../bin/quasar') + ' ',
     cwd = path.join(process.cwd(), folder)
