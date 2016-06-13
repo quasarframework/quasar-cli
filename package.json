@@ -14,7 +14,8 @@
   ],
   "scripts": {
     "test": "mocha test/lint.js && istanbul cover ./node_modules/mocha/bin/_mocha -- -r test/setup.js test/**/*.spec.js",
-    "coverage": "google-chrome ./coverage/lcov-report/index.html &"
+    "coverage": "google-chrome ./coverage/lcov-report/index.html &",
+    "deploy": "npm test && npm publish"
   },
   "author": {
     "name": "Razvan Stoenescu",
