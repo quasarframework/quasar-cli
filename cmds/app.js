@@ -14,13 +14,14 @@ module.exports = function(program) {
   .command('wrap')
   .usage('[Cordova command parameters] [options]')
   .description('Wrap App (or execute cmd) with Cordova')
-  .action(function() {
+  .option('-s, --slim', 'Without Crosswalk')
+  .action(function(options) {
     program.helpers.assertInsideAppFolder();
 
     var appPath = require('../lib/file-system').getAppPath();
 
     if (arguments.length <= 1) {
-      require('../lib/cmds/wrap').wrap(program, appPath, function(exitCode) {
+      require('../lib/cmds/wrap').wrap(program, options.slim, appPath, function(exitCode) {
         process.exit(exitCode);
       });
       return; // <<< EARLY EXIT
@@ -29,6 +30,17 @@ module.exports = function(program) {
     var args = Array.prototype.slice.call(arguments).slice(0, -1);
 
     require('../lib/cmds/wrap').run(program, appPath, args, function(exitCode) {
+      process.exit(exitCode);
+    });
+  });
+
+  program
+  .command('serve [path]')
+  .description('Create Static-Content Server on Path')
+  .action(function(folder) {
+    folder = folder || process.cwd();
+
+    require('../lib/cmds/serve')(program, folder, function(exitCode) {
       process.exit(exitCode);
     });
   });
