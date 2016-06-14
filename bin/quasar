@@ -7,6 +7,7 @@ process.on('exit', function(code) {
   program.log();
 });
 
+
 require('../lib/logger')(program);
 require('../lib/helpers')(program);
 
@@ -17,6 +18,10 @@ require('autocmdr/lib/package')(program);
 require('autocmdr/lib/help')(program);
 
 program.parse(process.argv);
+
+require('update-notifier')({
+  pkg: require('../package.json')
+}).notify();
 
 if (program.args.length < 1) {
   program.log(require('fs').readFileSync(require('path').join(__dirname, '../lib/logo.art'), 'utf8'));

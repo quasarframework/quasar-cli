@@ -78,6 +78,7 @@
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",
     "through2": "^2.0.0",
+    "update-notifier": "^1.0.0",
     "webpack": "^1.12.14"
   },
   "devDependencies": {
