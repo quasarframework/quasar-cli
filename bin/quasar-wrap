@@ -58,8 +58,6 @@ else {
 }
 
 function executeCordovaCommand () {
-  command.args.shift()
-
   log.info('Executing Cordova command...\n')
 
   spawn({
@@ -109,10 +107,12 @@ function wrapApp () {
         log()
         log('  To get started:')
         log()
-        log('  * Edit ' + ('wrapper' + '/config.xml').gray)
-        log('  * Add platforms:')
+        log('  ★ Edit ' + ('wrapper' + '/config.xml').gray)
+        log('  ★ Add platforms:')
         log('    $ quasar platform add android')
         log('    $ quasar platform add ios')
+        log('  ★ Run app:')
+        log('    $ quasar wrap run')
 
         process.exit(0)
       }
