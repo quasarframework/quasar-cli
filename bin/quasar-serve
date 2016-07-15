@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+var
+  command = require('commander'),
+  watch = require('gulp-watch'),
+  server = require('browser-sync'),
+  log = require('../lib/log')
+
+command
+  .usage('[folder]')
+  .on('--help', function () {
+    log('  Examples:')
+    log()
+    log('    # serve current folder'.gray)
+    log('    $ quasar serve')
+    log()
+    log('    # serve specific folder'.gray)
+    log('    $ quasar serve ./dist')
+    log('    $ quasar serve /work/quasar-app/dist')
+  })
+  .parse(process.argv)
+
+var folder = command.args[0] || process.cwd() // eslint-disable-line one-var
+
+server.create().init({
+  open: false,
+  reloadOnRestart: true,
+  ghostMode: false,
+  server: {
+    baseDir: folder
+  }
+})
+
+watch(folder + '/**/*', function () {
+  server.reload()
+})

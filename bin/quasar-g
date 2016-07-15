@@ -1,0 +1,115 @@
+#!/usr/bin/env node
+
+var
+  command = require('commander'),
+  inquirer = require('inquirer'),
+  glob = require('glob'),
+  log = require('../lib/log'),
+  qfs = require('../lib/qfs'),
+  type,
+  name,
+  src
+
+if (!qfs.is.inAppFolder()) {
+  log.fatal('Not in an App folder.')
+  // ^^^ EARLY EXIT
+}
+
+command
+  .usage('<type> <name>')
+  .on('--help', function () {
+    log('  Templates are stored in ' + '/templates'.gray)
+    log()
+    log('  Example:')
+    log()
+    log('    # get available templates'.gray)
+    log('    $ quasar g')
+    log()
+    log('    # default types'.gray)
+    log('    $ quasar g component Hello')
+    log('    $ quasar g page inbox')
+    log('    $ quasar g layout master-layout')
+    log()
+    log('    # custom type; write /templates/customVue.vue then:'.gray)
+    log('    $ quasar g customVue chat ' + '# it will ask where to place it'.gray)
+  })
+  .parse(process.argv)
+
+if (command.args.length === 0) {
+  log(' Available templates:'.gray)
+  log()
+
+  glob(qfs.get.root('templates', '*.vue'), function (err, files) {
+    if (err) throw err
+    files.forEach(function (file) {
+      log('    ' + qfs.basename(file, '.vue'))
+    })
+  })
+}
+else if (command.args.length < 2) {
+  command.help()
+  process.exit(1)
+  // ^^^ EARLY EXIT
+}
+else {
+  run()
+}
+
+function run () {
+  type = command.args[0]
+  name = command.args[1] + '.vue'
+  src = qfs.get.root('templates', type + '.vue')
+
+  if (!qfs.exists(src)) {
+    log.fatal('Template "' + (type + '.vue').gray + '" does not exists.')
+    // ^^^ EARLY EXIT
+  }
+
+  switch (type) {
+    case 'component':
+      generate(name, src, 'components')
+      break
+
+    case 'view':
+      generate(name, src, 'views')
+      break
+
+    case 'layout':
+      generate(name, src, 'views')
+      break
+
+    default:
+      inquirer
+        .prompt([{
+          type: 'input',
+          name: 'folder',
+          message: 'Where to place it inside ' + 'src'.gray + ' folder?'
+        }])
+        .then(function (answers) {
+          log()
+          generate(name, src, answers.folder)
+        })
+      break
+  }
+}
+
+function generate (name, src, dest) {
+  dest = qfs.get.root('src', dest, name)
+  var relativeDest = qfs.relative(dest)
+
+  if (qfs.exists(dest)) {
+    log.fatal('There is already a file at ' + relativeDest.gray + '.')
+    // ^^^ EARLY EXIT
+  }
+
+  if (qfs.copy(src, dest)) {
+    log.fatal('Error while trying to generate ' + relativeDest.gray + '.')
+    // ^^^ EARLY EXIT
+  }
+
+  log.success(
+    'Generated "' + name.gray + '" from "' +
+    (type + '.vue').gray + '" in ' +
+    relativeDest.gray + '.'
+  )
+}

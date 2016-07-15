@@ -1,4 +1,3 @@
-/node_modules/
-/coverage
-/assets/app/node_modules
-/assets/app/dist
+.DS_Store
+/node_modules
+/test

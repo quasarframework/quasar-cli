@@ -1,0 +1,149 @@
+#!/usr/bin/env node
+
+var
+  command = require('commander'),
+  log = require('../lib/log'),
+  qfs = require('../lib/qfs'),
+  spawn = require('../lib/spawn')
+
+if (!qfs.is.inAppFolder()) {
+  log.fatal('Not in an App folder.')
+  // ^^^ EARLY EXIT
+}
+
+var // eslint-disable-line one-var
+  appPath = qfs.get.root(),
+  isWrapped = qfs.exists(qfs.join(appPath, 'wrapper')),
+  buildAvailable = qfs.exists(qfs.join(appPath, 'dist'))
+
+command
+  .usage('[Cordova command param] [options]')
+  .option('-s, --slim', 'Without Crosswalk')
+  .on('--help', function () {
+    log('  Examples:')
+    log()
+    log('    # generate Cordova wrapper'.gray)
+    log('    $ quasar wrap')
+    log('    $ quasar wrap -s')
+    log()
+    log('    # run Cordova command'.gray)
+    log('    $ quasar wrap run')
+    log('    $ quasar wrap platform add android')
+    log('    $ quasar wrap plugin ls')
+  })
+  .parse(process.argv)
+
+command.parse(process.argv)
+
+if (!buildAvailable) {
+  log.fatal('Make a build first ("quasar build") otherwise Cordova will error out.')
+  // ^^^ EARLY EXIT
+}
+
+if (command.args.length > 0) {
+  if (!isWrapped) {
+    log.fatal('App is ' + 'NOT'.red + ' wrapped by Cordova.')
+    // ^^^ EARLY EXIT
+  }
+
+  executeCordovaCommand()
+}
+else {
+  if (isWrapped) {
+    log.fatal('App is already wrapped by Cordova.')
+    // ^^^ EARLY EXIT
+  }
+
+  wrapApp()
+}
+
+function executeCordovaCommand () {
+  command.args.shift()
+
+  log.info('Executing Cordova command...\n')
+
+  spawn({
+    command: 'cordova',
+    args: command.args,
+    cwd: qfs.join(appPath, 'wrapper'),
+    callback: function (exitCode) {
+      if (exitCode === 0) {
+        log()
+        log.success('Command executed.\n')
+      }
+    }
+  })
+}
+
+function wrapApp () {
+  log.info('Generating Cordova ' + (command.slim ? 'command.slim '.red : '') + 'wrapper for Quasar App...\n')
+
+  spawn({
+    command: 'cordova',
+    args: ['create', 'wrapper'],
+    cwd: appPath,
+    callback: function (exitCode) {
+      if (exitCode !== 0) {
+        process.exit(exitCode)
+        // ^^^ EARLY EXIT
+      }
+
+      var
+        wrapper = qfs.join(appPath, 'wrapper'),
+        www = qfs.join(appPath, 'wrapper/www')
+
+      if (qfs.remove(www)) {
+        log.fatal('Cannot remove "www" folder.')
+        // ^^^ EARLY EXIT
+      }
+
+      if (qfs.symlink('../dist', www)) {
+        log.fatal('Cannot create symlink.')
+        // ^^^ EARLY EXIT
+      }
+
+      log()
+      log.success('Cordova wrapper created at', wrapper.yellow)
+
+      function finishUp () {
+        log()
+        log('  To get started:')
+        log()
+        log('  * Edit ' + ('wrapper' + '/config.xml').gray)
+        log('  * Add platforms:')
+        log('    $ quasar platform add android')
+        log('    $ quasar platform add ios')
+
+        process.exit(0)
+      }
+
+      if (command.slim) {
+        log()
+        log.info('Crosswalk plugin NOT installed as you instructed.')
+        log.info(
+          'Manually install it if you decide otherwise: ' +
+          '"quasar wrap plugin add cordova-plugin-crosswalk-webview".'
+        )
+        finishUp()
+        process.exit(0)
+        // ^^^ EARLY EXIT
+      }
+
+      log('Installing cordova-plugin-crosswalk-webview...\n')
+
+      spawn({
+        command: 'cordova',
+        args: ['plugin', 'add', 'cordova-plugin-crosswalk-webview'],
+        cwd: wrapper,
+        callback: function (exitCode) {
+          if (exitCode === 0) {
+            log()
+            log.success('Plugin installed.\n')
+          }
+
+          finishUp()
+        }
+      })
+    }
+  })
+}

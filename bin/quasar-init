@@ -1,0 +1,77 @@
+#!/usr/bin/env node
+
+var
+  command = require('commander'),
+  uid = require('uid'),
+  ora = require('ora'),
+  download = require('download-github-repo'),
+  log = require('../lib/log'),
+  qfs = require('../lib/qfs'),
+  template,
+  src,
+  dest,
+  spinner
+
+command
+  .usage('<folder>')
+  .on('--help', function () {
+    log('  Example:')
+    log()
+    log('    $ quasar init v1 todoApp')
+  })
+  .parse(process.argv)
+
+if (!command.args.length || command.args.length > 2) {
+  command.help()
+  process.exit(1)
+  // ^^^ EARLY EXIT
+}
+
+template = command.args[0]
+dest = qfs.join(process.cwd(), command.args[1])
+
+if (qfs.exists(dest)) {
+  log.fatal('Destination folder "' + dest.gray + '" already exists.')
+  // ^^^ EARLY EXIT
+}
+src = '/tmp/quasar-template-' + uid()
+
+log.info('Generating Quasar App...')
+log()
+spinner = ora('Downloading template ' + template.gray)
+spinner.start()
+
+download(
+  'rstoenescu/quasar-templates#' + template,
+  src,
+  generate
+)
+
+function generate (err) {
+  spinner.stop()
+  process.on('exit', function () {
+    qfs.remove(src)
+  })
+  if (err) {
+    log.fatal('Failed to download template ' + template.gray + ': ' + err.message.trim())
+    // ^^^ EARLY EXIT
+  }
+
+  log.success('Downloaded template ' + template.gray)
+
+  if (qfs.copy(qfs.join(src, 'template'), dest)) {
+    log.fatal('Failed to copy template.')
+    // ^^^ EARLY EXIT
+  }
+
+  log.success(
+    'Generated Quasar App from template "' +
+    template.gray + '" in "' + dest.gray
+  )
+  log()
+  log('  To get started:')
+  log()
+  log('  $ cd ' + dest.gray)
+  log('  $ npm install')
+  log('  $ quasar play')
+}

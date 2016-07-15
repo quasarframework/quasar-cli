@@ -1,30 +1,42 @@
 #!/usr/bin/env node
-'use strict';
 
-var program  = require('commander');
+require('colors')
 
-process.on('exit', function(code) {
-  program.log();
-});
+var
+  commander = require('commander'),
+  log = require('../lib/log')
 
+log()
+process.on('exit', function () {
+  log()
+})
 
-require('../lib/logger')(program);
-require('../lib/helpers')(program);
+if (process.argv.length <= 2) {
+  log(
+    require('fs')
+      .readFileSync(require('path')
+      .join(__dirname, '../lib/logo.art'), 'utf8')
+  )
+}
 
-program.log();
+commander
+  .version(require('../package').version)
+  .usage('<command> [options]')
+  .command('init <template> <folder>', 'create Quasar App')
+  .command('g [template] [name]', 'generate .vue from template')
+  .command('play', 'run app for development')
+  .command('build', 'build app for production')
+  .command('clean', 'clean build artifacts')
+  .command('test', 'run unit and/or e2e tests')
+  .command('lint', 'lint source code')
+  .command('wrap', 'wrap app (or execute command) with Cordova')
+  .command('serve [folder]', 'create static-content server')
+  .parse(process.argv)
 
-require('autocmdr/lib/loader')(program);
-require('autocmdr/lib/package')(program);
-require('autocmdr/lib/help')(program);
+var command = commander.args[0] // eslint-disable-line one-var
 
-program.parse(process.argv);
-
-require('update-notifier')({
-  pkg: require('../package.json')
-}).notify();
-
-if (program.args.length < 1) {
-  program.log(require('fs').readFileSync(require('path').join(__dirname, '../lib/logo.art'), 'utf8'));
-  program.outputHelp();
-  process.exit(1);
+if (!commander.commands.some(function (cmd) {
+  return cmd._name === command
+})) {
+  log.fatal('Command "' + command.gray + '" is not known. Check --help.')
 }

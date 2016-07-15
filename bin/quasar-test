@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+var
+  command = require('commander'),
+  npmCommand = require('../lib/npm-command'),
+  log = require('../lib/log'),
+  arg = 'test'
+
+command
+  .usage('[options]')
+  .on('--help', function () {
+    log('  Examples:')
+    log()
+    log('    # Run both unit and e2e tests'.gray)
+    log('    $ quasar test')
+    log()
+    log('    # Run either unit or e2e tests'.gray)
+    log('    $ quasar test -u')
+    log('    $ quasar test -e')
+  })
+  .option('-u, --unit', 'run unit tests')
+  .option('-e, --e2e', 'run e2e tests')
+  .parse(process.argv)
+
+if (command.unit) {
+  arg = 'unit'
+}
+else if (command.e2e) {
+  arg = 'e2e'
+}
+
+npmCommand(arg)
