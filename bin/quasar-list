@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+
+var
+  ora = require('ora'),
+  log = require('../lib/log'),
+  getList = require('../lib/template-list'),
+  spinner
+
+spinner = ora('Retrieving template list...')
+spinner.start()
+
+getList(function (err, templates) {
+  spinner.stop()
+
+  if (err) {
+    log.fatal('Could not retrieve template list: ' + err)
+    // ^^^ EARLY EXIT
+  }
+
+  log(' Available Quasar App templates:')
+  log()
+
+  templates.forEach(function (template) {
+    log('   ★ ' + template)
+  })
+})

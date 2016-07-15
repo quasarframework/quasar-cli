@@ -36,7 +36,7 @@ $ npm install -g quasar-cli
 ## Related Components
 
 * [Quasar Framework](https://github.com/rstoenescu/quasar-framework)
-* [Gulp Pipes](https://github.com/rstoenescu/gulp-pipes)
+* [Quasar Framework Templates](https://github.com/rstoenescu/quasar-templates)
 
 ## Contributing
 

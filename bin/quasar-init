@@ -7,17 +7,23 @@ var
   download = require('download-github-repo'),
   log = require('../lib/log'),
   qfs = require('../lib/qfs'),
-  template,
-  src,
-  dest,
+  getList = require('../lib/template-list'),
   spinner
 
 command
-  .usage('<folder>')
+  .usage('[template] <folder>')
   .on('--help', function () {
     log('  Example:')
     log()
+    log('    # create todoApp folder with latest template:'.gray)
+    log('    $ quasar init todoApp')
+    log()
+    log('    # use "v1" template for new todoApp folder:'.gray)
     log('    $ quasar init v1 todoApp')
+    log()
+    log('  List available templates:')
+    log()
+    log('    $ quasar list')
   })
   .parse(process.argv)
 
@@ -27,38 +33,85 @@ if (!command.args.length || command.args.length > 2) {
   // ^^^ EARLY EXIT
 }
 
-template = command.args[0]
-dest = qfs.join(process.cwd(), command.args[1])
-
-if (qfs.exists(dest)) {
-  log.fatal('Destination folder "' + dest.gray + '" already exists.')
-  // ^^^ EARLY EXIT
-}
-src = '/tmp/quasar-template-' + uid()
-
 log.info('Generating Quasar App...')
 log()
-spinner = ora('Downloading template ' + template.gray)
-spinner.start()
 
-download(
-  'rstoenescu/quasar-templates#' + template,
-  src,
-  generate
-)
+if (command.args.length === 1) {
+  spinner = ora('Determining newest template...')
+  spinner.start()
 
-function generate (err) {
-  spinner.stop()
-  process.on('exit', function () {
-    qfs.remove(src)
+  getList(function (err, templates) {
+    var sorted, template
+
+    spinner.stop()
+
+    if (err) {
+      log.fatal('Could not retrieve template list: ' + err)
+      // ^^^ EARLY EXIT
+    }
+
+    sorted = templates.filter(function (template) {
+      return /^v[\d]+$/.test(template)
+    }).map(function (template) {
+      return parseInt(template.substring(1), 10)
+    }).sort()
+
+    template = 'v' + sorted[sorted.length - 1]
+
+    log.success('Latest template is ' + template.gray)
+
+    run(
+      template,
+      command.args[0]
+    )
   })
-  if (err) {
-    log.fatal('Failed to download template ' + template.gray + ': ' + err.message.trim())
+}
+else {
+  run(
+    command.args[0],
+    command.args[1]
+  )
+}
+
+function run (template, dest) {
+  dest = qfs.join(process.cwd(), dest)
+
+  if (qfs.exists(dest)) {
+    log.fatal('Destination folder "' + dest.gray + '" already exists.')
     // ^^^ EARLY EXIT
   }
 
-  log.success('Downloaded template ' + template.gray)
+  var src = '/tmp/quasar-template-' + uid()
 
+  spinner = ora('Downloading template ' + template.gray)
+  spinner.start()
+
+  download(
+    'rstoenescu/quasar-templates#' + template,
+    src,
+    function (err) {
+      spinner.stop()
+      process.on('exit', function () {
+        qfs.remove(src)
+      })
+
+      if (err) {
+        if (err === 404) {
+          log.fatal('Template ' + template.gray + ' is not available.')
+          // ^^^ EARLY EXIT
+        }
+
+        log.fatal('Failed to download template ' + template.gray + ': ' + err)
+        // ^^^ EARLY EXIT
+      }
+
+      log.success('Downloaded template ' + template.gray)
+      generate(template, src, dest)
+    }
+  )
+}
+
+function generate (template, src, dest) {
   if (qfs.copy(qfs.join(src, 'template'), dest)) {
     log.fatal('Failed to copy template.')
     // ^^^ EARLY EXIT
@@ -66,12 +119,13 @@ function generate (err) {
 
   log.success(
     'Generated Quasar App from template "' +
-    template.gray + '" in "' + dest.gray
+    template.gray + '" in ' + dest.gray
   )
   log()
   log('  To get started:')
   log()
   log('  $ cd ' + dest.gray)
+  log('  # edit package.json')
   log('  $ npm install')
   log('  $ quasar play')
 }

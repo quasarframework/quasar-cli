@@ -23,19 +23,30 @@ command
     log('  Example:')
     log()
     log('    # get available templates'.gray)
-    log('    $ quasar g')
+    log('    $ quasar generate list')
     log()
-    log('    # default types'.gray)
-    log('    $ quasar g component Hello')
-    log('    $ quasar g page inbox')
-    log('    $ quasar g layout master-layout')
+    log('    # default types (component, page, layout)'.gray)
+    log('    $ quasar generate component Hello')
+    log('    $ quasar generate page inbox')
+    log('    $ quasar generate layout master-layout')
     log()
     log('    # custom type; write /templates/customVue.vue then:'.gray)
-    log('    $ quasar g customVue chat ' + '# it will ask where to place it'.gray)
+    log('    $ quasar generate customVue chat ' + '# it will ask where to place it'.gray)
   })
   .parse(process.argv)
 
-if (command.args.length === 0) {
+if (!command.args.length || command.args.length > 2) {
+  command.help()
+  process.exit(1)
+  // ^^^ EARLY EXIT
+}
+else if (command.args.length === 1) {
+  if (command.args[0] !== 'list') {
+    command.help()
+    process.exit(1)
+    // ^^^ EARLY EXIT
+  }
+
   log(' Available templates:'.gray)
   log()
 
@@ -45,11 +56,6 @@ if (command.args.length === 0) {
       log('    ' + qfs.basename(file, '.vue'))
     })
   })
-}
-else if (command.args.length < 2) {
-  command.help()
-  process.exit(1)
-  // ^^^ EARLY EXIT
 }
 else {
   run()

@@ -4,6 +4,7 @@ require('colors')
 
 var
   commander = require('commander'),
+  updateNotifier = require('update-notifier'),
   log = require('../lib/log')
 
 log()
@@ -19,11 +20,17 @@ if (process.argv.length <= 2) {
   )
 }
 
+updateNotifier({
+  pkg: require('../package.json'),
+  updateCheckInterval: 1
+}).notify()
+
 commander
   .version(require('../package').version)
   .usage('<command> [options]')
   .command('init <template> <folder>', 'create Quasar App')
-  .command('g [template] [name]', 'generate .vue from template')
+  .command('list', 'list available app templates')
+  .command('generate [template] [name]', 'generate .vue from template')
   .command('play', 'run app for development')
   .command('build', 'build app for production')
   .command('clean', 'clean build artifacts')
