@@ -1,3 +1,81 @@
 #!/usr/bin/env node
 
-require('../lib/npm-command')('play')
+var
+  command = require('commander'),
+  os = require('os'),
+  qr = require('qrcode-terminal'),
+  inquirer = require('inquirer'),
+  npmCommand = require('../lib/npm-command'),
+  log = require('../lib/log'),
+  ips
+
+command
+  .option('-q, --qr', 'show QR code for Quasar Play app')
+  .on('--help', function () {
+    log('  Example:')
+    log()
+    log('    # run development server'.gray)
+    log('    $ quasar play')
+    log()
+    log('    # dev server with QR code'.gray)
+    log('    # scan QR code with Quasar Play app')
+    log('    $ quasar play -q')
+    log('    $ quasar play --qr')
+  })
+  .parse(process.argv)
+
+if (command.qr) {
+  ips = getHostIps()
+
+  if (ips.length === 0) {
+    log.fatal('Cannot acquire network IPs. Are you still connected?')
+    // ^^^ EARLY EXIT
+  }
+  else if (ips.length > 1) {
+    inquirer
+      .prompt([{
+        type: 'list',
+        name: 'interface',
+        message: 'Select one of your IPs for QR code:',
+        choices: ips
+      }])
+      .then(function (answer) {
+        play(answer.interface)
+      })
+  }
+  else {
+    play(ips[0])
+  }
+}
+else {
+  play()
+}
+
+function play (ip) {
+  if (ip) {
+    log.info('Use ' + 'Quasar Play'.gray + ' app to scan the QR code below')
+    log()
+    qr.generate('http://' + ip + ':8080')
+  }
+
+  npmCommand('play')
+}
+
+function getHostIps () {
+  var
+    ifaces = os.networkInterfaces(),
+    ips = []
+
+  Object.keys(ifaces).forEach(function (ifname) {
+    ifaces[ifname].forEach(function (iface) {
+      if (iface.family !== 'IPv4' || iface.internal !== false) {
+        // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+        return
+      }
+
+      ips.push(iface.address)
+    })
+  })
+
+  return ips
+}

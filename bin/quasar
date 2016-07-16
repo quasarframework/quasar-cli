@@ -31,7 +31,7 @@ commander
   .command('init [template] <folder>', 'create Quasar App')
   .command('list', 'list available app templates')
   .command('generate <template> <name>', 'generate .vue from templates')
-  .command('play', 'run app for development')
+  .command('play [options]', 'run app for development')
   .command('build', 'build app for production')
   .command('clean', 'clean build artifacts')
   .command('test', 'run unit and/or e2e tests')

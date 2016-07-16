@@ -16,7 +16,7 @@ if (!qfs.is.inAppFolder()) {
 }
 
 command
-  .usage('<type> <name>')
+  .usage('<template> <name>')
   .on('--help', function () {
     log('  Templates are stored in ' + '/templates'.gray)
     log()

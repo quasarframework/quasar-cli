@@ -43,6 +43,8 @@
     "inquirer": "^1.1.2",
     "log-symbols": "^1.0.2",
     "ora": "^0.2.3",
+    "os": "^0.1.1",
+    "qrcode-terminal": "^0.10.0",
     "request": "^2.73.0",
     "uid": "0.0.2",
     "update-notifier": "^1.0.2"
