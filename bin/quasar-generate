@@ -83,8 +83,5 @@ function generate () {
     // ^^^ EARLY EXIT
   }
 
-  log.success(
-    'Generated "' + name.gray + '" from "' +
-    (type + '.vue').gray + '".'
-  )
+  log.success('Generated "' + name.gray + '" from "' + type.gray + '".')
 }
