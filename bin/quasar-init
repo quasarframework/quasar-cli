@@ -127,5 +127,5 @@ function generate (template, src, dest) {
   log('  $ cd ' + dest.gray)
   log('  # edit package.json')
   log('  $ npm install')
-  log('  $ quasar play')
+  log('  $ quasar dev')
 }
