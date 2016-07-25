@@ -2,7 +2,6 @@
 
 var
   command = require('commander'),
-  inquirer = require('inquirer'),
   glob = require('glob'),
   log = require('../lib/log'),
   qfs = require('../lib/qfs'),
