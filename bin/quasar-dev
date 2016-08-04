@@ -58,7 +58,7 @@ function play (ip) {
     qr.generate('http://' + ip + ':8080')
   }
 
-  npmCommand('play')
+  npmCommand('dev')
 }
 
 function getHostIps () {
