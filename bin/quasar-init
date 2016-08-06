@@ -11,17 +11,17 @@ var
   spinner
 
 command
-  .usage('[template] <folder>')
+  .usage('[app template] <folder>')
   .on('--help', function () {
     log('  Example:')
     log()
-    log('    # create todoApp folder with latest template:'.gray)
+    log('    # create todoApp folder with latest app template:'.gray)
     log('    $ quasar init todoApp')
     log()
-    log('    # use "v1" template for new todoApp folder:'.gray)
+    log('    # use "v1" app template for new todoApp folder:'.gray)
     log('    $ quasar init v1 todoApp')
     log()
-    log('  List available templates:')
+    log('  List available app templates:')
     log()
     log('    $ quasar list')
   })
@@ -125,7 +125,7 @@ function generate (template, src, dest) {
   log('  To get started:')
   log()
   log('  $ cd ' + dest.gray)
-  log('  # edit package.json')
+  log('  # edit package.json'.gray)
   log('  $ npm install')
   log('  $ quasar dev')
 }

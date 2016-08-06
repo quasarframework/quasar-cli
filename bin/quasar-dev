@@ -10,7 +10,7 @@ var
   ips
 
 command
-  .option('-q, --qr', 'show QR code for Quasar Play app')
+  .option('-p, --play', 'show QR code for Quasar Play app')
   .on('--help', function () {
     log('  Example:')
     log()
@@ -19,12 +19,12 @@ command
     log()
     log('    # dev server with QR code'.gray)
     log('    # scan QR code with Quasar Play app')
-    log('    $ quasar dev -q')
-    log('    $ quasar dev --qr')
+    log('    $ quasar dev -p')
+    log('    $ quasar dev --play')
   })
   .parse(process.argv)
 
-if (command.qr) {
+if (command.play) {
   ips = getHostIps()
 
   if (ips.length === 0) {

@@ -46,7 +46,7 @@ switch (command.args[0]) {
       .prompt([{
         type: 'confirm',
         name: 'withCrosswalk',
-        message: 'Install Crosswalk plugin for Android Apps (HIGHLY recommended)',
+        message: 'Install Crosswalk WebView plugin for Android Apps (HIGHLY recommended)',
         default: true
       }])
       .then(function (answer) {
@@ -95,7 +95,7 @@ function wrapWithCordova (withCrosswalk) {
         log()
         log('  ★ Change directory to the wrapper')
         log('    $ cd cordova')
-        log('  ★ Edit ' + 'config.xml'.gray)
+        log('  ★ ' + 'Edit config.xml'.gray)
         log('  ★ Add platforms:')
         log('    $ cordova platform add android')
         log('    $ cordova platform add ios')

@@ -28,16 +28,16 @@ updateNotifier({
 commander
   .version(require('../package').version)
   .usage('<command> [options]')
-  .command('init [template] <folder>', 'create Quasar App')
+  .command('init [app template] <folder>', 'create Quasar App')
   .command('list', 'list available app templates')
-  .command('generate <template> <name>', 'generate .vue from templates')
+  .command('g <template> <name>', 'generate .vue from templates')
   .command('dev [options]', 'run dev server')
-  .command('build', 'build app')
-  .command('clean', 'clean build artifacts')
+  .command('build', 'build production app')
+  .command('clean', 'clean production build artifacts')
   .command('test', 'run unit and/or e2e tests')
   .command('lint', 'lint source code')
-  .command('wrap', 'wrap app (or execute command) with Cordova')
-  .command('serve [folder]', 'create static-content server')
+  .command('wrap [type]', 'wrap app (currently only with "cordova" type)')
+  .command('serve [folder]', 'create live reload static-content server')
   .parse(process.argv)
 
 var command = commander.args[0] // eslint-disable-line one-var
