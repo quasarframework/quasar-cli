@@ -4,6 +4,7 @@ var
   command = require('commander'),
   os = require('os'),
   qr = require('qrcode-terminal'),
+  qfs = require('../lib/qfs'),
   inquirer = require('inquirer'),
   npmCommand = require('../lib/npm-command'),
   log = require('../lib/log'),
@@ -23,6 +24,11 @@ command
     log('    $ quasar dev --play')
   })
   .parse(process.argv)
+
+if (!qfs.is.inAppFolder()) {
+  log.fatal('Not in an App folder.')
+  // ^^^ EARLY EXIT
+}
 
 if (command.play) {
   ips = getHostIps()
@@ -55,7 +61,7 @@ function play (ip) {
   if (ip) {
     log.info('Use ' + 'Quasar Play'.gray + ' app to scan the QR code below')
     log()
-    qr.generate('http://' + ip + ':8080')
+    qr.generate('http://' + ip + ':' + (process.env.PORT || getConfigPort()))
   }
 
   npmCommand('dev')
@@ -78,4 +84,8 @@ function getHostIps () {
   })
 
   return ips
+}
+
+function getConfigPort () {
+  return require(qfs.get.root('config')).dev.port
 }
