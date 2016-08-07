@@ -1,3 +1,22 @@
 #!/usr/bin/env node
 
-require('../lib/npm-command')('build')
+var
+  command = require('commander'),
+  npmCommand = require('../lib/npm-command'),
+  log = require('../lib/log')
+
+command
+  .usage('[theme]')
+  .on('--help', function () {
+    log('  Example:')
+    log()
+    log('    # build for production'.gray)
+    log('    $ quasar build')
+    log()
+    log('    # build for production with specific theme'.gray)
+    log('    $ quasar build mat')
+    log('    $ quasar build ios')
+  })
+  .parse(process.argv)
+
+npmCommand('build', command.args[0])

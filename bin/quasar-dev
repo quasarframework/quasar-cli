@@ -11,17 +11,23 @@ var
   ips
 
 command
+  .usage('[theme] [options]')
   .option('-p, --play', 'show QR code for Quasar Play app')
   .on('--help', function () {
     log('  Example:')
     log()
-    log('    # run development server'.gray)
+    log('    # run development server (with default theme)'.gray)
     log('    $ quasar dev')
+    log()
+    log('    # run development server with specific theme'.gray)
+    log('    $ quasar dev mat')
+    log('    $ quasar dev ios')
     log()
     log('    # dev server with QR code'.gray)
     log('    # scan QR code with Quasar Play app')
     log('    $ quasar dev -p')
     log('    $ quasar dev --play')
+    log('    $ quasar dev mat --play')
   })
   .parse(process.argv)
 
@@ -64,7 +70,7 @@ function play (ip) {
     qr.generate('http://' + ip + ':' + (process.env.PORT || getConfigPort()))
   }
 
-  npmCommand('dev')
+  npmCommand('dev', command.args[0])
 }
 
 function getHostIps () {
