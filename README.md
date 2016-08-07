@@ -37,6 +37,7 @@ $ npm install -g quasar-cli
 
 * [Quasar Framework](https://github.com/rstoenescu/quasar-framework)
 * [Quasar Framework Templates](https://github.com/rstoenescu/quasar-templates)
+* [Quasar Play App](https://github.com/rstoenescu/quasar-play)
 
 ## Contributing
 
