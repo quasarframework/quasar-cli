@@ -20,21 +20,21 @@ command
     log()
     log('  Example:')
     log()
-    log('    # get available templates'.gray)
-    log('    $ quasar generate -l')
-    log('    $ quasar generate --list')
+    log('    # get available Component templates'.gray)
+    log('    $ quasar new -l')
+    log('    $ quasar new --list')
     log()
-    log('    # generate .vue from a template'.gray)
-    log('    $ quasar generate component Hello')
+    log('    # generate .vue file from a Component template'.gray)
+    log('    $ quasar new component Hello')
     log()
-    log('    # generate .vue from a template to a subfolder'.gray)
-    log('    $ quasar generate layout layout/about/help/Hello')
+    log('    # generate .vue file from a template to a subfolder'.gray)
+    log('    $ quasar new layout layout/about/help/Hello')
     log('    # the above creates src/components/layout/about/help/Hello.vue'.gray)
   })
   .parse(process.argv)
 
 if (command.list) {
-  log(' Available templates:'.gray)
+  log(' Available Component templates:'.gray)
   log()
 
   glob(qfs.get.root('templates', '*.vue'), function (err, files) {
@@ -67,7 +67,7 @@ function generate () {
   }
 
   if (qfs.exists(dest)) {
-    log.fatal('There is already a file at ' + relativeDest.gray + '.')
+    log.fatal('There is already a file at ' + relativeDest.gray)
     // ^^^ EARLY EXIT
   }
 
@@ -78,13 +78,13 @@ function generate () {
     }
 
     if (qfs.copy(src, dest)) {
-      log.fatal('Error while trying to generate ' + relativeDest.gray + '.')
+      log.fatal('Error while trying to generate ' + relativeDest.gray)
       // ^^^ EARLY EXIT
     }
 
     log.success(
       'Generated "' + name.gray + '" from "' + (type + '.vue').gray +
-      '" in ' + relativeDest.gray + '.'
+      '" in ' + relativeDest.gray
     )
   })
 }

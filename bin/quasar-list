@@ -6,14 +6,14 @@ var
   getList = require('../lib/template-list'),
   spinner
 
-spinner = ora('Retrieving template list...')
+spinner = ora('Retrieving App template list...')
 spinner.start()
 
 getList(function (err, templates) {
   spinner.stop()
 
   if (err) {
-    log.fatal('Could not retrieve template list: ' + err)
+    log.fatal('Could not retrieve App template list: ' + err)
     // ^^^ EARLY EXIT
   }
 

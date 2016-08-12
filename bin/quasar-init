@@ -46,7 +46,7 @@ if (command.args.length === 1) {
     spinner.stop()
 
     if (err) {
-      log.fatal('Could not retrieve template list: ' + err)
+      log.fatal('Could not retrieve App template list: ' + err)
       // ^^^ EARLY EXIT
     }
 
@@ -58,7 +58,7 @@ if (command.args.length === 1) {
 
     template = 'v' + sorted[sorted.length - 1]
 
-    log.success('Latest template is ' + template.gray)
+    log.success('Latest App template is ' + template.gray)
 
     run(
       template,
@@ -83,7 +83,7 @@ function run (template, dest) {
 
   var src = '/tmp/quasar-template-' + uid()
 
-  spinner = ora('Downloading template ' + template.gray)
+  spinner = ora('Downloading App template ' + template.gray)
   spinner.start()
 
   download(
@@ -101,11 +101,11 @@ function run (template, dest) {
           // ^^^ EARLY EXIT
         }
 
-        log.fatal('Failed to download template ' + template.gray + ': ' + err)
+        log.fatal('Failed to download App template ' + template.gray + ': ' + err)
         // ^^^ EARLY EXIT
       }
 
-      log.success('Downloaded template ' + template.gray)
+      log.success('Downloaded App template ' + template.gray)
       generate(template, src, dest)
     }
   )
@@ -113,7 +113,7 @@ function run (template, dest) {
 
 function generate (template, src, dest) {
   if (qfs.copy(qfs.join(src, 'template'), dest)) {
-    log.fatal('Failed to copy template.')
+    log.fatal('Failed to copy App template.')
     // ^^^ EARLY EXIT
   }
 

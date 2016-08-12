@@ -30,7 +30,7 @@ commander
   .usage('<command> [options]')
   .command('init [app template] <folder>', 'create Quasar App')
   .command('list', 'list available app templates')
-  .command('g <template> <name>', 'generate .vue from templates')
+  .command('new <template> <name>', 'generate .vue from Component templates')
   .command('dev [theme] [options]', 'run dev server')
   .command('build [theme]', 'build production app')
   .command('clean', 'clean production build artifacts')
