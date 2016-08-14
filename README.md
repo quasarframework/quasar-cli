@@ -4,20 +4,13 @@
 > Simultaneously build desktop/mobile SPA websites & phone/tablet apps.
 
 <a href="https://badge.fury.io/js/quasar-cli"><img src="https://badge.fury.io/js/quasar-cli.svg"></a>
-<a href="https://circleci.com/gh/rstoenescu/quasar-cli/tree/master"><img src="https://circleci.com/gh/rstoenescu/quasar-cli/tree/master.svg?style=shield"></a>
-
-<a href="https://david-dm.org/rstoenescu/quasar-cli" title="Dependency status"><img src="https://david-dm.org/rstoenescu/quasar-cli.svg"/></a>
-<a href="https://david-dm.org/rstoenescu/quasar-cli#info=devDependencies" title="devDependency status"><img src="https://david-dm.org/rstoenescu/quasar-cli/dev-status.svg"/></a>
-
-<a href="https://codecov.io/github/rstoenescu/quasar-cli"><img src="http://codecov.io/github/rstoenescu/quasar-cli/coverage.svg" alt="Coverage via Codecov"></a>
-<a href="https://codeclimate.com/github/rstoenescu/quasar-cli"><img src="https://codeclimate.com/github/rstoenescu/quasar-cli/badges/gpa.svg" /></a>
-<a href="https://www.bithound.io/github/rstoenescu/quasar-cli"><img src="https://www.bithound.io/github/rstoenescu/quasar-cli/badges/code.svg" alt="bitHound Code"></a>
 
 ## Description
 
 Command Line Interface for Quasar Framework
 
 * Modern HTML5 SPA front-end framework on steroids.
+* With VueJS.
 * Desktop and Mobile. Native Mobile Apps included.
 * Full Stack Toolkit.
 
@@ -27,7 +20,7 @@ Head on to the Quasar Framework official website: [http://quasar-framework.org](
 
 ## Installation
 
-To install quasar-cli from npm, run:
+To install `quasar-cli` from npm, run:
 
 ```
 $ npm install -g quasar-cli
@@ -37,7 +30,6 @@ $ npm install -g quasar-cli
 
 * [Quasar Framework](https://github.com/rstoenescu/quasar-framework)
 * [Quasar Framework Templates](https://github.com/rstoenescu/quasar-templates)
-* [Quasar Play App](https://github.com/rstoenescu/quasar-play)
 
 ## Contributing
 
