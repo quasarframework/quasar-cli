@@ -1,12 +1,13 @@
 var
-  log = require('../../lib/log'),
-  qfs = require('../../lib/qfs'),
-  spawn = require('../../lib/spawn')
+  log = require('../../../lib/log'),
+  qfs = require('../../../lib/qfs'),
+  spawn = require('../../../lib/spawn')
 
-module.exports = function (options) {
+module.exports = function (options, next) {
   options = options || {}; 
-  appPath = options.appPath;
-  withCrosswalk = options.withCrosswalk;
+  var name = options.name
+  var appPath = options.appPath;
+  var withCrosswalk = options.withCrosswalk;
 
   spawn({
     command: 'cordova',
@@ -14,6 +15,11 @@ module.exports = function (options) {
     cwd: appPath,
     callback: function (exitCode) {
       if (exitCode !== 0) {
+        if (exitCode === -2) {
+          log.error('cordova runtime not found. Please install cordova')
+          log.info('For instructions see: https://www.npmjs.com/package/cordova')          
+        }          
+
         process.exit(exitCode)
         // ^^^ EARLY EXIT
       }
@@ -35,22 +41,6 @@ module.exports = function (options) {
       log()
       log.success('Cordova wrapper created at', wrapper.yellow + '\n')
 
-      function finishUp () {
-        log()
-        log('  To get started:')
-        log()
-        log('  ★ Change directory to the wrapper')
-        log('    $ cd cordova')
-        log('  ★ ' + 'Edit config.xml'.gray)
-        log('  ★ Add platforms:')
-        log('    $ cordova platform add android')
-        log('    $ cordova platform add ios')
-        log('  ★ Run app:')
-        log('    $ cordova run')
-
-        process.exit(0)
-      }
-
       if (!withCrosswalk) {
         log()
         log.info('Crosswalk plugin NOT installed as you instructed.')
@@ -58,9 +48,7 @@ module.exports = function (options) {
           'Manually install it if you decide otherwise: ' +
           '"cordova plugin add cordova-plugin-crosswalk-webview".'
         )
-        finishUp()
-        process.exit(0)
-        // ^^^ EARLY EXIT
+        next(name)
       }
 
       spawn({
@@ -73,7 +61,7 @@ module.exports = function (options) {
             log.success('Plugin installed.\n')
           }
 
-          finishUp()
+          next(name)
         }
       })
     }

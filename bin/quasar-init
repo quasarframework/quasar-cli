@@ -30,7 +30,7 @@ command
   })
   .parse(process.argv)
 
-if (!command.args.length || command.args.length > 2) {
+if (!command.args.length || command.args.length > 3) {
   command.help()
   process.exit(1)
   // ^^^ EARLY EXIT
@@ -72,11 +72,17 @@ if (command.args.length === 1) {
 else {
   run(
     command.args[0],
-    command.args[1]
+    command.args[1],
+    command.args[2]
   )
 }
 
-function run (template, dest) {
+function run (template, dest, repo) {
+  if (dest && dest[0] === '@') {
+    repo = dest.slice(1)
+    dest = template
+  }
+
   dest = qfs.join(process.cwd(), dest)
 
   if (qfs.exists(dest)) {
@@ -89,8 +95,16 @@ function run (template, dest) {
   spinner = ora('Downloading App template ' + template.gray)
   spinner.start()
 
+  if (repo[0] === '@')
+    repo = repo.slice(1)
+
+  if (!repo.match(/\//)) 
+    repo = repo + '/quasar-templates'
+
+  var repo = repo || 'rstoenescu/quasar-templates'
+
   download(
-    'rstoenescu/quasar-templates#' + template,
+    repo + '#' + template,
     src,
     function (err) {
       spinner.stop()
@@ -109,12 +123,12 @@ function run (template, dest) {
       }
 
       log.success('Downloaded App template ' + template.gray)
-      generate(template, src, dest)
+      generate(template, src, dest, repo)
     }
   )
 }
 
-function generate (template, src, dest) {
+function generate (template, src, dest, repo) {
   if (qfs.copy(qfs.join(src, 'template'), dest)) {
     log.fatal('Failed to copy App template.')
     // ^^^ EARLY EXIT
@@ -122,7 +136,7 @@ function generate (template, src, dest) {
 
   log.success(
     'Generated Quasar App from template "' +
-    template.gray + '" in ' + dest.gray
+    template.gray + '" @' + repo + ' in ' + dest.gray
   )
   log()
   log('  To get started:')

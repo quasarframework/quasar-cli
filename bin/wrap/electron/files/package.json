@@ -1,0 +1,16 @@
+{
+  "name": "quasar-electron-app",
+  "version": "1.0.0",
+  "description": "A minimal Electron app wrapper",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Kristian Mandrup <kmandrup@gmail.com>",
+  "repository": "kristianmandrup/quasar-cli",
+  "license": "WTFPL",
+  "devDependencies": {
+    "electron": "^1.4.3",
+    "electron-reload": "^1.0.2"
+  }
+}

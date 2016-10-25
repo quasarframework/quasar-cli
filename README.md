@@ -11,6 +11,74 @@
 ## Supporting Quasar
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md). If you'd like to join them, check out [Quasar Framework's Patreon campaign](https://www.patreon.com/quasarframework).
 
+## Quickstart
+
+### installing
+
+`$ npm install -g quasar-cli`
+
+### Command overview
+
+Display list of commands:
+
+`$ quasar`
+
+- `list` (list app templates)
+- `init` (create app from template)
+- `wrap` (wrap app for a runtime environment)
+- `dev` (run dev server)
+- `build` (build for prod)
+- `clean` (clean build assets)
+- `new` (create component)
+
+### Help
+
+`$ quasar [command name] --help`
+
+### Execute command
+
+`$ quasar [command name]`
+
+### Create application
+
+Initializes an App folder with a starter boilerplate.
+
+`$ quasar init [template name] <folder-name>`
+
+By omitting the `template name` parameter the CLI will detect latest App template and generate the App folder with it.
+
+By convention, templates follow the syntax `v[number]`, where `number` is 1, 2, 3… 
+
+The number designates the major version of Quasar you are using. 
+Currently, `v1` is available for Vue 1 and `v2` for Vue 2.
+
+#### Advanced options
+
+By default, the repo [rstoenescu/quasar-templates](https://github.com/rstoenescu/quasar-templates) will be used
+as the template source, retrieving the branch of the named template.
+
+You can substitute with your own github account, to use your custom `quasar-templates` repo:
+
+`$ quasar init [template name] @<account>` example: `$ quasar init v2 @asmith`
+
+Specify your own specific github repo:
+
+`$ quasar init [template name] @<account/repo>` example: `$ quasar init v2 @asmith/Qtemplates`
+
+The "full monty":
+
+`$ quasar init [template name] <folder-name> <account/repo>` example: `$ quasar init v2 ny-app @asmith`
+
+### Wrap application  
+
+Wrap with [Cordova](https://www.npmjs.com/package/cordova) (optionally with Crosswalk WebView plugin for Android Apps)
+
+`quasar wrap cordova`
+
+Wrap with [electron](http://electron.atom.io/) for cross-platform desktop apps
+
+`quasar wrap electron`
+
 ## Documentation
 
 Head on to the Quasar Framework official website: [http://quasar-framework.org](http://quasar-framework.org)
