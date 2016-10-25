@@ -3,6 +3,8 @@
 # Quasar CLI
 > CLI for Quasar Framework. Start a project, build it, optimize it.
 
+<a href="https://badge.fury.io/js/quasar-cli"><img src="https://badge.fury.io/js/quasar-cli.svg"></a>
+
 # Quasar Framework
 > Build responsive websites and hybrid mobile Apps (that look native!) using same code, with VueJs.
 
