@@ -1,6 +1,6 @@
 var inquirer = require('inquirer')
 
-module.exports = function(done) {
+module.exports = function (done) {
   inquirer
   .prompt([{
     type: 'confirm',

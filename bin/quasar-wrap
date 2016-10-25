@@ -4,15 +4,14 @@ var
   command = require('commander'),
   log = require('../lib/log'),
   qfs = require('../lib/qfs'),
-  spawn = require('../lib/spawn')
+  appPath,
+  wrapperName,
+  wrapper
 
 if (!qfs.is.inAppFolder()) {
   log.fatal('Not in an App folder.')
   // ^^^ EARLY EXIT
 }
-
-var // eslint-disable-line one-var
-  appPath = qfs.get.root()
 
 command
   .on('--help', function () {
@@ -27,84 +26,39 @@ command
   .parse(process.argv)
 
 command.parse(process.argv)
+appPath = qfs.get.root()
+wrapperName = command.args.shift(0)
 
-var wrappers = ['cordova', 'electron']
-var wrapWith = require('./wrap')
-
-var checkedBuildAvailable = false;
-
-var wrapperName = command.args.shift(0)
-
-if (!wrappers.includes(wrapperName)) {
+if (!['cordova', 'electron'].includes(wrapperName)) {
   command.help()
-  // ^^^ EARLY EXIT    
-  process.exit(0);
+  process.exit(0)
+  // ^^^ EARLY EXIT
 }
+
+if (qfs.exists(qfs.join(appPath, wrapperName))) {
+  log.fatal('App is already wrapped with ' + wrapperName)
+  // ^^^ EARLY EXIT
+}
+
+if (wrapperName === 'cordova' && !qfs.exists(qfs.join(appPath, 'dist'))) {
+  log.fatal('Make a build first ("quasar build")')
+  // ^^^ EARLY EXIT
+}
+
+wrapper = require('./wrappers/' + wrapperName)
 
 try {
-  // init message
-  // log.info('wrapping for ' + wrapperName)  
-
-  runWrapper(wrapperName, function (name) {
-    log.success('wrapped for ' + name)
-    var wrapper = wrapWith[name];
-
-    // finish message
-    if (wrapper.messages && wrapper.messages.finishUp) 
-      wrapper.messages.finishUp(log);
-  });
-} catch (err) {
-  log.error(err);
-  process.exit(1)
-}
-
-function runWrapper(name, next) {
-  // run only once to check if build is available
-  if (!checkedBuildAvailable && mustCheckBuildAvailable(name))
-    checkedBuildAvailable = checkIsBuildAvailable()
-
-  checkIsAlreadyWrapped(name);
-  var wrapper = wrapWith[name];
-
-  if (wrapper.ask) {
-    wrapper.ask((options) => {
-      options.name = name;
-      options.appPath = appPath;
-      if (!wrapper.execute)
-        log.fatal('wrapper for ' + name + ' missing execute function')
-
-      wrapper.execute(options, next)
-    })
-  } else {
-    var run = wrapper.execute || wrapper;
-    var options = {
-      name: name
-    }
-    options.appPath = appPath; 
-    run(options, next)
-  }
-}
-
-function mustCheckBuildAvailable(wrapper) {
-  return wrapper === 'cordova'
-}
-
-
-function checkIsAlreadyWrapped(wrapper) {
-  var isWrapped = qfs.exists(qfs.join(appPath, wrapper));
-
-  if (isWrapped) {
-    log.fatal('App is already wrapped with ' + wrapper)
+  if (!wrapper.ask) {
+    wrapper.install({appPath: appPath})
+    process.exit(0)
     // ^^^ EARLY EXIT
   }
+
+  wrapper.ask(function (options) {
+    options.appPath = appPath
+    wrapper.install(options)
+  })
 }
-
-function checkIsBuildAvailable() {
-  var buildAvailable = qfs.exists(qfs.join(appPath, 'dist'))
-
-  if (!buildAvailable) {
-    log.fatal('Make a build first ("quasar build")')
-    // ^^^ EARLY EXIT
-  }
-  return true;
+catch (err) {
+  log.fatal(err)
 }

@@ -13,7 +13,7 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
 
 ## Quickstart
 
-### installing
+### Installing
 
 `$ npm install -g quasar-cli`
 
@@ -23,33 +23,31 @@ Display list of commands:
 
 `$ quasar`
 
-- `list` (list app templates)
-- `init` (create app from template)
-- `wrap` (wrap app for a runtime environment)
-- `dev` (run dev server)
-- `build` (build for prod)
-- `clean` (clean build assets)
-- `new` (create component)
+- `init` - create app from template
+- `list` - list app templates / starter kits
+- `wrap` - wrap app for a runtime environment
+- `dev` - run dev server for your app
+- `build` - build for production
+- `clean` - clean build assets
+- `new` - create app component from component templates
+- `serve` - start a live reload HTTP server on a folder (like `/dist`)
 
 ### Help
 
 `$ quasar [command name] --help`
 
-### Execute command
+<!--
+### Create App
 
-`$ quasar [command name]`
-
-### Create application
-
-Initializes an App folder with a starter boilerplate.
+Initializes an App folder with a starter kit boilerplate.
 
 `$ quasar init [template name] <folder-name>`
 
 By omitting the `template name` parameter the CLI will detect latest App template and generate the App folder with it.
 
-By convention, templates follow the syntax `v[number]`, where `number` is 1, 2, 3… 
+By convention, templates follow the syntax `v[number]`, where `number` is 1, 2, 3…
 
-The number designates the major version of Quasar you are using. 
+The number designates the major version of Quasar you are using.
 Currently, `v1` is available for Vue 1 and `v2` for Vue 2.
 
 #### Advanced options
@@ -78,10 +76,11 @@ Wrap with [Cordova](https://www.npmjs.com/package/cordova) (optionally with Cros
 Wrap with [electron](http://electron.atom.io/) for cross-platform desktop apps
 
 `quasar wrap electron`
+-->
 
 ## Documentation
 
-Head on to the Quasar Framework official website: [http://quasar-framework.org](http://quasar-framework.org)
+Head on to the Quasar Framework official website for help on CLI commands: [http://quasar-framework.org](http://quasar-framework.org/guide/quasar-cli.html)
 
 ## Community Forum
 

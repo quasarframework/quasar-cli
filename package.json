@@ -45,16 +45,15 @@
     "mkdirp": "^0.5.1",
     "ora": "^0.3.0",
     "os": "^0.1.1",
-    "qrcode-terminal": "^0.10.0",
+    "qrcode-terminal": "^0.11.0",
     "request": "^2.73.0",
-    "spawn-npm-install": "^1.2.0",
     "uid": "0.0.2",
     "update-notifier": "^1.0.2"
   },
   "devDependencies": {
     "eslint": "^3.0.1",
     "eslint-config-standard": "^6.0.0-beta.0",
-    "eslint-plugin-promise": "^2.0.0",
+    "eslint-plugin-promise": "^3.3.0",
     "eslint-plugin-standard": "^2.0.0"
   }
 }
