@@ -1,0 +1,14 @@
+{
+  "latest": "main",
+  "official": [
+    {
+      "name": "v2",
+      "description": "Main app boilerplate for Quasar v0.8+ with Vue 2"
+    },
+    {
+      "name": "v1",
+      "description": "Main app boilerplate for Quasar <= v0.7 with Vue 1"
+    }
+  ],
+  "community": []
+}

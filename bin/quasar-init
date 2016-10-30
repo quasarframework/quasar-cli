@@ -15,14 +15,14 @@ command
   .on('--help', function () {
     log('  Example:')
     log()
-    log('    # create todoApp folder with latest app template:'.gray)
+    log('    # create todoApp folder with latest official app boilerplate:'.gray)
     log('    $ quasar init todoApp')
-    log()
-    log('    # use "v1" (Quasar <= v0.7) app template for new todoApp folder:'.gray)
-    log('    $ quasar init v1 todoApp')
     log()
     log('    # use "v2" (Quasar v0.8+) app template for new todoApp folder:'.gray)
     log('    $ quasar init v2 todoApp')
+    log()
+    log('    # use "v1" (Quasar <= v0.7) app template for new todoApp folder:'.gray)
+    log('    $ quasar init v1 todoApp')
     log()
     log('  List available app templates:')
     log()
@@ -30,7 +30,7 @@ command
   })
   .parse(process.argv)
 
-if (!command.args.length || command.args.length > 3) {
+if (!command.args.length || command.args.length > 2) {
   command.help()
   process.exit(1)
   // ^^^ EARLY EXIT
@@ -43,9 +43,7 @@ if (command.args.length === 1) {
   spinner = ora('Determining newest template...')
   spinner.start()
 
-  getList(function (err, templates) {
-    var sorted, template
-
+  getList(function (err, data) {
     spinner.stop()
 
     if (err) {
@@ -53,36 +51,22 @@ if (command.args.length === 1) {
       // ^^^ EARLY EXIT
     }
 
-    sorted = templates.filter(function (template) {
-      return /^v[\d]+$/.test(template)
-    }).map(function (template) {
-      return parseInt(template.substring(1), 10)
-    }).sort()
-
-    template = 'v' + sorted[sorted.length - 1]
-
-    log.success('Latest App template is ' + template.gray)
+    log.success('Latest App template is ' + data.latest.gray)
 
     create(
-      template,
+      data.latest,
       command.args[0]
     )
   })
 }
 else {
-  run(
-    command.args[0],
-    command.args[1],
-    command.args[2]
+  create(
+    !command.args[0].indexOf('@') ? command.args[0].slice(1) : 'quasarframework/template-' + command.args[0],
+    command.args[1]
   )
 }
 
-function create (template, dest, repo) {
-  if (dest && dest[0] === '@') {
-    repo = dest.slice(1)
-    dest = template
-  }
-
+function create (template, dest) {
   dest = qfs.join(process.cwd(), dest)
 
   if (qfs.exists(dest)) {
@@ -95,18 +79,8 @@ function create (template, dest, repo) {
   spinner = ora('Downloading App template ' + template.gray)
   spinner.start()
 
-  if (repo[0] === '@') {
-    repo = repo.slice(1)
-  }
-
-  if (!repo.match(/\//)) {
-    repo = repo + '/quasar-templates'
-  }
-
-  repo = repo || 'rstoenescu/quasar-templates'
-
   download(
-    repo + '#' + template,
+    template,
     src,
     function (err) {
       spinner.stop()
@@ -125,12 +99,12 @@ function create (template, dest, repo) {
       }
 
       log.success('Downloaded App template ' + template.gray)
-      generate(template, src, dest, repo)
+      generate(template, src, dest)
     }
   )
 }
 
-function generate (template, src, dest, repo) {
+function generate (template, src, dest) {
   if (qfs.copy(qfs.join(src, 'template'), dest)) {
     log.fatal('Failed to copy App template.')
     // ^^^ EARLY EXIT
@@ -138,7 +112,7 @@ function generate (template, src, dest, repo) {
 
   log.success(
     'Generated Quasar App from template "' +
-    template.gray + '" @' + repo + ' in ' + dest.gray
+    template.gray + ' in ' + dest.gray
   )
   log()
   log('  To get started:')

@@ -9,7 +9,7 @@ var
 spinner = ora('Retrieving App template list...')
 spinner.start()
 
-getList(function (err, templates) {
+getList(function (err, data) {
   spinner.stop()
 
   if (err) {
@@ -20,7 +20,10 @@ getList(function (err, templates) {
   log(' Available Quasar App templates:')
   log()
 
-  templates.forEach(function (template) {
-    log('   ★ ' + template)
+  var templates = JSON.parse(data)
+
+  templates.official.forEach(function (template) {
+    log('  ★ ' + template.name)
+    log('    ' + template.description.gray)
   })
 })
