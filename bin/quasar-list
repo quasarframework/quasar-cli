@@ -17,13 +17,23 @@ getList(function (err, data) {
     // ^^^ EARLY EXIT
   }
 
-  log(' Available Quasar App templates:')
-  log()
-
   var templates = JSON.parse(data)
 
+  log(' ' + 'Official'.bold + ' Quasar App templates:')
+  log()
   templates.official.forEach(function (template) {
-    log('  ★ ' + template.name)
+    log('  ★ ' + template.name.bold + ' (' + ('$ quasar init ' + template.name + ' <folder_name>').gray + ')')
     log('    ' + template.description.gray)
+    log()
   })
+
+  if (templates.community.length > 0) {
+    log(' Community Quasar App templates:')
+    log()
+    templates.community.forEach(function (template) {
+      log('  ★ ' + template.name.bold + ' (' + ('$ quasar init ' + template.name + ' <folder_name>').gray + ')')
+      log('    ' + template.description.gray)
+      log()
+    })
+  }
 })
