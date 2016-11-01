@@ -30,7 +30,7 @@ command.parse(process.argv)
 appPath = qfs.get.root()
 wrapperName = command.args.shift(0)
 
-if (!wrapperList.includes(wrapperName)) {
+if (wrapperName !== 'cordova') {
   command.help()
   process.exit(0)
   // ^^^ EARLY EXIT
