@@ -6,7 +6,8 @@ var
   qfs = require('../lib/qfs'),
   appPath,
   wrapperName,
-  wrapper
+  wrapper,
+  wrapperList = ['cordova']
 
 if (!qfs.is.inAppFolder()) {
   log.fatal('Not in an App folder.')
@@ -17,11 +18,11 @@ command
   .on('--help', function () {
     log('  Examples:')
     log()
-    log('    # generate Cordova wrapper'.gray)
-    log('    $ quasar wrap cordova')
-    log()
-    log('    # generate Electron wrapper'.gray)
-    log('    $ quasar wrap electron')
+    wrapperList.forEach(wrapper => {
+      log(('    # generate ' + wrapper + ' wrapper').gray)
+      log('    $ quasar wrap ' + wrapper)
+      log()
+    })
   })
   .parse(process.argv)
 
@@ -29,7 +30,7 @@ command.parse(process.argv)
 appPath = qfs.get.root()
 wrapperName = command.args.shift(0)
 
-if (!['cordova', 'electron'].includes(wrapperName)) {
+if (!wrapperList.includes(wrapperName)) {
   command.help()
   process.exit(0)
   // ^^^ EARLY EXIT
