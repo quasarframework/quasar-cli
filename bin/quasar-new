@@ -20,7 +20,7 @@ command
     log()
     log('  Example:')
     log()
-    log('    # get available Component templates'.gray)
+    log('    # get your available Component templates'.gray)
     log('    $ quasar new -l')
     log('    $ quasar new --list')
     log()

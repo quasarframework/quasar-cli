@@ -51,7 +51,7 @@ if (command.args.length === 1) {
     log.success('Latest App template is ' + data.latest.gray)
 
     create(
-      data.latest,
+      'quasarframework/app-template-' + data.latest,
       command.args[0]
     )
   })
@@ -64,16 +64,17 @@ else {
 }
 
 function create (template, dest) {
+  const templateName = ('@' + template).gray
   dest = qfs.join(process.cwd(), dest)
 
   if (qfs.exists(dest)) {
-    log.fatal('Destination folder "' + dest.gray + '" already exists.')
+    log.fatal('Destination folder ' + dest.gray + ' already exists.')
     // ^^^ EARLY EXIT
   }
 
   var src = '/tmp/quasar-template-' + uid()
 
-  spinner = ora('Downloading App template ' + template.gray)
+  spinner = ora('Downloading App template ' + templateName)
   spinner.start()
 
   download(
@@ -87,15 +88,15 @@ function create (template, dest) {
 
       if (err) {
         if (err === 404) {
-          log.fatal('Template ' + template.gray + ' is not available.')
+          log.fatal('Template ' + templateName + ' is not available.')
           // ^^^ EARLY EXIT
         }
 
-        log.fatal('Failed to download App template ' + template.gray + ': ' + err)
+        log.fatal('Failed to download App template ' + templateName + ': ' + err)
         // ^^^ EARLY EXIT
       }
 
-      log.success('Downloaded App template ' + template.gray)
+      log.success('Downloaded App template ' + templateName)
       generate(template, src, dest)
     }
   )
@@ -107,10 +108,7 @@ function generate (template, src, dest) {
     // ^^^ EARLY EXIT
   }
 
-  log.success(
-    'Generated Quasar App from template "' +
-    template.gray + ' in ' + dest.gray
-  )
+  log.success('Generated Quasar App in ' + dest.gray)
   log()
   log('  To get started:')
   log()
