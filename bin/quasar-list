@@ -9,15 +9,13 @@ var
 spinner = ora('Retrieving App template list...')
 spinner.start()
 
-getList(function (err, data) {
+getList(function (err, templates) {
   spinner.stop()
 
   if (err) {
     log.fatal('Could not retrieve App template list: ' + err)
     // ^^^ EARLY EXIT
   }
-
-  var templates = JSON.parse(data)
 
   log(' ' + 'Official'.bold + ' Quasar App templates:')
   log()
