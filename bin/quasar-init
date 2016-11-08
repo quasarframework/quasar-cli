@@ -68,9 +68,16 @@ function create (template, dest) {
   dest = qfs.join(process.cwd(), dest)
 
   if (qfs.exists(dest)) {
-    log.fatal('Destination folder ' + dest.gray + ' already exists.')
-    // ^^^ EARLY EXIT
+    if (qfs.dirIsEmpty(dest)) {
+      log.warning('Destination folder ' + dest.gray + ' already exists, but is empty. Continuing....')
+    }
+    else{
+      log.fatal('Destination folder ' + dest.gray + ' already exists and is not empty.')
+      // ^^^ EARLY EXIT
+    }
   }
+
+  log.success('Directory ' + dest.gray + ' is being created.')
 
   var src = '/tmp/quasar-template-' + uid()
 
