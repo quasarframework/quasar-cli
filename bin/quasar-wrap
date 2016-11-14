@@ -7,7 +7,7 @@ var
   appPath,
   wrapperName,
   wrapper,
-  wrapperList = ['cordova']
+  wrapperList = ['cordova', 'electron']
 
 if (!qfs.is.inAppFolder()) {
   log.fatal('Not in an App folder.')
@@ -30,7 +30,7 @@ command.parse(process.argv)
 appPath = qfs.get.root()
 wrapperName = command.args.shift(0)
 
-if (wrapperName !== 'cordova') {
+if (wrapperList.indexOf(wrapperName) === -1) {
   command.help()
   process.exit(0)
   // ^^^ EARLY EXIT
@@ -51,14 +51,14 @@ wrapper = require('./wrappers/' + wrapperName)
 try {
   if (!wrapper.ask) {
     wrapper.install({appPath: appPath})
-    process.exit(0)
     // ^^^ EARLY EXIT
   }
-
-  wrapper.ask(function (options) {
-    options.appPath = appPath
-    wrapper.install(options)
-  })
+  else {
+    wrapper.ask(function (options) {
+      options.appPath = appPath
+      wrapper.install(options)
+    })
+  }
 }
 catch (err) {
   log.fatal(err)
