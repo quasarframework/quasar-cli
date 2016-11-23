@@ -3,7 +3,11 @@
   "official": [
     {
       "name": "v2",
-      "description": "Main app boilerplate for Quasar v0.8+ with Vue 2"
+      "description": "Main app Webpack 1 boilerplate for Quasar v0.8+ with Vue 2"
+    },
+    {
+      "name": "v2#webpack2",
+      "description": "[beta] Main app Webpack 2 boilerplate for Quasar v0.8+ with Vue 2"
     },
     {
       "name": "v1",
