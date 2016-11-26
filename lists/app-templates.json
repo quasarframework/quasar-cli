@@ -1,17 +1,17 @@
 {
-  "latest": "v2",
+  "latest": "default",
   "official": [
     {
-      "name": "v2",
+      "name": "default",
+      "description": "Main app Webpack 2 boilerplate for Quasar v0.9+ with Vue 2"
+    },
+    {
+      "name": "default#webpack1",
       "description": "Main app Webpack 1 boilerplate for Quasar v0.8+ with Vue 2"
     },
     {
-      "name": "v2#webpack2",
-      "description": "[beta] Main app Webpack 2 boilerplate for Quasar v0.8+ with Vue 2"
-    },
-    {
-      "name": "v1",
-      "description": "Main app boilerplate for Quasar <= v0.7 with Vue 1"
+      "name": "default#vue1",
+      "description": "Main app Webpack 1 boilerplate for Quasar <= v0.7 with Vue 1"
     }
   ],
   "community": []

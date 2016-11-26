@@ -7,6 +7,8 @@ function done () {
   log()
   log('  To get started:')
   log()
+  log.info('Read quick documentation on Cordova wrapper on ' + 'http://quasar-framework.org/guide/cordova-wrapper.html'.bold)
+  log()
   log('  ★ Change directory to the wrapper')
   log('    $ cd cordova')
   log('  ★ ' + 'Edit config.xml'.gray)

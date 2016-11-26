@@ -7,7 +7,6 @@ var
   download = require('download-github-repo'),
   log = require('../lib/log'),
   qfs = require('../lib/qfs'),
-  getList = require('../lib/template-list'),
   spinner
 
 command
@@ -37,24 +36,10 @@ log.info('Generating Quasar App...')
 log()
 
 if (command.args.length === 1) {
-  spinner = ora('Determining newest template...')
-  spinner.start()
-
-  getList(function (err, data) {
-    spinner.stop()
-
-    if (err) {
-      log.fatal('Could not retrieve App template list: ' + err)
-      // ^^^ EARLY EXIT
-    }
-
-    log.success('Latest App template is ' + data.latest.gray)
-
-    create(
-      'quasarframework/app-template-' + data.latest,
-      command.args[0]
-    )
-  })
+  create(
+    'quasarframework/app-template-default',
+    command.args[0]
+  )
 }
 else {
   create(
