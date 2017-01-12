@@ -124,6 +124,6 @@ Check its repo here: [Quasar Play](https://github.com/rstoenescu/quasar-play).
 
 ## License
 
-Copyright (c) 2016 Razvan Stoenescu
+Copyright (c) 2016-2017 Razvan Stoenescu
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
