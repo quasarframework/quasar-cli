@@ -15,7 +15,7 @@ function generate (src, dest) {
   log()
   log('  ★ Change directory to the wrapper')
   log('    $ cd electron')
-  log('  ★ ' + 'Edit config/index.js'.gray)
+  log('  ★ ' + 'Edit config/electron.js'.gray)
   log('  ★ Install dependencies')
   log('    $ npm install')
   log()
