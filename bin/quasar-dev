@@ -10,7 +10,8 @@ var
   log = require('../lib/log'),
   net = require('net'),
   ips,
-  port
+  port,
+  testServer
 
 command
   .usage('[theme] [options]')
@@ -40,17 +41,24 @@ if (!qfs.is.inAppFolder()) {
 
 port = getPort()
 
-function killProcess (kill) {
-  if (kill) {
-    log.warning('The port ' + port + ' is already in use. Halting Quasar dev server startup.')
-    log.warning('To fix: Stop the process currently using port ' + port + ' or set your config to a different port.')
-    process.kill(process.pid)
+testServer = net.createServer()
+.once('error', err => {
+  if (err.code !== 'EADDRINUSE') {
+    return
   }
-}
 
-checkPort(port, killProcess)
+  log.warning('The port ' + port + ' is already in use. Halting Quasar dev server startup.')
+  log.info('To fix: Stop the process currently using port ' + port + ' or set your config to a different port.')
+  process.exit(1)
+})
+.once('listening', () => {
+  testServer.close()
 
-if (command.play) {
+  if (!command.play) {
+    play()
+    return
+  }
+
   ips = getHostIps()
 
   if (ips.length === 0) {
@@ -59,23 +67,21 @@ if (command.play) {
   }
   else if (ips.length > 1) {
     inquirer
-      .prompt([{
-        type: 'list',
-        name: 'interface',
-        message: 'Select one of your IPs for QR code:',
-        choices: ips
-      }])
-      .then(function (answer) {
-        play(answer.interface)
-      })
+    .prompt([{
+      type: 'list',
+      name: 'interface',
+      message: 'Select one of your IPs for QR code:',
+      choices: ips
+    }])
+    .then(function (answer) {
+      play(answer.interface)
+    })
   }
   else {
     play(ips[0])
   }
-}
-else {
-  play()
-}
+})
+.listen(port)
 
 function play (ip) {
   if (ip) {
@@ -110,20 +116,6 @@ function getPort () {
   if (process.env.PORT) {
     return process.env.PORT
   }
-  return require(qfs.get.root('config')).dev.port
-}
-
-function checkPort (port, killProcess) {
-  var testServer = net.createServer()
-  .once('error', err => {
-    if (err.code !== 'EADDRINUSE') {
-      return
-    }
-    killProcess(true)
-  })
-  .once('listening', () => {
-    testServer.once('close', () => { killProcess(false) })
-    .close()
-  })
-  .listen(port)
+  var configFile = qfs.get.root('config', 'index.js')
+  return qfs.exists(configFile) ? require(configFile).dev.port : 8080
 }
