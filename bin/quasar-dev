@@ -8,7 +8,9 @@ var
   inquirer = require('inquirer'),
   npmCommand = require('../lib/npm-command'),
   log = require('../lib/log'),
-  ips
+  net = require('net'),
+  ips,
+  port
 
 command
   .usage('[theme] [options]')
@@ -35,6 +37,18 @@ if (!qfs.is.inAppFolder()) {
   log.fatal('Not in an App folder.')
   // ^^^ EARLY EXIT
 }
+
+port = getPort()
+
+function killProcess (kill) {
+  if (kill) {
+    log.warning('The port ' + port + ' is already in use. Halting Quasar dev server startup.')
+    log.warning('To fix: Stop the process currently using port ' + port + ' or set your config to a different port.')
+    process.kill(process.pid)
+  }
+}
+
+checkPort(port, killProcess)
 
 if (command.play) {
   ips = getHostIps()
@@ -67,7 +81,7 @@ function play (ip) {
   if (ip) {
     log.info('Use ' + 'Quasar Play'.gray + ' app to scan the QR code below')
     log()
-    qr.generate('http://' + ip + ':' + (process.env.PORT || getConfigPort()))
+    qr.generate('http://' + ip + ':' + port)
   }
 
   npmCommand('dev', command.args[0])
@@ -92,6 +106,24 @@ function getHostIps () {
   return ips
 }
 
-function getConfigPort () {
+function getPort () {
+  if (process.env.PORT) {
+    return process.env.PORT
+  }
   return require(qfs.get.root('config')).dev.port
+}
+
+function checkPort (port, killProcess) {
+  var testServer = net.createServer()
+  .once('error', err => {
+    if (err.code !== 'EADDRINUSE') {
+      return
+    }
+    killProcess(true)
+  })
+  .once('listening', () => {
+    testServer.once('close', () => { killProcess(false) })
+    .close()
+  })
+  .listen(port)
 }
