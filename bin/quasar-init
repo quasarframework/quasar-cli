@@ -4,7 +4,7 @@ var
   command = require('commander'),
   uid = require('uid'),
   ora = require('ora'),
-  download = require('download-github-repo'),
+  download = require('download-git-repo'),
   log = require('../lib/log'),
   qfs = require('../lib/qfs'),
   spinner
