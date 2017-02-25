@@ -1,6 +1,6 @@
 var
   path = require('path'),
-  download = require('download-github-repo'),
+  download = require('download-git-repo'),
   ora = require('ora'),
   uid = require('uid'),
   log = require('../../../lib/log'),
