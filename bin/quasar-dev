@@ -39,49 +39,54 @@ if (!qfs.is.inAppFolder()) {
   // ^^^ EARLY EXIT
 }
 
-port = getPort()
+if (qfs.is.inElectronFolder()) {
+  npmCommand('dev', command.args[0])
+}
+else {
+  port = getPort()
 
-testServer = net.createServer()
-.once('error', err => {
-  if (err.code !== 'EADDRINUSE') {
-    return
-  }
+  testServer = net.createServer()
+  .once('error', err => {
+    if (err.code !== 'EADDRINUSE') {
+      return
+    }
 
-  log.warning('The port ' + port + ' is already in use. Halting Quasar dev server startup.')
-  log.info('To fix: Stop the process currently using port ' + port + ' or set your config to a different port.')
-  process.exit(1)
-})
-.once('listening', () => {
-  testServer.close()
+    log.warning('The port ' + port + ' is already in use. Halting Quasar dev server startup.')
+    log.info('To fix: Stop the process currently using port ' + port + ' or set your config to a different port.')
+    process.exit(1)
+  })
+  .once('listening', () => {
+    testServer.close()
 
-  if (!command.play) {
-    play()
-    return
-  }
+    if (!command.play) {
+      play()
+      return
+    }
 
-  ips = getHostIps()
+    ips = getHostIps()
 
-  if (ips.length === 0) {
-    log.fatal('Cannot acquire network IPs. Are you still connected?')
-    // ^^^ EARLY EXIT
-  }
-  else if (ips.length > 1) {
-    inquirer
-    .prompt([{
-      type: 'list',
-      name: 'interface',
-      message: 'Select one of your IPs for QR code:',
-      choices: ips
-    }])
-    .then(function (answer) {
-      play(answer.interface)
-    })
-  }
-  else {
-    play(ips[0])
-  }
-})
-.listen(port)
+    if (ips.length === 0) {
+      log.fatal('Cannot acquire network IPs. Are you still connected?')
+      // ^^^ EARLY EXIT
+    }
+    else if (ips.length > 1) {
+      inquirer
+      .prompt([{
+        type: 'list',
+        name: 'interface',
+        message: 'Select one of your IPs for QR code:',
+        choices: ips
+      }])
+      .then(function (answer) {
+        play(answer.interface)
+      })
+    }
+    else {
+      play(ips[0])
+    }
+  })
+  .listen(port)
+}
 
 function play (ip) {
   if (ip) {
