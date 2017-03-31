@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+
+var
+  command = require('commander'),
+  log = require('../lib/log'),
+  qfs = require('../lib/qfs'),
+  path = require('path'),
+  quasarVersion,
+  pkg,
+  edge
+
+command
+  .usage('[options]')
+  .on('--help', function () {
+    log('  Examples:')
+    log()
+    log('    $ quasar version')
+  })
+  .parse(process.argv)
+
+log(' Quasar CLI ' + ('v' + require('../package').version).gray)
+
+if (qfs.is.inAppFolder()) {
+  quasarVersion = path.join(qfs.get.root(), 'node_modules', 'quasar-framework', 'package.json')
+
+  if (qfs.exists(quasarVersion)) {
+    pkg = require(path.join(qfs.get.root(), 'package.json'))
+
+    if (pkg.dependencies && pkg.dependencies['quasar-framework']) {
+      edge = pkg.dependencies['quasar-framework'].indexOf('quasar-edge') > -1
+    }
+
+    log(
+      ' App running on Quasar ' +
+      ('v' + require(quasarVersion).version).gray +
+      (edge ? ' (edge version)' : '')
+    )
+  }
+  else {
+    log.info(' Run "npm install" to also output App Quasar version.')
+  }
+}

@@ -14,5 +14,10 @@
       "description": "Main app Webpack 1 boilerplate for Quasar <= v0.7 with Vue 1"
     }
   ],
-  "community": []
+  "community": [
+    {
+      "name": "meteor",
+      "description": "Quasar v0.9+ with Meteor template"
+    }
+  ]
 }

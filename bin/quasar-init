@@ -17,8 +17,8 @@ command
     log('    # create todoApp folder with latest official app boilerplate:'.gray)
     log('    $ quasar init todoApp')
     log()
-    log('    # create todoApp with a specific template, like "v2":'.gray)
-    log('    $ quasar init v2 todoApp')
+    log('    # create todoApp with a specific template, like "default":'.gray)
+    log('    $ quasar init default todoApp')
     log()
     log('  List available app templates:')
     log()
@@ -37,13 +37,13 @@ log()
 
 if (command.args.length === 1) {
   create(
-    'quasarframework/app-template-default',
+    'quasarframework/quasar-template-default',
     command.args[0]
   )
 }
 else {
   create(
-    !command.args[0].indexOf('@') ? command.args[0].slice(1) : 'quasarframework/app-template-' + command.args[0],
+    !command.args[0].indexOf('@') ? command.args[0].slice(1) : 'quasarframework/quasar-template-' + command.args[0],
     command.args[1]
   )
 }
