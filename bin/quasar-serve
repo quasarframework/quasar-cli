@@ -4,7 +4,9 @@ var
   command = require('commander'),
   watch = require('gulp-watch'),
   server = require('browser-sync'),
-  log = require('../lib/log')
+  log = require('../lib/log'),
+  qfs = require('../lib/qfs'),
+  folder
 
 command
   .usage('[folder]')
@@ -24,11 +26,20 @@ command
   })
   .parse(process.argv)
 
-var folder = command.args[0] || process.cwd() // eslint-disable-line one-var
-var port = command.port || 3000
+function getFolder () {
+  if (qfs.is.inAppFolder()) {
+    var folder = qfs.get.root('dist')
+    if (qfs.exists(folder)) {
+      return folder
+    }
+  }
+  return process.cwd()
+}
+
+folder = command.args[0] || getFolder()
 
 server.create().init({
-  port: port,
+  port: command.port || process.env.PORT || 3000,
   open: false,
   reloadOnRestart: true,
   ghostMode: false,
