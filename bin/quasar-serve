@@ -8,6 +8,7 @@ var
 
 command
   .usage('[folder]')
+  .option('-p, --port <n>', 'port for asset serving', parseInt)
   .on('--help', function () {
     log('  Examples:')
     log()
@@ -16,21 +17,23 @@ command
     log()
     log('    # serve specific folder'.gray)
     log('    $ quasar serve ./dist')
-    log('    $ quasar serve /work/quasar-app/dist')
+    log('    $ quasar serve /work/quasar-app/dist --port 5050')
+  })
+  .action(function(commandDir, options){
+      var folder = commandDir || process.cwd()
+      var port = options.port || 3000
+      server.create().init({
+          port: port,
+          open: false,
+          reloadOnRestart: true,
+          ghostMode: false,
+          server: {
+              baseDir: folder
+          }
+      })
+
+      watch(folder + '/**/*', function () {
+          server.reload()
+      })
   })
   .parse(process.argv)
-
-var folder = command.args[0] || process.cwd() // eslint-disable-line one-var
-
-server.create().init({
-  open: false,
-  reloadOnRestart: true,
-  ghostMode: false,
-  server: {
-    baseDir: folder
-  }
-})
-
-watch(folder + '/**/*', function () {
-  server.reload()
-})
