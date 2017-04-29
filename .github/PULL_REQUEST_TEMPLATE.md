@@ -29,6 +29,7 @@ If yes, please describe the impact and migration path for existing applications:
 - [ ] It's been tested on Windows
 - [ ] It's been tested on Linux
 - [ ] It's been tested on MacOS
+- [ ] Any necessary documentation has been added or updated [in the docs](https://github.com/quasarframework/quasar-framework.org/tree/master/source) (for faster update click on "Suggest an edit on GitHub" at bottom of page) or explained in the PR's description.
 
 If adding a **new feature**, the PR's description includes:
 - [ ] A convincing reason for adding this feature (to avoid wasting your time, it's best to open a suggestion issue first and wait for approval before working on it)
