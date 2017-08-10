@@ -36,31 +36,7 @@ function install (options) {
 
   log()
   log.success('Cordova wrapper created at', wrapper.yellow + '\n')
-
-  if (!options.withCrosswalk) {
-    log()
-    log.info('Crosswalk plugin NOT installed as you instructed.')
-    log.info(
-      'Manually install it if you decide otherwise: ' +
-      '"cordova plugin add cordova-plugin-crosswalk-webview".'
-    )
-    done()
-    return
-  }
-
-  spawn({
-    command: 'cordova',
-    args: ['plugin', 'add', 'cordova-plugin-crosswalk-webview'],
-    cwd: wrapper,
-    callback: function (exitCode) {
-      if (exitCode === 0) {
-        log()
-        log.success('Plugin installed.\n')
-      }
-
-      done()
-    }
-  })
+  done()
 }
 
 module.exports = function (options) {
