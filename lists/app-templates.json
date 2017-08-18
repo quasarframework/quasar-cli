@@ -3,21 +3,28 @@
   "official": [
     {
       "name": "default",
-      "description": "Main app Webpack 2 boilerplate for Quasar v0.9+ with Vue 2"
+      "description": "Boilerplate for Quasar v0.14+"
+    },
+    {
+      "name": "default#v0.13",
+      "description": "Boilerplate for Quasar v0.13",
+      "deprecated": true
     },
     {
       "name": "default#webpack1",
-      "description": "Main app Webpack 1 boilerplate for Quasar v0.8+ with Vue 2"
+      "description": "Boilerplate for Quasar v0.8-v0.12 (Webpack 1, Vue 2)",
+      "deprecated": true
     },
     {
       "name": "default#vue1",
-      "description": "Main app Webpack 1 boilerplate for Quasar <= v0.7 with Vue 1"
+      "description": "Boilerplate for Quasar <= 0.7 (Webpack 1, Vue 1)",
+      "deprecated": true
     }
   ],
   "community": [
     {
       "name": "meteor",
-      "description": "Quasar v0.9+ with Meteor template"
+      "description": "Boilerplate for Quasar v0.9+ with Meteor"
     }
   ]
 }
