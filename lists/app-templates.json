@@ -3,7 +3,7 @@
   "official": [
     {
       "name": "default",
-      "description": "Boilerplate for Quasar v0.14+"
+      "description": "Boilerplate for website (with optional Cordova and Electron wrappers) with Quasar v0.14+"
     },
     {
       "name": "pwa",
