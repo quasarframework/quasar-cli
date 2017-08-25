@@ -6,6 +6,10 @@
       "description": "Boilerplate for Quasar v0.14+"
     },
     {
+      "name": "pwa",
+      "description": "Boilerplate for PWA with Quasar v0.14+"
+    },
+    {
       "name": "default#v0.13",
       "description": "Boilerplate for Quasar v0.13",
       "deprecated": true
