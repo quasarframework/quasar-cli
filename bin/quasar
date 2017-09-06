@@ -35,7 +35,7 @@ commander
   .command('clean', 'clean production build artifacts')
   .command('test', 'run unit and/or e2e tests')
   .command('lint', 'lint source code')
-  .command('wrap [type]', 'wrap app (currently only with "cordova" type)')
+  .command('wrap [type]', 'wrap app with "cordova" or "electron"')
   .command('serve [folder]', 'create live reload static-content server')
   .command('version', 'output CLI and current app Quasar version')
   .parse(process.argv)
