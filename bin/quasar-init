@@ -26,14 +26,18 @@ const
   logger = require('../lib/helpers/logger'),
   log = logger('app:init'),
   warn = logger('app:init', 'red'),
-  appPaths = require('../lib/build/app-paths'),
-  spawn = require("child_process").spawn
+  getAppDir = require('../lib/build/get-app-dir'),
+  spawn = require("child_process").spawn,
+  resolve = require('path').resolve
+
+const
+  cliDir = resolve(__dirname, '..')
 
 try {
-  console.log(` Running command: vue init ${appPaths.resolve.cli('templates/starter-kit')} ${argv._[0]}`)
+  console.log(` Running command: vue init ${resolve(cliDir, 'templates/starter-kit')} ${argv._[0]}`)
   spawn('vue', [
     'init',
-    appPaths.resolve.cli('templates/starter-kit'),
+    resolve(cliDir, 'templates/starter-kit'),
     argv._[0]
   ], { stdio: ['inherit', 'inherit', 'inherit'] })
 }
@@ -41,4 +45,7 @@ catch (err) {
   console.log(err)
   warn('Vue CLI not installed globally')
   warn('Please run "npm i -g vue-cli" and then try again.')
+  process.exit(1)
 }
+
+// TODO tell user what to do now.

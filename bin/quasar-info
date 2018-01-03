@@ -68,7 +68,6 @@ const
   ]
 
 ;[
-  'quasar-application',
   'quasar-framework',
   'quasar-extras',
   'vue',
