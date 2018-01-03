@@ -2,7 +2,6 @@
 
 const localFile = require('import-local-file')(__filename)
 if (localFile) {
-  console.log('> Using local installed version of Poi')
   require(localFile)
 }
 else {

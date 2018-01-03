@@ -7,12 +7,16 @@
   "author": "Your Name <your@email.com>",
   "private": true,
   "scripts": {
+    "test": "echo \"No test specified\" && exit 0"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not ie <= 10"
   ],
+  "dependencies": {
+    "quasar-cli": "^0.15.0-alpha1"
+  },
   "devDependencies": {
     "eslint": "^4.11.0",
     "eslint-config-standard": "^10.2.1",
