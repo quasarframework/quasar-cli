@@ -47,5 +47,3 @@ catch (err) {
   warn('Please run "npm i -g vue-cli" and then try again.')
   process.exit(1)
 }
-
-// TODO tell user what to do now.
