@@ -1,126 +1,120 @@
 #!/usr/bin/env node
 
-var
-  command = require('commander'),
-  os = require('os'),
-  qr = require('qrcode-terminal'),
-  qfs = require('../lib/qfs'),
-  inquirer = require('inquirer'),
-  npmCommand = require('../lib/npm-command'),
-  log = require('../lib/log'),
-  net = require('net'),
-  ips,
-  port,
-  testServer
+const
+  parseArgs = require('minimist'),
+  chalk = require('chalk')
 
-command
-  .usage('[theme] [options]')
-  .option('-p, --play', 'show QR code for Quasar Play app')
-  .on('--help', function () {
-    log('  Example:')
-    log()
-    log('    # run development server (with default theme)'.gray)
-    log('    $ quasar dev')
-    log()
-    log('    # run development server with specific theme'.gray)
-    log('    $ quasar dev mat')
-    log('    $ quasar dev ios')
-    log()
-    log('    # dev server with QR code'.gray)
-    log('    # scan QR code with Quasar Play app')
-    log('    $ quasar dev -p')
-    log('    $ quasar dev --play')
-    log('    $ quasar dev mat --play')
-  })
-  .parse(process.argv)
+const
+  logger = require('../lib/helpers/logger'),
+  log = logger('app:dev'),
+  warn = logger('app:dev', 'red'),
+  appPaths = require('../lib/build/app-paths')
 
-if (!qfs.is.inAppFolder()) {
-  log.fatal('Not in an App folder.')
-  // ^^^ EARLY EXIT
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    t: 'theme',
+    m: 'mode',
+    T: 'target',
+    p: 'port',
+    H: 'hostname',
+    h: 'help'
+  },
+  boolean: ['h'],
+  string: ['t', 'm', 'T', 'H'],
+  default: {
+    t: 'mat',
+    m: 'spa',
+    p: process.env.PORT || 8080,
+    H: 'localhost'
+  }
+})
+
+if (argv.help) {
+  console.log(`
+    Description
+      Starts the app in development mode (hot-code reloading, error
+      reporting, etc)
+    Usage
+      $ quasar dev -p <port number>
+    Options
+      --theme, -t      App theme (default: mat)
+      --mode, -m       App mode [spa|pwa|cordova|electron] (default: spa)
+      --port, -p       A port number on which to start the application
+      --hostname, -H   A hostname to use for serving the application
+      --help, -h       Displays this message
+
+      Only for Cordova mode (required):
+      --target, -T     App target
+                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+  `)
+  process.exit(0)
 }
 
-if (qfs.is.inElectronFolder()) {
-  npmCommand('dev', command.args[0])
-}
-else {
-  port = getPort()
+require('../lib/helpers/ensure-argv')(argv, 'dev')
 
-  testServer = net.createServer()
-  .once('error', err => {
-    if (err.code !== 'EADDRINUSE') {
-      return
-    }
+log(`Running: Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
+log()
 
-    log.warning('The port ' + port + ' is already in use. Halting Quasar dev server startup.')
-    log.info('To fix: Stop the process currently using port ' + port + ' or set your config to a different port.')
-    process.exit(1)
-  })
-  .once('listening', () => {
-    testServer.close()
-
-    if (!command.play) {
-      play()
-      return
-    }
-
-    ips = getHostIps()
-
-    if (ips.length === 0) {
-      log.fatal('Cannot acquire network IPs. Are you still connected?')
-      // ^^^ EARLY EXIT
-    }
-    else if (ips.length > 1) {
-      inquirer
-      .prompt([{
-        type: 'list',
-        name: 'interface',
-        message: 'Select one of your IPs for QR code:',
-        choices: ips
-      }])
-      .then(function (answer) {
-        play(answer.interface)
-      })
-    }
-    else {
-      play(ips[0])
-    }
-  })
-  .listen(port)
+if (argv.mode !== 'spa') {
+  require('../lib/mode/install-missing')(argv.mode, argv.target)
 }
 
-function play (ip) {
-  if (ip) {
-    log.info('Use ' + 'Quasar Play'.gray + ' app to scan the QR code below')
-    log()
-    qr.generate('http://' + ip + ':' + port)
+async function goLive () {
+  const
+    DevServer = require('../lib/dev-server'),
+    QuasarConfig = require('../lib/quasar-config'),
+    Generator = require('../lib/generator'),
+    findPort = require('../lib/helpers/net').findClosestOpenPort
+
+  if (argv.mode === 'cordova' && ['localhost', '127.0.0.1', '::1'].includes(argv.hostname.toLowerCase())) {
+    const getExternalIP = require('../lib/helpers/get-external-ip')
+    argv.hostname = await getExternalIP()
   }
 
-  npmCommand('dev', command.args[0])
-}
+  const openPort = await findPort(argv.port, argv.hostname)
+  if (argv.port !== openPort) {
+    warn()
+    warn(`Setting port to closest one available: ${openPort}`)
+    warn()
 
-function getHostIps () {
-  var
-    ifaces = os.networkInterfaces(),
-    ips = []
+    argv.port = openPort
+  }
 
-  Object.keys(ifaces).forEach(function (ifname) {
-    ifaces[ifname].forEach(function (iface) {
-      if (iface.family !== 'IPv4' || iface.internal !== false) {
-        // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
-        return
+  const
+    quasarConfig = new QuasarConfig({
+      theme: argv.theme,
+      mode: argv.mode,
+      target: argv.target,
+      port: argv.port,
+      host: argv.hostname,
+      dev: true,
+      onBuildChange () {
+        log(`Build changes detected. Rebuilding app...`)
+        dev = dev.then(startDev)
+      },
+      onAppChange () {
+        log(`App changes detected. Updating app...`)
+        generator.build()
       }
+    }),
+    generator = new Generator(quasarConfig),
+    Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
+    Electron = argv.mode === 'electron' ? require('../lib/electron') : false
 
-      ips.push(iface.address)
-    })
-  })
+  function startDev (oldDevServer) {
+    let devServer
 
-  return ips
-}
-
-function getPort () {
-  if (process.env.PORT) {
-    return process.env.PORT
+    return Promise.resolve()
+      .then(() => devServer = new DevServer(quasarConfig))
+      .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve())
+      .then(() => generator.build()) // Update generated files
+      .then(() => devServer.listen()) // Start listening
+      .then(() => Electron ? Electron.run(quasarConfig) : Promise.resolve())
+      .then(() => Cordova ? Cordova.run(quasarConfig) : Promise.resolve())
+      .then(() => devServer) // Pass new builder to watch chain
   }
-  var configFile = qfs.get.root('config', 'index.js')
-  return qfs.exists(configFile) ? require(configFile).dev.port : 8080
+
+  let dev = startDev()
 }
+
+goLive()

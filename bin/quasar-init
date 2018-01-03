@@ -1,109 +1,44 @@
 #!/usr/bin/env node
 
-var
-  command = require('commander'),
-  uid = require('uid'),
-  ora = require('ora'),
-  download = require('download-git-repo'),
-  log = require('../lib/log'),
-  qfs = require('../lib/qfs'),
-  spinner
+const parseArgs = require('minimist')
 
-command
-  .usage('[app template] <folder>')
-  .on('--help', function () {
-    log('  Example:')
-    log()
-    log('    # create todoApp folder with latest official app boilerplate:'.gray)
-    log('    $ quasar init todoApp')
-    log()
-    log('    # create todoApp with a specific template, like "default":'.gray)
-    log('    $ quasar init default todoApp')
-    log()
-    log('  List available app templates:')
-    log()
-    log('    $ quasar list')
-  })
-  .parse(process.argv)
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    h: 'help'
+  },
+  boolean: ['h']
+})
 
-if (!command.args.length || command.args.length > 2) {
-  command.help()
-  process.exit(1)
-  // ^^^ EARLY EXIT
+if (argv.help) {
+  console.log(`
+    Description
+      Create a Quasar App folder from the starter kit.
+      You need "vue-cli" package installed globally.
+    Usage
+      $ quasar init <folder_name>
+    Options
+      --help, -h     Displays this message
+  `)
+  process.exit(0)
 }
 
-log.info('Generating Quasar App...')
-log()
+const
+  logger = require('../lib/helpers/logger'),
+  log = logger('app:init'),
+  warn = logger('app:init', 'red'),
+  appPaths = require('../lib/build/app-paths'),
+  spawn = require("child_process").spawn
 
-if (command.args.length === 1) {
-  create(
-    'quasarframework/quasar-template-default',
-    command.args[0]
-  )
+try {
+  console.log(` Running command: vue init ${appPaths.resolve.cli('templates/starter-kit')} ${argv._[0]}`)
+  spawn('vue', [
+    'init',
+    appPaths.resolve.cli('templates/starter-kit'),
+    argv._[0]
+  ], { stdio: ['inherit', 'inherit', 'inherit'] })
 }
-else {
-  create(
-    !command.args[0].indexOf('@') ? command.args[0].slice(1) : 'quasarframework/quasar-template-' + command.args[0],
-    command.args[1]
-  )
-}
-
-function create (template, dest) {
-  const templateName = ('@' + template).gray
-  dest = qfs.join(process.cwd(), dest)
-
-  if (qfs.exists(dest)) {
-    if (qfs.is.empty(dest)) {
-      log.warning('Destination folder ' + dest.gray + ' already exists, but is empty. Continuing....')
-    }
-    else {
-      log.fatal('Destination folder ' + dest.gray + ' already exists and is not empty.')
-      // ^^^ EARLY EXIT
-    }
-  }
-
-  var src = '/tmp/quasar-template-' + uid()
-
-  spinner = ora('Downloading App template ' + templateName)
-  spinner.start()
-
-  download(
-    template,
-    src,
-    function (err) {
-      spinner.stop()
-      process.on('exit', function () {
-        qfs.remove(src)
-      })
-
-      if (err) {
-        if (err === 404) {
-          log.fatal('Template ' + templateName + ' is not available.')
-          // ^^^ EARLY EXIT
-        }
-
-        log.fatal('Failed to download App template ' + templateName + ': ' + err)
-        // ^^^ EARLY EXIT
-      }
-
-      log.success('Downloaded App template ' + templateName)
-      generate(template, src, dest)
-    }
-  )
-}
-
-function generate (template, src, dest) {
-  if (qfs.copy(qfs.join(src, 'template'), dest)) {
-    log.fatal('Failed to copy App template.')
-    // ^^^ EARLY EXIT
-  }
-
-  log.success('Generated Quasar App in ' + dest.gray)
-  log()
-  log('  To get started:')
-  log()
-  log('  $ cd ' + dest.gray)
-  log('  # edit package.json'.gray)
-  log('  $ npm install')
-  log('  $ quasar dev')
+catch (err) {
+  console.log(err)
+  warn('Vue CLI not installed globally')
+  warn('Please run "npm i -g vue-cli" and then try again.')
 }

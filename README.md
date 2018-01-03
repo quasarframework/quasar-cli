@@ -1,9 +1,26 @@
+**Work in progress - for Quasar v0.15+**
+
 ![Quasar Framework logo](https://cdn.rawgit.com/quasarframework/quasar-art/863c14bd/dist/svg/quasar-logo-full-inline.svg)
 
-# Quasar CLI
-> CLI for Quasar Framework. Start a project, build it, optimize it.
+# Quasar Framework App Template
+> Starter Kit for a Quasar Project.
 
-<a href="https://badge.fury.io/js/quasar-cli"><img src="https://badge.fury.io/js/quasar-cli.svg"></a>
+## Usage
+Use Vue CLI to generate a new project using this template:
+
+``` bash
+# install Vue CLI if you don't have it already
+$ npm install -g vue-cli
+
+# generate a project folder with this template
+$ vue init quasarframework/app my-project
+
+$ cd my-project
+$ npm install
+
+# start developing your app
+$ npm run dev
+```
 
 # Quasar Framework
 > Build responsive websites, PWAs, hybrid mobile Apps (that look native!) and Electron apps using same code, powered with Vue.
@@ -13,76 +30,9 @@
 ## Supporting Quasar
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md). If you'd like to join them, check out [Quasar Framework's Patreon campaign](https://www.patreon.com/quasarframework).
 
-## Quickstart
-
-### Installing
-
-`$ npm install -g quasar-cli`
-
-### Command overview
-
-Display list of commands:
-
-`$ quasar`
-
-- `init` - create app from template
-- `list` - list app templates / starter kits
-- `wrap` - wrap app for a runtime environment
-- `dev` - run dev server for your app
-- `build` - build for production
-- `clean` - clean build assets
-- `new` - create app component from component templates
-- `serve` - start a live reload HTTP server on a folder (like `/dist`)
-
-### Help
-
-`$ quasar [command name] --help`
-
-<!--
-### Create App
-
-Initializes an App folder with a starter kit boilerplate.
-
-`$ quasar init [template name] <folder-name>`
-
-By omitting the `template name` parameter the CLI will detect latest App template and generate the App folder with it.
-
-By convention, templates follow the syntax `v[number]`, where `number` is 1, 2, 3…
-
-The number designates the major version of Quasar you are using.
-Currently, `v1` is available for Vue 1 and `v2` for Vue 2.
-
-#### Advanced options
-
-By default, the repo [rstoenescu/quasar-templates](https://github.com/rstoenescu/quasar-templates) will be used
-as the template source, retrieving the branch of the named template.
-
-You can substitute with your own github account, to use your custom `quasar-templates` repo:
-
-`$ quasar init [template name] @<account>` example: `$ quasar init v2 @asmith`
-
-Specify your own specific github repo:
-
-`$ quasar init [template name] @<account/repo>` example: `$ quasar init v2 @asmith/Qtemplates`
-
-The "full monty":
-
-`$ quasar init [template name] <folder-name> <account/repo>` example: `$ quasar init v2 ny-app @asmith`
-
-### Wrap application  
-
-Wrap with [Cordova](https://www.npmjs.com/package/cordova) (optionally with Crosswalk WebView plugin for Android Apps)
-
-`quasar wrap cordova`
-
-Wrap with [electron](http://electron.atom.io/) for cross-platform desktop apps
-
-`quasar wrap electron`
--->
-
 ## Documentation
 
-Head on to the Quasar Framework official website for help on CLI commands: [http://quasar-framework.org](http://quasar-framework.org/guide/quasar-cli.html)
+Head on to the Quasar Framework official website: [http://quasar-framework.org](http://quasar-framework.org)
 
 ## Community Forum
 
@@ -90,9 +40,9 @@ Head on to the official community forum: [http://forum.quasar-framework.org](htt
 
 ## Quasar Repositories
 
-* [Quasar Framework](https://github.com/rstoenescu/quasar-framework)
-* [Quasar CLI](https://github.com/rstoenescu/quasar-cli)
-* [Quasar Play App](https://github.com/rstoenescu/quasar-play)
+* [Quasar Framework](https://github.com/quasarframework/quasar)
+* [Quasar CLI](https://github.com/quasarframework/quasar-cli)
+* [Quasar Play App](https://github.com/quasarframework/quasar-play)
 
 ## Contributing
 
@@ -120,7 +70,7 @@ Instead of using mobile emulators for testing your Quasar Apps, use this App ins
 
 Currently only on [Google Play](https://play.google.com/store/apps/details?id=com.quasarframework.quasarplay&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1). Requiring funding to pay fees on Apple Store and release the iOS counterpart too.
 
-Check its repo here: [Quasar Play](https://github.com/rstoenescu/quasar-play).
+Check its repo here: [Quasar Play](https://github.com/quasarframework/quasar-play).
 
 ## License
 
