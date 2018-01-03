@@ -4,9 +4,11 @@ const parseArgs = require('minimist')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
-    h: 'help'
+    h: 'help',
+    v: 'version'
   },
-  boolean: ['h']
+  boolean: ['h'],
+  string: ['v']
 })
 
 if (argv.help) {
@@ -15,8 +17,17 @@ if (argv.help) {
       Create a Quasar App folder from the starter kit.
       You need "vue-cli" package installed globally.
     Usage
+      # Install latest starter kit:
       $ quasar init <folder_name>
+
+      # Install starter kit for specific Quasar version.
+      # Only specify the major and minor version (no patch version).
+      # Good example: 0.15, 1.0, 1.2
+      # Bad example: 0.15.2, 1.0.1, 1.2.2
+      $ quasar init -v 0.15
+
     Options
+      --version, -v  Install specific Quasar version
       --help, -h     Displays this message
   `)
   process.exit(0)
@@ -33,17 +44,31 @@ const
 const
   cliDir = resolve(__dirname, '..')
 
+let template = 'quasarframework/app'
+if (argv.version) {
+  template = `#v${argv.version}`
+}
+
 try {
-  console.log(` Running command: vue init ${resolve(cliDir, 'templates/starter-kit')} ${argv._[0]}`)
-  spawn('vue', [
+  console.log(` Running command: vue init '${template}' ${argv._[0]}`)
+  const vue = spawn('vue', [
     'init',
-    resolve(cliDir, 'templates/starter-kit'),
+    template,
     argv._[0]
   ], { stdio: ['inherit', 'inherit', 'inherit'] })
+
+  vue.on('close', code => {
+    if (code !== 0) {
+      warn(`Specified template is unavailable or it failed to download.`)
+      warn()
+      process.exit(1)
+    }
+  })
 }
 catch (err) {
   console.log(err)
-  warn('Vue CLI not installed globally')
-  warn('Please run "npm i -g vue-cli" and then try again.')
+  warn(`Vue CLI not installed globally.`)
+  warn('Run "npm i -g vue-cli" to install Vue CLI and then try again.')
+  warn()
   process.exit(1)
 }
