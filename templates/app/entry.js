@@ -58,16 +58,18 @@ require('~/css/<%= asset %>')
 Vue.use(Quasar<%= QImports ? QOptions : '' %>)
 
 import { createRouter } from '~/router'
+<% if (store) { %>
 import { createStore } from '~/store'
+<% } %>
 
 const
-  router = createRouter(),
-  store = createStore()
+  router = createRouter()<% if (store) { %>,
+  store = createStore()<% } %>
 
 const app = {
   el: '#q-app',
-  router,
-  store,
+  router,<% if (store) { %>
+  store,<% } %>
   ...App
 }
 
@@ -80,7 +82,7 @@ plugins.filter(asset => asset).forEach(asset => {
 import <%= importName %> from '~/plugins/<%= asset %>'
 plugins.push(<%= importName %>)
 <% }) %>
-plugins.forEach(plugin => plugin({ app, router, store, Vue }))
+plugins.forEach(plugin => plugin({ app, router,<% if (store) { %> store,<% } %> Vue }))
 <% } %>
 
 <% if (ctx.mode.electron) { %>
