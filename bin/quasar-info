@@ -26,9 +26,16 @@ if (argv.help) {
   process.exit(0)
 }
 
-function safeExec (command) {
+const
+  os = require('os'),
+  spawn = require('cross-spawn').sync
+
+function getSpawnOutput (command) {
   try {
-    return chalk.green(String(exec(command)).trim())
+    const child = spawn(command, ['--version'])
+    return child.status === 0
+      ? chalk.green(String(child.output[1]).trim())
+      : chalk.red('Not available')
   }
   catch (err) {
     return chalk.red('Not available')
@@ -52,18 +59,14 @@ function safePkgInfo (pkg) {
 }
 
 const
-  os = require('os'),
-  exec = require("child_process").execSync
-
-const
   getExternalIPs = require('../lib/helpers/net').getExternalNetworkInterface,
   output = [
     { key: 'Operating System', value: chalk.green(`${os.type()}(${os.release()}) - ${os.platform()}/${os.arch()}`), section: true },
     { key: 'NodeJs', value: chalk.green(String(process.version).slice(1).trim()) },
     { key: 'Global packages', section: true },
-    { key: '  NPM', value: safeExec('npm --version') },
-    { key: '  vue-cli', value: safeExec('vue --version') },
-    { key: '  cordova', value: safeExec('cordova --version') },
+    { key: '  NPM', value: getSpawnOutput('npm') },
+    { key: '  vue-cli', value: getSpawnOutput('vue') },
+    { key: '  cordova', value: getSpawnOutput('cordova') },
     { key: 'Important local packages', section: true }
   ]
 

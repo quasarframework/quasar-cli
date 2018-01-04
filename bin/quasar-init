@@ -38,7 +38,7 @@ const
   log = logger('app:init'),
   warn = logger('app:init', 'red'),
   getAppDir = require('../lib/build/get-app-dir'),
-  spawn = require("child_process").spawn,
+  spawn = require('cross-spawn'),
   resolve = require('path').resolve
 
 const
@@ -51,19 +51,17 @@ if (argv.version) {
 
 try {
   console.log(` Running command: vue init '${template}' ${argv._[0]}`)
-  const vue = spawn('vue', [
+  const child = spawn.sync('vue', [
     'init',
     template,
     argv._[0]
   ], { stdio: ['inherit', 'inherit', 'inherit'] })
 
-  vue.on('close', code => {
-    if (code !== 0) {
-      warn(`Specified template is unavailable or it failed to download.`)
-      warn()
-      process.exit(1)
-    }
-  })
+  if (child.status !== 0) {
+    warn(`Specified template is unavailable or it failed to download.`)
+    warn()
+    process.exit(1)
+  }
 }
 catch (err) {
   console.log(err)
