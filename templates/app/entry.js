@@ -68,19 +68,17 @@ require('~/css/<%= asset %>')
 
 Vue.use(Quasar<%= QImports ? QOptions : '' %>)
 
-import { createRouter } from '~/router'
+import router from '~/router'
 <% if (store) { %>
-import { createStore } from '~/store'
+import store from '~/store'
 <% } %>
-
-const
-  router = createRouter()<% if (store) { %>,
-  store = createStore()<% } %>
 
 const app = {
   el: '#q-app',
-  router,<% if (store) { %>
-  store,<% } %>
+  router,
+  <% if (store) { %>
+    store,
+  <% } %>
   ...App
 }
 
