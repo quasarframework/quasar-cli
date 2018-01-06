@@ -62,7 +62,7 @@ const
   getExternalIPs = require('../lib/helpers/net').getExternalNetworkInterface,
   output = [
     { key: 'Operating System', value: chalk.green(`${os.type()}(${os.release()}) - ${os.platform()}/${os.arch()}`), section: true },
-    { key: 'NodeJs', value: chalk.green(String(process.version).slice(1).trim()) },
+    { key: 'NodeJs', value: chalk.green(process.version.slice(1)) },
     { key: 'Global packages', section: true },
     { key: '  NPM', value: getSpawnOutput('npm') },
     { key: '  vue-cli', value: getSpawnOutput('vue') },
