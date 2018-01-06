@@ -1,0 +1,100 @@
+#!/usr/bin/env node
+
+const parseArgs = require('minimist')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    h: 'help'
+  },
+  boolean: ['h']
+})
+
+function showHelp () {
+  console.log(`
+    Description
+      Quickly scaffold a page/layout/component/store module.
+
+    Usage
+      $ quasar new [p|page] <page_file_name>
+      $ quasar new [l|layout] <layout_file_name>
+      $ quasar new [c|component] <page_file_name>
+      $ quasar new [s|store] <store_module_name>
+
+      # Examples:
+
+      # Create src/pages/MyNewPage.vue:
+      $ quasar new p MyNewPage
+
+      # Create src/layouts/shop/Checkout.vue
+      $ quasar new layout shop/Checkout.vue
+
+    Options
+      --help, -h     Displays this message
+  `)
+  process.exit(0)
+}
+
+if (argv.help) {
+  showHelp()
+}
+
+const
+  logger = require('../lib/helpers/logger'),
+  log = logger('app:new'),
+  warn = logger('app:new', 'red'),
+  appPaths = require('../lib/build/app-paths'),
+  path = require('path'),
+  fs = require('fs'),
+  fse = require('fs-extra'),
+  mapping = {
+    p: 'pages',
+    page: 'pages',
+    l: 'layouts',
+    layout: 'layouts',
+    c: 'components',
+    component: 'components',
+    s: 'store',
+    store: 'store'
+  }
+
+if (argv._.length !== 2) {
+  console.log()
+  warn(`Wrong number of parameters (${argv._.length}).`)
+  showHelp()
+}
+
+const [ type, name ] = argv._
+
+if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store'].includes(type)) {
+  console.log()
+  warn(`Invalid asset type: ${type}`)
+  showHelp()
+}
+
+const
+  ext = ['s', 'store'].includes(type) || name.endsWith('.vue') ? '' : '.vue',
+  file = appPaths.resolve.src(path.join(mapping[type], name + ext))
+
+if (fs.existsSync(file)) {
+  console.log()
+  warn('An asset with that name already exists. Aborting.')
+  warn()
+  process.exit(1)
+}
+
+fse.mkdirp(path.dirname(file))
+fse.copy(
+  appPaths.resolve.cli(path.join('templates/app', mapping[type] + ext)),
+  file,
+  err => {
+    if (err) {
+      console.warn(err)
+      warn('Failed to generate the asset.')
+      process.exit(1)
+    }
+
+    log(`Generated: ${file}`)
+    log(`Make sure to reference it in ${ext ? 'src/router/routes.js' : 'src/store/index.js'}`)
+    log()
+  }
+)
