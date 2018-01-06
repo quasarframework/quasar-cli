@@ -2,6 +2,9 @@
   "name": "quasar-cli",
   "version": "0.15.0-beta.9",
   "description": "Quasar Framework CLI",
+  "scripts": {
+    "postinstall": "node lib/node-version-check.js"
+  },
   "bin": {
     "quasar": "./bin/quasar"
   },
