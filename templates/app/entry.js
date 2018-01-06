@@ -5,7 +5,7 @@ function hash (str) {
 }
 
 let QImports, QOptions = []
-if (framework === 'full') {
+if (framework === 'all') {
   QImports = ', * as All'
   QOptions = ', {components: All, directives: All, plugins: All}'
 }
@@ -44,10 +44,21 @@ require('quasar-extras/<%= asset %>')
 <% }) %>
 
 <%
-animations && animations.filter(asset => asset).forEach(asset => {
+if (animations) {
+  if (animations === 'all') {
+%>
+require('quasar-extras/animate')
+<%
+  }
+  else {
+    animations.filter(asset => asset).forEach(asset => {
 %>
 require('quasar-extras/animate/<%= asset %>.css')
-<% }) %>
+<%
+    })
+  }
+}
+%>
 
 require(`~/themes/app.<%= ctx.themeName %>.styl`)
 

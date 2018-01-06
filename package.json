@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.15.0-beta.5",
+  "version": "0.15.0-beta.6",
   "description": "Quasar Framework CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -44,7 +44,7 @@
     "compression-webpack-plugin": "^1.0.1",
     "copy-webpack-plugin": "^4.2.3",
     "cross-spawn": "^5.1.0",
-    "css-loader": "^0.28.7",
+    "css-loader": "^0.28.8",
     "elementtree": "^0.1.7",
     "eslint-plugin-html": "^4.0.1",
     "extract-text-webpack-plugin": "^3.0.2",
@@ -65,7 +65,7 @@
     "opn": "^5.1.0",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "os": "^0.1.1",
-    "postcss-loader": "^2.0.9",
+    "postcss-loader": "^2.0.10",
     "progress-bar-webpack-plugin": "^1.10.0",
     "quasar-extras": "1.0.2",
     "quasar-framework": "0.15.0-alpha1",
@@ -73,7 +73,7 @@
     "stylus-loader": "^3.0.1",
     "sw-precache-webpack-plugin": "^0.11.4",
     "uglify-es": "^3.1.10",
-    "uglifyjs-webpack-plugin": "^1.1.1",
+    "uglifyjs-webpack-plugin": "^1.1.6",
     "update-notifier": "^2.3.0",
     "url-loader": "^0.6.2",
     "vue": "^2.5.8",
@@ -84,7 +84,7 @@
     "vuex": "^3.0.1",
     "webpack": "^3.8.1",
     "webpack-bundle-analyzer": "^2.9.1",
-    "webpack-dev-server": "^2.9.4",
+    "webpack-dev-server": "^2.10.0",
     "webpack-merge": "^4.1.1"
   }
 }
