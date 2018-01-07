@@ -60,7 +60,7 @@ require('quasar-extras/animate/<%= asset %>.css')
 }
 %>
 
-require(`~/themes/app.<%= ctx.themeName %>.styl`)
+require('quasar-app-styl')
 
 <% css && css.filter(css => css).forEach(asset => { %>
 require('~/css/<%= asset %>')

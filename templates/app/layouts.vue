@@ -48,6 +48,7 @@
 
 <script>
 export default {
+  // name: 'layout-name',
   data () {
     return {
       leftDrawer: true
