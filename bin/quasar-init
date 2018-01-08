@@ -44,7 +44,7 @@ const
 const
   cliDir = resolve(__dirname, '..')
 
-let template = 'quasarframework/app'
+let template = 'quasarframework/quasar-starter-kit'
 if (argv.version) {
   template = `#v${argv.version}`
 }
