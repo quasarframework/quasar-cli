@@ -4,11 +4,12 @@ const parseArgs = require('minimist')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
-    h: 'help',
-    v: 'version'
+    v: 'version',
+    t: 'type',
+    h: 'help'
   },
   boolean: ['h'],
-  string: ['v']
+  string: ['v', 't']
 })
 
 if (argv.help) {
@@ -41,10 +42,14 @@ const
   spawn = require('cross-spawn'),
   resolve = require('path').resolve
 
+if (argv.type && !['umd'].includes(argv.type)) {
+  warn(`Specified type ("${argv.type}") is not recognized.`)
+}
+
 const
   cliDir = resolve(__dirname, '..')
 
-let template = 'quasarframework/quasar-starter-kit'
+let template = `quasarframework/quasar${argv.type ? `-${argv.type}` : ''}-starter-kit`
 if (argv.version) {
   template = `#v${argv.version}`
 }
