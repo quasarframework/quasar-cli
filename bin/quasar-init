@@ -27,8 +27,12 @@ if (argv.help) {
       # Bad example: 0.15.2, 1.0.1, 1.2.2
       $ quasar init -v 0.15
 
+      # Install UMD starter kit
+      $ quasar init -t umd <folder_name>
+
     Options
       --version, -v  Install specific Quasar version
+      --type, -t     Install specific starter kit
       --help, -h     Displays this message
   `)
   process.exit(0)
@@ -49,7 +53,7 @@ if (argv.type && !['umd'].includes(argv.type)) {
 const
   cliDir = resolve(__dirname, '..')
 
-let template = `quasarframework/quasar${argv.type ? `-${argv.type}` : ''}-starter-kit`
+let template = `quasarframework/quasar-starter-kit${argv.type ? `-${argv.type}` : ''}`
 if (argv.version) {
   template = `#v${argv.version}`
 }
