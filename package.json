@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.15.0-beta.15",
+  "version": "0.15.0-beta.16",
   "description": "Quasar Framework CLI",
   "scripts": {
     "postinstall": "node lib/node-version-check.js"
@@ -96,5 +96,9 @@
     "webpack-bundle-analyzer": "2.9.1",
     "webpack-dev-server": "2.10.0",
     "webpack-merge": "4.1.1"
+  },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0"
   }
 }
