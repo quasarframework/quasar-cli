@@ -23,9 +23,7 @@ const argv = parseArgs(process.argv.slice(2), {
   string: ['t', 'm', 'T', 'H'],
   default: {
     t: 'mat',
-    m: 'spa',
-    p: process.env.PORT || 8080,
-    H: 'localhost'
+    m: 'spa'
   }
 })
 
@@ -63,21 +61,11 @@ async function goLive () {
   const
     DevServer = require('../lib/dev-server'),
     QuasarConfig = require('../lib/quasar-config'),
-    Generator = require('../lib/generator'),
-    findPort = require('../lib/helpers/net').findClosestOpenPort
+    Generator = require('../lib/generator')
 
   if (argv.mode === 'cordova' && ['localhost', '127.0.0.1', '::1'].includes(argv.hostname.toLowerCase())) {
     const getExternalIP = require('../lib/helpers/get-external-ip')
     argv.hostname = await getExternalIP()
-  }
-
-  const openPort = await findPort(argv.port, argv.hostname)
-  if (argv.port !== openPort) {
-    warn()
-    warn(`Setting port to closest one available: ${openPort}`)
-    warn()
-
-    argv.port = openPort
   }
 
   const
