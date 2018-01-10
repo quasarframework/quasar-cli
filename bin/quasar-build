@@ -7,7 +7,7 @@ const
 const
   logger = require('../lib/helpers/logger')
   log = logger('app:build')
-  warn = logger('app:warn', 'red')
+  warn = logger('app:build', 'red')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
