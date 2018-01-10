@@ -65,6 +65,7 @@ const
     { key: 'NodeJs', value: chalk.green(process.version.slice(1)) },
     { key: 'Global packages', section: true },
     { key: '  NPM', value: getSpawnOutput('npm') },
+    { key: '  yarn', value: getSpawnOutput('yarn') },
     { key: '  vue-cli', value: getSpawnOutput('vue') },
     { key: '  cordova', value: getSpawnOutput('cordova') },
     { key: 'Important local packages', section: true }
