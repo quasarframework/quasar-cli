@@ -68,14 +68,14 @@ try {
 
   if (child.status !== 0) {
     warn(`Something went wrong... Try running the "vue init" command above manually.`)
-    warn(`Reasons for failure: Vue CLI not installed globally, specified template is unavailable or it failed to download.`)
+    warn(`Reasons for failure: Package vue-cli not installed globally, specified template is unavailable or it failed to download.`)
     warn()
     process.exit(1)
   }
 }
 catch (err) {
   console.log(err)
-  warn(`Vue CLI not installed globally.`)
+  warn(`Package vue-cli not installed globally.`)
   warn('Run "npm i -g vue-cli" to install Vue CLI and then try again.')
   warn()
   process.exit(1)
