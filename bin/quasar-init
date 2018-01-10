@@ -42,7 +42,6 @@ const
   logger = require('../lib/helpers/logger'),
   log = logger('app:init'),
   warn = logger('app:init', 'red'),
-  getAppDir = require('../lib/build/get-app-dir'),
   spawn = require('cross-spawn'),
   resolve = require('path').resolve
 
