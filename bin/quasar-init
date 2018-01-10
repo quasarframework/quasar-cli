@@ -67,7 +67,8 @@ try {
   ], { stdio: ['inherit', 'inherit', 'inherit'] })
 
   if (child.status !== 0) {
-    warn(`Specified template is unavailable or it failed to download.`)
+    warn(`Something went wrong... Try running the "vue init" command above manually.`)
+    warn(`Reasons for failure: Vue CLI not installed globally, specified template is unavailable or it failed to download.`)
     warn()
     process.exit(1)
   }
