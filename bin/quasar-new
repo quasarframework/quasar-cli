@@ -72,8 +72,9 @@ if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store'].includes(type)
 }
 
 const
-  ext = ['s', 'store'].includes(type) || name.endsWith('.vue') ? '' : '.vue',
-  file = appPaths.resolve.src(path.join(mapping[type], name + ext))
+  isStoreModule = ['s', 'store'].includes(type),
+  ext = isStoreModule || name.endsWith('.vue') ? '' : '.vue',
+  file = appPaths.resolve.src(path.join(mapping[type], isStoreModule ? 'modules' : '', name + ext))
 
 if (fs.existsSync(file)) {
   console.log()
