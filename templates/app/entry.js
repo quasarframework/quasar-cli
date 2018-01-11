@@ -35,7 +35,7 @@ import Vue from 'vue'
 import Quasar<%= QImports || '' %> from 'quasar'
 
 Vue.config.productionTip = false
-import App from '~/App'
+import App from 'src/App'
 
 <%
 extras && extras.filter(asset => asset).forEach(asset => {
@@ -63,14 +63,14 @@ require('quasar-extras/animate/<%= asset %>.css')
 require('quasar-app-styl')
 
 <% css && css.filter(css => css).forEach(asset => { %>
-require('~/css/<%= asset %>')
+require('src/css/<%= asset %>')
 <% }) %>
 
 Vue.use(Quasar<%= QImports ? QOptions : '' %>)
 
-import router from '~/router'
+import router from 'src/router'
 <% if (store) { %>
-import store from '~/store'
+import store from 'src/store'
 <% } %>
 
 const app = {
@@ -88,7 +88,7 @@ const plugins = []
 plugins.filter(asset => asset).forEach(asset => {
   let importName = 'plugin' + hash(asset)
 %>
-import <%= importName %> from '~/plugins/<%= asset %>'
+import <%= importName %> from 'src/plugins/<%= asset %>'
 plugins.push(<%= importName %>)
 <% }) %>
 plugins.forEach(plugin => plugin({ app, router,<% if (store) { %> store,<% } %> Vue }))
