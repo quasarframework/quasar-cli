@@ -38,6 +38,20 @@ else {
   let cmd = process.argv[2]
 
   if (cmd) {
+    if (cmd.length === 1) {
+      const mapToCmd = {
+        d: 'dev',
+        b: 'build',
+        c: 'clean',
+        m: 'mode',
+        i: 'info',
+        s: 'serve',
+        n: 'new',
+        h: 'help'
+      }
+      cmd = mapToCmd[cmd]
+    }
+
     if (commands.includes(cmd)) {
       process.argv.splice(2, 1)
     }

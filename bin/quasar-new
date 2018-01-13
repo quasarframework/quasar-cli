@@ -45,17 +45,7 @@ const
   appPaths = require('../lib/build/app-paths'),
   path = require('path'),
   fs = require('fs'),
-  fse = require('fs-extra'),
-  mapping = {
-    p: 'pages',
-    page: 'pages',
-    l: 'layouts',
-    layout: 'layouts',
-    c: 'components',
-    component: 'components',
-    s: 'store',
-    store: 'store'
-  }
+  fse = require('fs-extra')
 
 if (argv._.length !== 2) {
   console.log()
@@ -63,29 +53,66 @@ if (argv._.length !== 2) {
   showHelp()
 }
 
-const [ type, name ] = argv._
+let [ type, name ] = argv._
 
-if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store'].includes(type)) {
+if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store', 'plugin'].includes(type)) {
   console.log()
   warn(`Invalid asset type: ${type}`)
   showHelp()
 }
 
+if (type.length === 1) {
+  const fullCmd = {
+    p: 'page',
+    l: 'layout',
+    c: 'component',
+    s: 'store'
+  }
+  type = fullCmd[type]
+}
+
 const
-  isStoreModule = ['s', 'store'].includes(type),
-  ext = isStoreModule || name.endsWith('.vue') ? '' : '.vue',
-  file = appPaths.resolve.src(path.join(mapping[type], isStoreModule ? 'modules' : '', name + ext))
+  mapping = {
+    page: {
+      folder: 'pages',
+      ext: '.vue',
+      reference: '',
+      reference: 'src/router/routes.js'
+    },
+    layout: {
+      folder: 'layouts',
+      ext: '.vue',
+      reference: 'src/router/routes.js'
+    },
+    component: {
+      folder: 'components',
+      ext: '.vue'
+    },
+    store: {
+      folder: 'store',
+      reference: 'src/store/index.js'
+    },
+    plugin: {
+      folder: 'plugins',
+      ext: '.js',
+      reference: 'quasar.conf.js > plugins'
+    }
+  },
+  asset = mapping[type],
+  hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext)),
+  ext = hasExtension ? '' : asset.ext,
+  file = appPaths.resolve.src(path.join(asset.folder, name + ext))
 
 if (fs.existsSync(file)) {
   console.log()
-  warn('An asset with that name already exists. Aborting.')
+  warn(`A ${type} with that name already exists. Aborting.`)
   warn()
   process.exit(1)
 }
 
 fse.mkdirp(path.dirname(file))
 fse.copy(
-  appPaths.resolve.cli(path.join('templates/app', mapping[type] + ext)),
+  appPaths.resolve.cli(path.join('templates/app', type + (asset.ext || ''))),
   file,
   err => {
     if (err) {
@@ -94,8 +121,10 @@ fse.copy(
       process.exit(1)
     }
 
-    log(`Generated: ${file}`)
-    log(`Make sure to reference it in ${ext ? 'src/router/routes.js' : 'src/store/index.js'}`)
+    log(`Generated ${type}: ${path.relative(appPaths.appDir, file)}`)
+    if (asset.reference) {
+      log(`Make sure to reference it in ${asset.reference}`)
+    }
     log()
   }
 )
