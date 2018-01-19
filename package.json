@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.15.0-beta.28",
+  "version": "0.15.0-beta.29",
   "description": "Quasar Framework CLI",
   "scripts": {
     "postinstall": "node lib/node-version-check.js"
@@ -35,7 +35,6 @@
   "homepage": "http://quasar-framework.org",
   "dependencies": {
     "babel-core": "6.26.0",
-    "babel-eslint": "8.2.1",
     "babel-loader": "7.1.2",
     "babel-plugin-transform-runtime": "6.23.0",
     "babel-preset-env": "1.6.1",
@@ -49,14 +48,6 @@
     "cross-spawn": "5.1.0",
     "css-loader": "0.28.9",
     "elementtree": "0.1.7",
-    "eslint": "4.15.0",
-    "eslint-config-standard": "10.2.1",
-    "eslint-loader": "1.9.0",
-    "eslint-plugin-html": "4.0.1",
-    "eslint-plugin-import": "2.8.0",
-    "eslint-plugin-node": "5.2.1",
-    "eslint-plugin-promise": "3.6.0",
-    "eslint-plugin-standard": "3.0.1",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.6",
     "friendly-errors-webpack-plugin": "1.6.1",

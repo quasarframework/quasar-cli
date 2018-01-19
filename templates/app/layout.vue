@@ -35,6 +35,7 @@
     <q-layout-drawer side="left" v-model="leftDrawer">
       <!-- QScrollArea is optional -->
       <q-scroll-area class="fit q-pa-sm">
+        <!-- Content here -->
       </q-scroll-area>
     </q-layout-drawer>
 
@@ -48,7 +49,7 @@
 
 <script>
 export default {
-  // name: 'layout-name',
+  // name: 'LayoutName',
   data () {
     return {
       leftDrawer: true
