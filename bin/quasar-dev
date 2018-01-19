@@ -63,7 +63,7 @@ async function goLive () {
     QuasarConfig = require('../lib/quasar-config'),
     Generator = require('../lib/generator')
 
-  if (argv.mode === 'cordova' && ['localhost', '127.0.0.1', '::1'].includes(argv.hostname.toLowerCase())) {
+  if (argv.mode === 'cordova' && (!argv.hostname || ['localhost', '127.0.0.1', '::1'].includes(argv.hostname.toLowerCase()))) {
     const getExternalIP = require('../lib/helpers/get-external-ip')
     argv.hostname = await getExternalIP()
   }
