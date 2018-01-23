@@ -13,7 +13,7 @@ if (!qfs.is.inAppFolder()) {
 }
 
 command
-  .usage('<template> <name including subfolder if any>')
+  .usage('<template> <names including subfolder if any>')
   .option('-l, --list', 'List available templates')
   .on('--help', function () {
     log('  Templates are stored in ' + '/templates'.gray)
@@ -26,6 +26,10 @@ command
     log()
     log('    # generate .vue file from a Component template'.gray)
     log('    $ quasar new component Hello')
+    log()
+    log('    # generate multiple .vue file from a Component template'.gray)
+    log('    $ quasar new component Hello World')
+    log('    # the above creates Hello.vue and World.vue in src/components/'.gray)
     log()
     log('    # generate .vue file from a template to a subfolder'.gray)
     log('    $ quasar new layout layout/about/help/Hello')
@@ -44,7 +48,7 @@ if (command.list) {
     })
   })
 }
-else if (!command.args.length || command.args.length > 2) {
+else if (command.args.length <= 1) {
   command.help()
   process.exit(1)
   // ^^^ EARLY EXIT
@@ -56,35 +60,40 @@ else {
 function generate () {
   var
     type = command.args[0],
-    name = command.args[1] + '.vue',
     src = qfs.get.root('templates', type + '.vue'),
-    dest = qfs.get.root('src', 'components', name),
-    relativeDest = qfs.relative(dest)
+    dest = qfs.get.root('src', 'components')
 
   if (!qfs.exists(src)) {
     log.fatal('Template "' + (type + '.vue').gray + '" does not exists.')
     // ^^^ EARLY EXIT
   }
 
-  if (qfs.exists(dest)) {
-    log.fatal('There is already a file at ' + relativeDest.gray)
-    // ^^^ EARLY EXIT
-  }
-
   mkdirp(qfs.dirname(dest), function (err) {
     if (err) {
-      log.fatal('Error creating folder for ' + 'dest'.gray)
+      log.fatal('Error creating folder ' + dest.gray +' for ' + 'dest'.gray)
       // ^^^ EARLY EXIT
     }
 
-    if (qfs.copy(src, dest)) {
-      log.fatal('Error while trying to generate ' + relativeDest.gray)
-      // ^^^ EARLY EXIT
-    }
+    for (let i = 1; i < command.args.length; i++) {
+      var
+        name = command.args[i] + '.vue',
+        destFile = qfs.get.root('src', 'components', name),
+        relativeDest = qfs.relative(destFile)
 
-    log.success(
-      'Generated "' + name.gray + '" from "' + (type + '.vue').gray +
-      '" in ' + relativeDest.gray
-    )
+      if (qfs.exists(destFile)) {
+        log.fatal('There is already a file at ' + relativeDest.gray)
+        // ^^^ EARLY EXIT
+      }
+
+      if (qfs.copy(src, destFile)) {
+        log.fatal('Error while trying to generate ' + relativeDest.gray)
+        // ^^^ EARLY EXIT
+      }
+
+      log.success(
+        'Generated "' + name.gray + '" from "' + (type + '.vue').gray +
+        '" in ' + relativeDest.gray
+      )
+    }
   })
 }

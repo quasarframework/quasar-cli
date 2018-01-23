@@ -31,7 +31,7 @@ Display list of commands:
 - `dev` - run dev server for your app
 - `build` - build for production
 - `clean` - clean build assets
-- `new` - create app component from component templates
+- `new` - create app assets (component, pages, layouts, store module)
 - `serve` - start a live reload HTTP server on a folder (like `/dist`)
 
 ### Help
