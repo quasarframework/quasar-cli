@@ -29,7 +29,7 @@ Display list of commands:
 - `dev` - run dev server for your app
 - `build` - build for production
 - `clean` - clean build assets
-- `new` - create app component from component templates
+- `new` - create app assets (component, pages, layouts, store module)
 - `serve` - start a live reload HTTP server on a folder (like `/dist`)
 
 ### Help
@@ -67,7 +67,7 @@ The "full monty":
 
 `$ quasar init [template name] <folder-name> <account/repo>` example: `$ quasar init v2 ny-app @asmith`
 
-### Wrap application  
+### Wrap application
 
 Wrap with [Cordova](https://www.npmjs.com/package/cordova) (optionally with Crosswalk WebView plugin for Android Apps)
 

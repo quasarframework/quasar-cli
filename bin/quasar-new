@@ -25,6 +25,9 @@ function showHelp () {
       # Create src/pages/MyNewPage.vue:
       $ quasar new p MyNewPage
 
+      # Create src/pages/MyNewPage.vue and src/pages/OtherPage.vue:
+      $ quasar new p MyNewPage OtherPage
+
       # Create src/layouts/shop/Checkout.vue
       $ quasar new layout shop/Checkout.vue
 
@@ -47,13 +50,14 @@ const
   fs = require('fs'),
   fse = require('fs-extra')
 
-if (argv._.length !== 2) {
+if (argv._.length < 2) {
   console.log()
   warn(`Wrong number of parameters (${argv._.length}).`)
   showHelp()
+  process.exit(1)
 }
 
-let [ type, name ] = argv._
+let [ type, ...names ] = argv._
 
 if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store', 'plugin'].includes(type)) {
   console.log()
@@ -69,6 +73,46 @@ if (type.length === 1) {
     s: 'store'
   }
   type = fullCmd[type]
+}
+
+function getPaths (asset, names) {
+  return names.map(name => {
+    const
+      hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext)),
+      ext = hasExtension ? '' : asset.ext
+
+    return appPaths.resolve.src(path.join(asset.folder, name + ext))
+  })
+}
+
+function createFile (asset, file) {
+  const relativePath = path.relative(appPaths.appDir, file)
+
+  if (fs.existsSync(file)) {
+    warn(`[SKIPPED] ${relativePath} already exists.`)
+    console.log()
+    return
+  }
+
+  fse.mkdirp(path.dirname(file))
+  fse.copy(
+    appPaths.resolve.cli(path.join('templates/app', type + (asset.ext || ''))),
+    file,
+    err => {
+
+      if (err) {
+        console.warn(err)
+        warn('[FAIL] Could not generate ${relativePath}.')
+        return
+      }
+
+      log(`Generated ${type}: ${relativePath}`)
+      if (asset.reference) {
+        log(`Make sure to reference it in ${asset.reference}`)
+      }
+      log()
+    }
+  )
 }
 
 const
@@ -98,33 +142,10 @@ const
       reference: 'quasar.conf.js > plugins'
     }
   },
-  asset = mapping[type],
-  hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext)),
-  ext = hasExtension ? '' : asset.ext,
-  file = appPaths.resolve.src(path.join(asset.folder, name + ext))
+  asset = mapping[type]
 
-if (fs.existsSync(file)) {
-  console.log()
-  warn(`A ${type} with that name already exists. Aborting.`)
-  warn()
-  process.exit(1)
-}
+const filesToCreate = getPaths(asset, names)
 
-fse.mkdirp(path.dirname(file))
-fse.copy(
-  appPaths.resolve.cli(path.join('templates/app', type + (asset.ext || ''))),
-  file,
-  err => {
-    if (err) {
-      console.warn(err)
-      warn('Failed to generate the asset.')
-      process.exit(1)
-    }
-
-    log(`Generated ${type}: ${path.relative(appPaths.appDir, file)}`)
-    if (asset.reference) {
-      log(`Make sure to reference it in ${asset.reference}`)
-    }
-    log()
-  }
-)
+filesToCreate.forEach(file => {
+  createFile(asset, file)
+})
