@@ -28,43 +28,43 @@ else if (framework !== false) {
 %>
 
 <% if (supportIE) { %>
-require('quasar-framework/dist/quasar.ie.polyfills.js')
+import 'quasar-framework/dist/quasar.ie.polyfills'
 <% } %>
-
-import Vue from 'vue'
-import Quasar<%= QImports || '' %> from 'quasar'
-
-Vue.config.productionTip = false
-import App from 'src/App'
 
 <%
 extras && extras.filter(asset => asset).forEach(asset => {
 %>
-require('quasar-extras/<%= asset %>')
+import 'quasar-extras/<%= asset %>'
 <% }) %>
 
 <%
 if (animations) {
   if (animations === 'all') {
 %>
-require('quasar-extras/animate')
+import 'quasar-extras/animate'
 <%
   }
   else {
     animations.filter(asset => asset).forEach(asset => {
 %>
-require('quasar-extras/animate/<%= asset %>.css')
+import 'quasar-extras/animate/<%= asset %>.css'
 <%
     })
   }
 }
 %>
 
-require('quasar-app-styl')
+import 'quasar-app-styl'
 
 <% css && css.filter(css => css).forEach(asset => { %>
-require('src/css/<%= asset %>')
+import 'src/css/<%= asset %>'
 <% }) %>
+
+import Vue from 'vue'
+import Quasar<%= QImports || '' %> from 'quasar'
+
+Vue.config.productionTip = false
+import App from 'src/App'
 
 Vue.use(Quasar<%= QImports ? QOptions : '' %>)
 
@@ -76,9 +76,7 @@ import store from 'src/store'
 const app = {
   el: '#q-app',
   router,
-  <% if (store) { %>
-    store,
-  <% } %>
+<% if (store) { %>store,<% } %>
   ...App
 }
 
@@ -95,7 +93,8 @@ plugins.forEach(plugin => plugin({ app, router,<% if (store) { %> store,<% } %> 
 <% } %>
 
 <% if (ctx.mode.electron) { %>
-Vue.prototype.$q.electron = require('electron')
+import electron from 'electron'
+Vue.prototype.$q.electron = electron
 <% } %>
 
 <% if (ctx.mode.cordova) { %>
