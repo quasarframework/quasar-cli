@@ -17,7 +17,8 @@ function showHelp () {
     Usage
       $ quasar new [p|page] <page_file_name>
       $ quasar new [l|layout] <layout_file_name>
-      $ quasar new [c|component] <page_file_name>
+      $ quasar new [c|component] <component_file_name>
+      $ quasar new plugin <plugin_name>
       $ quasar new [s|store] <store_module_name>
 
       # Examples:
