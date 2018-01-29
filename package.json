@@ -48,8 +48,7 @@
     "os": "^0.1.1",
     "qrcode-terminal": "^0.11.0",
     "request": "^2.73.0",
-    "uid": "0.0.2",
-    "update-notifier": "^1.0.2"
+    "uid": "0.0.2"
   },
   "devDependencies": {
     "eslint": "^3.0.1",
