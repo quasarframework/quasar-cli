@@ -78,8 +78,20 @@ const
     arch: argv.arch,
     debug: argv.debug,
     prod: true
-  }),
-  generator = new Generator(quasarConfig),
+  })
+
+try {
+  quasarConfig.prepare()
+}
+catch (e) {
+  warn(`[FAIL] quasar.conf.js has JS errors`)
+  process.exit(1)
+}
+
+quasarConfig.compile()
+
+const
+  generator = new Generator(),
   webpackConfig = quasarConfig.getWebpackConfig(),
   buildConfig = quasarConfig.getBuildConfig(),
   mode = argv.mode.toUpperCase(),
@@ -90,7 +102,7 @@ if (argv.clean) {
   artifacts.clean(outputFolder)
 }
 
-generator.build()
+generator.build(quasarConfig)
 
 log(chalk.bold(`Building main...`))
 log()
