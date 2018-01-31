@@ -107,6 +107,12 @@ Vue.prototype.$q.electron = electron
 <% } %>
 
 <% if (ctx.mode.cordova) { %>
+  <% if (ctx.target.ios) { %>
+    import FastClick from 'fastclick'
+    document.addEventListener('DOMContentLoaded', () => {
+      FastClick.attach(document.body)
+    }, false)
+  <% } %>
 document.addEventListener('deviceready', () => {
 Vue.prototype.$q.cordova = window.cordova
 <% } %>
