@@ -106,8 +106,19 @@ import electron from 'electron'
 Vue.prototype.$q.electron = electron
 <% } %>
 
+<% if (ctx.mode.pwa) { %>
+import FastClick from 'fastclick'
+// Needed only for iOS PWAs
+if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.navigator.standalone) {
+  document.addEventListener('DOMContentLoaded', () => {
+    FastClick.attach(document.body)
+  }, false)
+}
+<% } %>
+
 <% if (ctx.mode.cordova) { %>
   <% if (ctx.target.ios) { %>
+    // Needed only for iOS
     import FastClick from 'fastclick'
     document.addEventListener('DOMContentLoaded', () => {
       FastClick.attach(document.body)
