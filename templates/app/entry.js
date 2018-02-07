@@ -81,6 +81,10 @@ Vue.use(Quasar<%= QImports ? QOptions : '' %>)
 import lang from 'quasar-framework/i18n/<%= framework.i18n %>'
 Quasar.i18n.set(lang)
 <% } %>
+<% if (framework && framework.iconSet) { %>
+import iconSet from 'quasar-framework/icons/<%= framework.iconSet %>'
+Quasar.icons.set(iconSet)
+<% } %>
 
 import router from 'src/router'
 <% if (store) { %>
