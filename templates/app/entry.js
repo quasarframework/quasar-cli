@@ -77,6 +77,11 @@ import App from 'src/App'
 
 Vue.use(Quasar<%= QImports ? QOptions : '' %>)
 
+<% if (framework && framework.i18n) { %>
+import lang from 'quasar-framework/i18n/<%= framework.i18n %>'
+Quasar.i18n.set(lang)
+<% } %>
+
 import router from 'src/router'
 <% if (store) { %>
 import store from 'src/store'
