@@ -24,6 +24,9 @@ if (argv.help) {
       Add/Remove support for PWA / Cordova / Electron modes.
     Usage
       $ quasar mode -r|-a pwa|cordova|electron
+
+      # determine what modes are currently installed:
+      $ quasar mode
     Options
       --add, -a     Add support for mode [pwa|cordova|electron]
       --remove, -r  Remove support for mode [pwa|cordova|electron]
