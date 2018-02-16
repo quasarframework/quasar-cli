@@ -14,7 +14,8 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     t: 'theme',
     m: 'mode',
-    T: 'target',
+    T: 'target', // cordova-mode only
+    e: 'emulator', // cordova-mode only
     p: 'port',
     H: 'hostname',
     h: 'help'
@@ -41,9 +42,11 @@ if (argv.help) {
       --hostname, -H   A hostname to use for serving the application
       --help, -h       Displays this message
 
-      Only for Cordova mode (required):
-      --target, -T     App target
+      Only for Cordova mode:
+      --target, -T     (required) App target
                          [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+      --emulator, -e   (optional) Emulator name
+                         Example: iPhone-7, iPhone-X
   `)
   process.exit(0)
 }
@@ -124,6 +127,7 @@ async function goLive () {
       theme: argv.theme,
       mode: argv.mode,
       target: argv.target,
+      emulator: argv.emulator,
       port: argv.port,
       host: argv.hostname,
       dev: true,
