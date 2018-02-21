@@ -1,99 +1,152 @@
 #!/usr/bin/env node
 
-var
-  command = require('commander'),
-  glob = require('glob'),
-  mkdirp = require('mkdirp'),
-  log = require('../lib/log'),
-  qfs = require('../lib/qfs')
+const parseArgs = require('minimist')
 
-if (!qfs.is.inAppFolder()) {
-  log.fatal('Not in an App folder.')
-  // ^^^ EARLY EXIT
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    h: 'help'
+  },
+  boolean: ['h']
+})
+
+function showHelp () {
+  console.log(`
+    Description
+      Quickly scaffold a page/layout/component/store module.
+
+    Usage
+      $ quasar new [p|page] <page_file_name>
+      $ quasar new [l|layout] <layout_file_name>
+      $ quasar new [c|component] <component_file_name>
+      $ quasar new plugin <plugin_name>
+      $ quasar new [s|store] <store_module_name>
+
+      # Examples:
+
+      # Create src/pages/MyNewPage.vue:
+      $ quasar new p MyNewPage
+
+      # Create src/pages/MyNewPage.vue and src/pages/OtherPage.vue:
+      $ quasar new p MyNewPage OtherPage
+
+      # Create src/layouts/shop/Checkout.vue
+      $ quasar new layout shop/Checkout.vue
+
+    Options
+      --help, -h     Displays this message
+  `)
+  process.exit(0)
 }
 
-command
-  .usage('<template> <names including subfolder if any>')
-  .option('-l, --list', 'List available templates')
-  .on('--help', function () {
-    log('  Templates are stored in ' + '/templates'.gray)
-    log()
-    log('  Example:')
-    log()
-    log('    # get your available Component templates'.gray)
-    log('    $ quasar new -l')
-    log('    $ quasar new --list')
-    log()
-    log('    # generate .vue file from a Component template'.gray)
-    log('    $ quasar new component Hello')
-    log()
-    log('    # generate multiple .vue file from a Component template'.gray)
-    log('    $ quasar new component Hello World')
-    log('    # the above creates Hello.vue and World.vue in src/components/'.gray)
-    log()
-    log('    # generate .vue file from a template to a subfolder'.gray)
-    log('    $ quasar new layout layout/about/help/Hello')
-    log('    # the above creates src/components/layout/about/help/Hello.vue'.gray)
-  })
-  .parse(process.argv)
-
-if (command.list) {
-  log(' Available Component templates:'.gray)
-  log()
-
-  glob(qfs.get.root('templates', '*.vue'), function (err, files) {
-    if (err) throw err
-    files.forEach(function (file) {
-      log('    ' + qfs.basename(file, '.vue'))
-    })
-  })
+if (argv.help) {
+  showHelp()
 }
-else if (command.args.length <= 1) {
-  command.help()
+
+const
+  logger = require('../lib/helpers/logger'),
+  log = logger('app:new'),
+  warn = logger('app:new', 'red'),
+  appPaths = require('../lib/build/app-paths'),
+  path = require('path'),
+  fs = require('fs'),
+  fse = require('fs-extra')
+
+if (argv._.length < 2) {
+  console.log()
+  warn(`Wrong number of parameters (${argv._.length}).`)
+  showHelp()
   process.exit(1)
-  // ^^^ EARLY EXIT
-}
-else {
-  generate()
 }
 
-function generate () {
-  var
-    type = command.args[0],
-    src = qfs.get.root('templates', type + '.vue'),
-    dest = qfs.get.root('src', 'components')
+let [ type, ...names ] = argv._
 
-  if (!qfs.exists(src)) {
-    log.fatal('Template "' + (type + '.vue').gray + '" does not exists.')
-    // ^^^ EARLY EXIT
+if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store', 'plugin'].includes(type)) {
+  console.log()
+  warn(`Invalid asset type: ${type}`)
+  showHelp()
+}
+
+if (type.length === 1) {
+  const fullCmd = {
+    p: 'page',
+    l: 'layout',
+    c: 'component',
+    s: 'store'
+  }
+  type = fullCmd[type]
+}
+
+function getPaths (asset, names) {
+  return names.map(name => {
+    const
+      hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext)),
+      ext = hasExtension ? '' : asset.ext
+
+    return appPaths.resolve.src(path.join(asset.folder, name + ext))
+  })
+}
+
+function createFile (asset, file) {
+  const relativePath = path.relative(appPaths.appDir, file)
+
+  if (fs.existsSync(file)) {
+    warn(`[SKIPPED] ${relativePath} already exists.`)
+    console.log()
+    return
   }
 
-  mkdirp(qfs.dirname(dest), function (err) {
-    if (err) {
-      log.fatal('Error creating folder ' + dest.gray +' for ' + 'dest'.gray)
-      // ^^^ EARLY EXIT
-    }
+  fse.mkdirp(path.dirname(file))
+  fse.copy(
+    appPaths.resolve.cli(path.join('templates/app', type + (asset.ext || ''))),
+    file,
+    err => {
 
-    for (let i = 1; i < command.args.length; i++) {
-      var
-        name = command.args[i] + '.vue',
-        destFile = qfs.get.root('src', 'components', name),
-        relativeDest = qfs.relative(destFile)
-
-      if (qfs.exists(destFile)) {
-        log.fatal('There is already a file at ' + relativeDest.gray)
-        // ^^^ EARLY EXIT
+      if (err) {
+        console.warn(err)
+        warn('[FAIL] Could not generate ${relativePath}.')
+        return
       }
 
-      if (qfs.copy(src, destFile)) {
-        log.fatal('Error while trying to generate ' + relativeDest.gray)
-        // ^^^ EARLY EXIT
+      log(`Generated ${type}: ${relativePath}`)
+      if (asset.reference) {
+        log(`Make sure to reference it in ${asset.reference}`)
       }
-
-      log.success(
-        'Generated "' + name.gray + '" from "' + (type + '.vue').gray +
-        '" in ' + relativeDest.gray
-      )
+      log()
     }
-  })
+  )
 }
+
+const
+  mapping = {
+    page: {
+      folder: 'pages',
+      ext: '.vue',
+      reference: '',
+      reference: 'src/router/routes.js'
+    },
+    layout: {
+      folder: 'layouts',
+      ext: '.vue',
+      reference: 'src/router/routes.js'
+    },
+    component: {
+      folder: 'components',
+      ext: '.vue'
+    },
+    store: {
+      folder: 'store',
+      reference: 'src/store/index.js'
+    },
+    plugin: {
+      folder: 'plugins',
+      ext: '.js',
+      reference: 'quasar.conf.js > plugins'
+    }
+  },
+  asset = mapping[type]
+
+const filesToCreate = getPaths(asset, names)
+
+filesToCreate.forEach(file => {
+  createFile(asset, file)
+})

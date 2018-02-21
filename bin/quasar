@@ -1,43 +1,81 @@
 #!/usr/bin/env node
 
-require('colors')
-
-var
-  commander = require('commander'),
-  log = require('../lib/log')
-
-log()
-process.on('exit', function () {
-  log()
-})
-
-if (process.argv.length <= 2) {
-  log(
-    require('fs')
-      .readFileSync(require('path')
-      .join(__dirname, '../lib/logo.art'), 'utf8')
-  )
+const localFile = require('import-local-file')(__filename)
+if (localFile) {
+  require(localFile)
 }
+else {
+  const
+    updateNotifier = require('update-notifier')
+    notifier = updateNotifier({
+      isGlobal: false,
+      pkg: require('../package.json'),
+      updateCheckInterval: 1000 * 60 * 60 * 24 * 14 // 2 weeks
+    }).notify()
 
-commander
-  .usage('<command> [options]')
-  .command('init [app template] <folder>', 'create Quasar App')
-  .command('list', 'list available app templates')
-  .command('new <template> <name>', 'generate .vue from app Component templates')
-  .command('dev [theme] [options]', 'run dev server')
-  .command('build [theme]', 'build production app')
-  .command('clean', 'clean production build artifacts')
-  .command('test', 'run unit and/or e2e tests')
-  .command('lint', 'lint source code')
-  .command('wrap [type]', 'wrap app with "cordova" or "electron"')
-  .command('serve [folder]', 'create live reload static-content server')
-  .command('version', 'output CLI and current app Quasar version')
-  .parse(process.argv)
+  const pe = require('pretty-error').start()
+  pe.skipPackage('regenerator-runtime')
+  pe.skipPackage('babel-runtime')
+  pe.skipNodeFiles()
 
-var command = commander.args[0] // eslint-disable-line one-var
+  // Console error unhandled promises
+  process.on('unhandledRejection', err => {
+    console.error(pe.render(err))
+  })
 
-if (!commander.commands.some(function (cmd) {
-  return cmd._name === command
-})) {
-  log.fatal('Command "' + command.gray + '" is not known. Check --help.')
+  const commands = [
+    'init',
+    'dev',
+    'build',
+    'clean',
+    'mode',
+    'info',
+    'serve',
+    'new',
+    'help'
+  ]
+
+  let cmd = process.argv[2]
+
+  if (cmd) {
+    if (cmd.length === 1) {
+      const mapToCmd = {
+        d: 'dev',
+        b: 'build',
+        c: 'clean',
+        m: 'mode',
+        i: 'info',
+        s: 'serve',
+        n: 'new',
+        h: 'help'
+      }
+      cmd = mapToCmd[cmd]
+    }
+
+    if (commands.includes(cmd)) {
+      process.argv.splice(2, 1)
+    }
+    else {
+      if (cmd === '-v' || cmd === '--version') {
+        console.log(require('../package.json').version)
+        process.exit(0)
+      }
+
+      const warn = require('../lib/helpers/logger')('app', 'red')
+
+      warn()
+      warn(`Unknown command "${ cmd }"`)
+      if (cmd.indexOf('-') === 0) {
+        warn(`Command must come before the options`)
+      }
+
+      warn()
+      cmd = 'help'
+    }
+  }
+  else {
+    cmd = 'help'
+  }
+
+  require(`./quasar-${cmd}`)
 }

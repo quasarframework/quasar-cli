@@ -1,53 +1,15 @@
 #!/usr/bin/env node
 
-var
-  command = require('commander'),
-  watch = require('gulp-watch'),
-  server = require('browser-sync'),
-  log = require('../lib/log'),
-  qfs = require('../lib/qfs'),
-  folder
+console.log(`
+  Description
+    Create an ad-hoc http(s) server on a specified folder.
 
-command
-  .usage('[folder]')
-  .option('-p, --port <n>', 'port for asset serving', parseInt)
-  .on('--help', function () {
-    log('  Examples:')
-    log()
-    log('    # serve current folder'.gray)
-    log('    $ quasar serve')
-    log()
-    log('    # serve specific folder'.gray)
-    log('    $ quasar serve ./dist')
-    log('    $ quasar serve /work/quasar-app/dist')
-    log()
-    log('    # serve on specific port'.gray)
-    log('    $ quasar serve --port 5000')
-  })
-  .parse(process.argv)
+    This command has been deprecated in favor of using the
+    "http-server" NPM package: https://www.npmjs.com/package/http-server
 
-function getFolder () {
-  if (qfs.is.inAppFolder()) {
-    var folder = qfs.get.root('dist')
-    if (qfs.exists(folder)) {
-      return folder
-    }
-  }
-  return process.cwd()
-}
+    Install it by typing: "npm install -g http-server"
+    Check its usage by visiting the link above.
 
-folder = command.args[0] || getFolder()
-
-server.create().init({
-  port: command.port || process.env.PORT || 3000,
-  open: false,
-  reloadOnRestart: true,
-  ghostMode: false,
-  server: {
-    baseDir: folder
-  }
-})
-
-watch(folder + '/**/*', function () {
-  server.reload()
-})
+    Basic usage is:
+    $ http-server [path] [options]
+`)

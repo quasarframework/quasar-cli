@@ -19,19 +19,17 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
 
 `$ npm install -g quasar-cli`
 
-### Command overview
+### TODO Command overview
 
 Display list of commands:
 
 `$ quasar`
 
 - `init` - create app from template
-- `list` - list app templates / starter kits
-- `wrap` - wrap app for a runtime environment
 - `dev` - run dev server for your app
 - `build` - build for production
 - `clean` - clean build assets
-- `new` - create new app component from component template 
+- `new` - create app assets (component, pages, layouts, store module)
 - `serve` - start a live reload HTTP server on a folder (like `/dist`)
 
 ### Help
@@ -69,7 +67,7 @@ The "full monty":
 
 `$ quasar init [template name] <folder-name> <account/repo>` example: `$ quasar init v2 ny-app @asmith`
 
-### Wrap application  
+### Wrap application
 
 Wrap with [Cordova](https://www.npmjs.com/package/cordova) (optionally with Crosswalk WebView plugin for Android Apps)
 
