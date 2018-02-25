@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.15.3",
+  "version": "0.15.4",
   "description": "Quasar Framework CLI",
   "scripts": {
     "postinstall": "node lib/node-version-check.js"
@@ -19,19 +19,24 @@
     "quasar",
     "cli",
     "web",
-    "spa"
+    "spa",
+    "pwa",
+    "electron",
+    "vue",
+    "vuejs",
+    "cordova"
   ],
   "author": {
     "name": "Razvan Stoenescu",
     "email": "razvan.stoenescu@gmail.com",
-    "url": "https://github.com/rstoenescu"
+    "url": "https://github.com/quasarframework"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/rstoenescu/quasar-cli"
+    "url": "https://github.com/quasarframework/quasar-cli"
   },
   "license": "MIT",
-  "bugs": "https://github.com/rstoenescu/quasar-cli/issues",
+  "bugs": "https://github.com/quasarframework/quasar-cli/issues",
   "homepage": "http://quasar-framework.org",
   "dependencies": {
     "ajv": "6.1.1",
