@@ -82,6 +82,7 @@ const
   'electron',
   'babel-core',
   'webpack',
+  'webpack-dev-server'
 ].forEach(pkg => output.push(safePkgInfo(pkg)))
 
 output.push(
