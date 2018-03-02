@@ -7,43 +7,51 @@
  * One plugin per concern. Then reference the file(s) in quasar.conf.js > plugins:
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
-<%
-let QImports, QOptions = []
+<% if (supportIE) { %>
+import 'quasar-framework/dist/quasar.ie.polyfills'
+<% }
+let importStatement, useStatement
+
 if (framework === 'all') {
-  QImports = ', * as All'
-  QOptions = ', {components: All, directives: All, plugins: All}'
+  importStatement = ', * as All'
+  useStatement = ', {components: All, directives: All, plugins: All}'
 }
 else if (framework !== false) {
-  let options = []
+  importStatement = []
+  useStatement = []
+
   ;['components', 'directives', 'plugins'].forEach(type => {
     if (framework[type]) {
       let items = framework[type].filter(item => item)
       if (items.length > 0) {
-        QOptions.push(type + ': {' + items.join(',') + '}')
-        options = options.concat(items)
+        useStatement.push(type + ': {' + items.join(',') + '}')
+        importStatement = importStatement.concat(items)
       }
     }
   })
-  if (options.length) {
-    QImports = ', {' + options.join(',') + '}'
-    QOptions = ', {' + QOptions.join(',') + '}'
+
+  if (framework.i18n) { %>
+import lang from 'quasar-framework/i18n/<%= framework.i18n %>'
+<%
+     useStatement.push('i18n: lang')
+  }
+
+  if (framework.iconSet) { %>
+import iconSet from 'quasar-framework/icons/<%= framework.iconSet %>'
+<%
+      useStatement.push('iconSet: iconSet')
+  }
+
+  if (importStatement.length) {
+    importStatement = ', {' + importStatement.join(',') + '}'
+  }
+  if (useStatement.length) {
+    useStatement = ', {' + useStatement.join(',') + '}'
   }
 }
-
-if (supportIE) { %>
-import 'quasar-framework/dist/quasar.ie.polyfills'
-<% } %>
+%>
 
 import Vue from 'vue'
-import Quasar<%= QImports || '' %> from 'quasar'
+import Quasar<%= importStatement || '' %> from 'quasar'
 
-Vue.use(Quasar<%= QImports ? QOptions : '' %>)
-
-<% if (framework && framework.i18n) { %>
-import lang from 'quasar-framework/i18n/<%= framework.i18n %>'
-Quasar.i18n.set(lang)
-<% } %>
-<% if (framework && framework.iconSet) { %>
-import iconSet from 'quasar-framework/icons/<%= framework.iconSet %>'
-Quasar.icons.set(iconSet)
-<% } %>
+Vue.use(Quasar<%= useStatement || '' %>)
