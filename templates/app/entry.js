@@ -7,38 +7,10 @@
  * One plugin per concern. Then reference the file(s) in quasar.conf.js > plugins:
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
-<%
-function hash (str) {
-  const name = str.replace(/\W+/g, '')
-  return name.charAt(0).toUpperCase() + name.slice(1)
-}
+import Vue from 'vue'
+import './quasar'
 
-let QImports, QOptions = []
-if (framework === 'all') {
-  QImports = ', * as All'
-  QOptions = ', {components: All, directives: All, plugins: All}'
-}
-else if (framework !== false) {
-  let options = []
-  ;['components', 'directives', 'plugins'].forEach(type => {
-    if (framework[type]) {
-      let items = framework[type].filter(item => item)
-      if (items.length > 0) {
-        QOptions.push(type + ': {' + items.join(',') + '}')
-        options = options.concat(items)
-      }
-    }
-  })
-  if (options.length) {
-    QImports = ', {' + options.join(',') + '}'
-    QOptions = ', {' + QOptions.join(',') + '}'
-  }
-}
-%>
-
-<% if (supportIE) { %>
-import 'quasar-framework/dist/quasar.ie.polyfills'
-<% } %>
+Vue.config.productionTip = false
 
 <%
 extras && extras.filter(asset => asset).forEach(asset => {
@@ -69,22 +41,7 @@ import 'quasar-app-styl'
 import 'src/css/<%= asset %>'
 <% }) %>
 
-import Vue from 'vue'
-import Quasar<%= QImports || '' %> from 'quasar'
-
-Vue.config.productionTip = false
 import App from 'src/App'
-
-Vue.use(Quasar<%= QImports ? QOptions : '' %>)
-
-<% if (framework && framework.i18n) { %>
-import lang from 'quasar-framework/i18n/<%= framework.i18n %>'
-Quasar.i18n.set(lang)
-<% } %>
-<% if (framework && framework.iconSet) { %>
-import iconSet from 'quasar-framework/icons/<%= framework.iconSet %>'
-Quasar.icons.set(iconSet)
-<% } %>
 
 import router from 'src/router'
 <% if (store) { %>
@@ -98,7 +55,13 @@ const app = {
   ...App
 }
 
-<% if (plugins) { %>
+<%
+  if (plugins) {
+    function hash (str) {
+      const name = str.replace(/\W+/g, '')
+      return name.charAt(0).toUpperCase() + name.slice(1)
+    }
+%>
 const plugins = []
 <%
 plugins.filter(asset => asset).forEach(asset => {
