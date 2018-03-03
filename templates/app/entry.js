@@ -64,7 +64,8 @@ const app = {
 %>
 const plugins = []
 <%
-plugins.filter(asset => asset).forEach(asset => {
+plugins.filter(asset => asset && asset !== 'boot').forEach(asset => {
+  if (asset === 'boot') { return }
   let importName = 'plugin' + hash(asset)
 %>
 import <%= importName %> from 'src/plugins/<%= asset %>'
@@ -100,8 +101,14 @@ document.addEventListener('deviceready', () => {
 Vue.prototype.$q.cordova = window.cordova
 <% } %>
 
-/* eslint-disable no-new */
+<%
+if (plugins && plugins.find(asset => asset === 'boot')) {
+%>
+import boot from 'src/plugins/boot'
+boot({ app, router,<% if (store) { %> store,<% } %> Vue })
+<% } else { %>
 new Vue(app)
+<% } %>
 
 <% if (ctx.mode.cordova) { %>
 }, false) // on deviceready
