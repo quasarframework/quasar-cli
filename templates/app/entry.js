@@ -72,6 +72,11 @@ import <%= importName %> from 'src/plugins/<%= asset %>'
 plugins.push(<%= importName %>)
 <% }) %>
 plugins.forEach(plugin => plugin({ app, router,<% if (store) { %> store,<% } %> Vue }))
+<% }
+const hasBootPlugin = plugins && plugins.find(asset => asset === 'boot')
+
+if (hasBootPlugin) { %>
+import boot from 'src/plugins/boot'
 <% } %>
 
 <% if (ctx.mode.electron) { %>
@@ -101,10 +106,7 @@ document.addEventListener('deviceready', () => {
 Vue.prototype.$q.cordova = window.cordova
 <% } %>
 
-<%
-if (plugins && plugins.find(asset => asset === 'boot')) {
-%>
-import boot from 'src/plugins/boot'
+<% if (hasBootPlugin) { %>
 boot({ app, router,<% if (store) { %> store,<% } %> Vue })
 <% } else { %>
 new Vue(app)
