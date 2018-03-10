@@ -47,7 +47,7 @@ if (argv.help) {
 
       ONLY for Electron mode:
       --arch, -A     App architecture (default: yours)
-                       [ia32|x64|armv7l|arm64|all]
+                       [ia32|x64|armv7l|arm64|mips64el|all]
   `)
   process.exit(0)
 }
