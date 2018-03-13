@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.15.10",
+  "version": "0.15.11",
   "description": "Quasar Framework CLI",
   "scripts": {
     "postinstall": "node lib/node-version-check.js"
@@ -89,7 +89,7 @@
     "vue-loader": "14.2.1",
     "vue-router": "3.0.1",
     "vue-style-loader": "4.0.2",
-    "vue-template-compiler": "2.5.14",
+    "vue-template-compiler": "2.5.15",
     "vuex": "3.0.1",
     "webpack": "3.11.0",
     "webpack-bundle-analyzer": "2.11.1",
