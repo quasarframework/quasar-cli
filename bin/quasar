@@ -5,6 +5,8 @@ if (localFile) {
   require(localFile)
 }
 else {
+  require('../lib/node-version-check')
+
   const
     updateNotifier = require('update-notifier')
     notifier = updateNotifier({

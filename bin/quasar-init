@@ -47,6 +47,14 @@ const
 
 if (argv.type && !['umd'].includes(argv.type)) {
   warn(`Specified type ("${argv.type}") is not recognized.`)
+  warn()
+  process.exit(0)
+}
+
+if (!argv._[0]) {
+  warn(`Missing folder name as parameter.`)
+  warn()
+  process.exit(0)
 }
 
 const

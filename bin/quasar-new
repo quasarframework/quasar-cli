@@ -121,7 +121,6 @@ const
     page: {
       folder: 'pages',
       ext: '.vue',
-      reference: '',
       reference: 'src/router/routes.js'
     },
     layout: {
