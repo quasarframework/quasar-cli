@@ -77,11 +77,11 @@
     "progress-bar-webpack-plugin": "1.11.0",
     "quasar-extras": "1.0.2",
     "quasar-framework": "0.15.10",
+    "register-service-worker": "1.2.0",
     "stylus": "0.54.5",
     "stylus-loader": "3.0.2",
-    "sw-precache-webpack-plugin": "0.11.5",
     "uglify-es": "3.3.9",
-    "uglifyjs-webpack-plugin": "1.2.4",
+    "uglifyjs-webpack-plugin": "1.2.5",
     "update-notifier": "2.5.0",
     "url-loader": "1.0.1",
     "vue": "2.5.16",
@@ -90,10 +90,11 @@
     "vue-style-loader": "4.1.0",
     "vue-template-compiler": "2.5.16",
     "vuex": "3.0.1",
-    "webpack": "^4.5.0",
+    "webpack": "4.6.0",
     "webpack-bundle-analyzer": "2.11.1",
     "webpack-dev-server": "3.1.3",
-    "webpack-merge": "4.1.2"
+    "webpack-merge": "4.1.2",
+    "workbox-webpack-plugin": "3.1.0"
   },
   "engines": {
     "node": ">= 8.9.0",

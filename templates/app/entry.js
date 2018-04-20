@@ -10,7 +10,11 @@
 import './quasar'
 
 import Vue from 'vue'
-Vue.config.productionTip = false
+Vue.config.productionTip = <%= ctx.dev ? false : true %>
+
+<% if (ctx.prod && ctx.mode.pwa) { %>
+import '../src-pwa/register-service-worker'
+<% } %>
 
 <%
 extras && extras.filter(asset => asset).forEach(asset => {

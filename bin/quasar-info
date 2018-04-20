@@ -82,7 +82,8 @@ const
   'electron',
   'babel-core',
   'webpack',
-  'webpack-dev-server'
+  'webpack-dev-server',
+  'workbox-webpack-plugin'
 ].forEach(pkg => output.push(safePkgInfo(pkg)))
 
 output.push(
