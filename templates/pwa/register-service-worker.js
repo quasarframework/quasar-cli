@@ -1,8 +1,13 @@
+/*
+ * This file is picked up by the build system only
+ * when building for PRODUCTION
+ */
+
 import { register } from 'register-service-worker'
 
-register(`${process.env.VUE_ROUTER_BASE}service-worker.js`, {
+register(process.env.SERVICE_WORKER_FILE, {
   ready () {
-    console.log('Service worker is active.')
+    console.log('App is being served from cache by a service worker.')
   },
   cached () {
     console.log('Content has been cached for offline use.')
@@ -13,7 +18,7 @@ register(`${process.env.VUE_ROUTER_BASE}service-worker.js`, {
   offline () {
     console.log('No internet connection found. App is running in offline mode.')
   },
-  error (error) {
-    console.error('Error during service worker registration:', error)
+  error (err) {
+    console.error('Error during service worker registration:', err)
   }
 })
