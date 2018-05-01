@@ -83,7 +83,7 @@ try {
 catch (err) {
   console.log(err)
   warn(`Package vue-cli not installed globally.`)
-  warn('Run "npm i -g vue-cli" to install Vue CLI and then try again.')
+  warn('Run "npm i -g @vue/cli @vue/cli-init" or "yarn global add @vue/cli @vue/cli-init" to install Vue CLI and then try again.')
   warn()
   process.exit(1)
 }
