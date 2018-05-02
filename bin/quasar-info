@@ -80,7 +80,7 @@ const
   'vue-router',
   'vuex',
   'electron',
-  'babel-core',
+  '@babel/core',
   'webpack',
   'webpack-dev-server',
   'workbox-webpack-plugin'
