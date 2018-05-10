@@ -53,7 +53,7 @@ const
 
 if (argv._.length < 2) {
   console.log()
-  warn(`Wrong number of parameters (${argv._.length}).`)
+  warn(`⚠️  Wrong number of parameters (${argv._.length}).`)
   showHelp()
   process.exit(1)
 }
@@ -62,7 +62,7 @@ let [ type, ...names ] = argv._
 
 if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store', 'plugin'].includes(type)) {
   console.log()
-  warn(`Invalid asset type: ${type}`)
+  warn(`⚠️  Invalid asset type: ${type}`)
   showHelp()
 }
 

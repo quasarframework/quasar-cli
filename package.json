@@ -73,6 +73,7 @@
     "os": "0.1.1",
     "postcss-loader": "2.1.4",
     "postcss-rtl": "1.2.3",
+    "preload-webpack-plugin": "^3.0.0-alpha.3",
     "progress-bar-webpack-plugin": "1.11.0",
     "quasar-extras": "1.0.3",
     "quasar-framework": "0.15.10",
