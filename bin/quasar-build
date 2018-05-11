@@ -15,6 +15,7 @@ const argv = parseArgs(process.argv.slice(2), {
     m: 'mode',
     T: 'target',
     A: 'arch',
+    b: 'bundler',
     d: 'debug',
     c: 'clean',
     h: 'help'
@@ -39,13 +40,16 @@ if (argv.help) {
       --target, -T   App target
                        - Cordova (default: all installed)
                           [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
-                       - Electron (default: yours)
+                       - Electron with "electron-packager" bundler (default: yours)
                           [darwin|win32|linux|mas|all]
       --debug, -d    Build for debugging purposes
       --clean, -c    Clean build artifact first
       --help, -h     Displays this message
 
       ONLY for Electron mode:
+      --bundler, -b  Bundler (electron-packager or electron-builder)
+                       [packager|builder]
+      ONLY for Electron mode with default "electron-packager" bundler:
       --arch, -A     App architecture (default: yours)
                        [ia32|x64|armv7l|arm64|mips64el|all]
   `)
@@ -75,6 +79,7 @@ async function build () {
     mode: argv.mode,
     target: argv.target,
     arch: argv.arch,
+    bundler: argv.bundler,
     debug: argv.debug,
     prod: true
   })

@@ -80,6 +80,8 @@ const
   'vue-router',
   'vuex',
   'electron',
+  'electron-packager',
+  'electron-builder',
   '@babel/core',
   'webpack',
   'webpack-dev-server',
