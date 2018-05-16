@@ -146,6 +146,7 @@ async function goLive () {
     await quasarConfig.prepare()
   }
   catch (e) {
+    console.log(e)
     warn(`[FAIL] quasar.conf.js has JS errors`)
     process.exit(1)
   }

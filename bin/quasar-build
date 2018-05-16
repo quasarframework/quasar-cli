@@ -69,8 +69,8 @@ const
   Generator = require('../lib/generator'),
   artifacts = require('../lib/build/artifacts')
 
-const
-  quasarConfig = new QuasarConfig({
+async function build () {
+  const quasarConfig = new QuasarConfig({
     theme: argv.theme,
     mode: argv.mode,
     target: argv.target,
@@ -79,91 +79,95 @@ const
     prod: true
   })
 
-try {
-  quasarConfig.prepare()
-}
-catch (e) {
-  warn(`[FAIL] quasar.conf.js has JS errors`)
-  process.exit(1)
-}
-
-quasarConfig.compile()
-
-const
-  generator = new Generator(),
-  webpackConfig = quasarConfig.getWebpackConfig(),
-  buildConfig = quasarConfig.getBuildConfig(),
-  mode = argv.mode.toUpperCase(),
-  target = argv.target ? argv.target.toUpperCase() : '',
-  outputFolder = buildConfig.build.packagedElectronDist || buildConfig.build.distDir
-
-if (argv.clean) {
-  artifacts.clean(outputFolder)
-}
-
-generator.build(quasarConfig)
-
-log(chalk.bold(`Building main...`))
-log()
-
-webpack(webpackConfig, (err, stats) => {
-  if (err) { throw err }
-
-  artifacts.add(outputFolder)
-
-  const notify = buildConfig.build.useNotifier
-    ? require('../lib/helpers/notifier')
-    : () => {}
-
-  process.stdout.write(stats.toString({
-    colors: true,
-    modules: false,
-    children: false,
-    chunks: false,
-    chunkModules: false
-  }) + '\n')
-
-  if (stats.hasErrors()) {
-    warn()
-    warn(chalk.red('[FAIL] Build failed with errors'))
-    warn()
-
-    notify({ subtitle: '[FAIL] Build has errors', message: appPaths.appDir  })
+  try {
+    await quasarConfig.prepare()
+  }
+  catch (e) {
+    console.log(e)
+    warn(`[FAIL] quasar.conf.js has JS errors`)
     process.exit(1)
   }
 
-  log()
-  log(
-    `[SUCCESS] ${chalk.bold(mode)} with "${chalk.bold(argv.theme)}" theme in "${chalk.bold(buildConfig.build.distDir)}" folder`
-  )
-  log()
+  quasarConfig.compile()
 
-  if (argv.mode === 'cordova') {
-    const Cordova = require('../lib/cordova')
+  const
+    generator = new Generator(),
+    webpackConfig = quasarConfig.getWebpackConfig(),
+    buildConfig = quasarConfig.getBuildConfig(),
+    mode = argv.mode.toUpperCase(),
+    target = argv.target ? argv.target.toUpperCase() : '',
+    outputFolder = buildConfig.build.packagedElectronDist || buildConfig.build.distDir
 
-    Cordova.build(quasarConfig).then(exitCode => {
-      if (exitCode) {
-        notify({ subtitle: '[FAIL] Cordova failed to build' })
-        return
-      }
-
-      notify({ subtitle: '[Success] App was built'  })
-    })
-
-    return
-  }
-  else if (argv.mode === 'electron') {
-    const Electron = require('../lib/electron')
-
-    Electron.build(quasarConfig).then(() => {
-      notify({ subtitle: '[Success] App was built'  })
-    })
-
-    return
+  if (argv.clean) {
+    artifacts.clean(outputFolder)
   }
 
+  generator.build(quasarConfig)
+
+  log(chalk.bold(`Building main...`))
   log()
-  warn('Built files are meant to be served over an HTTP server')
-  warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work`)
-  log()
-})
+
+  webpack(webpackConfig, (err, stats) => {
+    if (err) { throw err }
+
+    artifacts.add(outputFolder)
+
+    const notify = buildConfig.build.useNotifier
+      ? require('../lib/helpers/notifier')
+      : () => {}
+
+    process.stdout.write(stats.toString({
+      colors: true,
+      modules: false,
+      children: false,
+      chunks: false,
+      chunkModules: false
+    }) + '\n')
+
+    if (stats.hasErrors()) {
+      warn()
+      warn(chalk.red('[FAIL] Build failed with errors'))
+      warn()
+
+      notify({ subtitle: '[FAIL] Build has errors', message: appPaths.appDir  })
+      process.exit(1)
+    }
+
+    log()
+    log(
+      `[SUCCESS] ${chalk.bold(mode)} with "${chalk.bold(argv.theme)}" theme in "${chalk.bold(buildConfig.build.distDir)}" folder`
+    )
+    log()
+
+    if (argv.mode === 'cordova') {
+      const Cordova = require('../lib/cordova')
+
+      Cordova.build(quasarConfig).then(exitCode => {
+        if (exitCode) {
+          notify({ subtitle: '[FAIL] Cordova failed to build' })
+          return
+        }
+
+        notify({ subtitle: '[Success] App was built'  })
+      })
+
+      return
+    }
+    else if (argv.mode === 'electron') {
+      const Electron = require('../lib/electron')
+
+      Electron.build(quasarConfig).then(() => {
+        notify({ subtitle: '[Success] App was built'  })
+      })
+
+      return
+    }
+
+    log()
+    warn('Built files are meant to be served over an HTTP server')
+    warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work`)
+    log()
+  })
+}
+
+build()
