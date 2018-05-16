@@ -10,7 +10,11 @@
 import './quasar'
 
 import Vue from 'vue'
-Vue.config.productionTip = false
+Vue.config.productionTip = <%= ctx.dev ? false : true %>
+
+<% if (ctx.prod && ctx.mode.pwa) { %>
+import '../<%= sourceFiles.registerServiceWorker %>'
+<% } %>
 
 <%
 extras && extras.filter(asset => asset).forEach(asset => {
@@ -41,11 +45,11 @@ import 'quasar-app-styl'
 import 'src/css/<%= asset %>'
 <% }) %>
 
-import App from 'src/App'
+import App from '../<%= sourceFiles.rootComponent %>'
 
-import router from 'src/router'
+import router from '../<%= sourceFiles.router %>'
 <% if (store) { %>
-import store from 'src/store'
+import store from '../<%= sourceFiles.store %>'
 <% } %>
 
 const app = {
