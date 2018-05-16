@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.15.15",
+  "version": "0.15.16",
   "description": "Quasar Framework CLI",
   "scripts": {
     "postinstall": "node lib/node-version-check.js"
