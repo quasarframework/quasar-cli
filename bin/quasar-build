@@ -117,10 +117,6 @@ async function build () {
 
     artifacts.add(outputFolder)
 
-    const notify = buildConfig.build.useNotifier
-      ? require('../lib/helpers/notifier')
-      : () => {}
-
     process.stdout.write(stats.toString({
       colors: true,
       modules: false,
@@ -134,7 +130,6 @@ async function build () {
       warn(chalk.red('[FAIL] Build failed with errors'))
       warn()
 
-      notify({ subtitle: '[FAIL] Build has errors', message: appPaths.appDir  })
       process.exit(1)
     }
 
@@ -147,24 +142,13 @@ async function build () {
     if (argv.mode === 'cordova') {
       const Cordova = require('../lib/cordova')
 
-      Cordova.build(quasarConfig).then(exitCode => {
-        if (exitCode) {
-          notify({ subtitle: '[FAIL] Cordova failed to build' })
-          return
-        }
-
-        notify({ subtitle: '[Success] App was built'  })
-      })
-
+      Cordova.build(quasarConfig)
       return
     }
     else if (argv.mode === 'electron') {
       const Electron = require('../lib/electron')
 
-      Electron.build(quasarConfig).then(() => {
-        notify({ subtitle: '[Success] App was built'  })
-      })
-
+      Electron.build(quasarConfig)
       return
     }
 
