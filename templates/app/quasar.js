@@ -10,15 +10,31 @@
 <% if (supportIE) { %>
 import 'quasar-framework/dist/quasar.ie.polyfills'
 <% }
-let importStatement, useStatement
 
-if (framework === 'all') {
-  importStatement = ', * as All'
-  useStatement = ', {components: All, directives: All, plugins: All}'
+let importStatement, useStatement = []
+
+if (framework.i18n) { %>
+import lang from 'quasar-framework/i18n/<%= framework.i18n %>'
+<%
+  useStatement.push('i18n: lang')
 }
-else if (framework !== false) {
+
+if (framework.iconSet) { %>
+import iconSet from 'quasar-framework/icons/<%= framework.iconSet %>'
+<%
+  useStatement.push('iconSet: iconSet')
+}
+
+if (framework.all) {
+  importStatement = ', * as All'
+  useStatement.push(
+    'components: All',
+    'directives: All',
+    'plugins: All'
+  )
+}
+else {
   importStatement = []
-  useStatement = []
 
   ;['components', 'directives', 'plugins'].forEach(type => {
     if (framework[type]) {
@@ -30,25 +46,14 @@ else if (framework !== false) {
     }
   })
 
-  if (framework.i18n) { %>
-import lang from 'quasar-framework/i18n/<%= framework.i18n %>'
-<%
-     useStatement.push('i18n: lang')
-  }
-
-  if (framework.iconSet) { %>
-import iconSet from 'quasar-framework/icons/<%= framework.iconSet %>'
-<%
-      useStatement.push('iconSet: iconSet')
-  }
-
-  if (importStatement.length) {
-    importStatement = ', {' + importStatement.join(',') + '}'
-  }
-  if (useStatement.length) {
-    useStatement = ', {' + useStatement.join(',') + '}'
-  }
+  importStatement = importStatement.length
+    ? ', {' + importStatement.join(',') + '}'
+    : ''
 }
+
+useStatement = useStatement.length
+  ? ', {' + useStatement.join(',') + '}'
+  : ''
 %>
 
 import Vue from 'vue'
