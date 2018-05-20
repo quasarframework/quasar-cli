@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "Quasar Framework CLI",
   "scripts": {
     "postinstall": "node lib/node-version-check.js"
@@ -80,7 +80,6 @@
     "semver": "5.5.0",
     "stylus": "0.54.5",
     "stylus-loader": "3.0.2",
-    "uglify-es": "3.3.9",
     "uglifyjs-webpack-plugin": "1.2.5",
     "url-loader": "1.0.1",
     "vue": "2.5.16",
