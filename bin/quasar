@@ -7,14 +7,6 @@ if (localFile) {
 else {
   require('../lib/node-version-check')
 
-  const
-    updateNotifier = require('update-notifier')
-    notifier = updateNotifier({
-      isGlobal: false,
-      pkg: require('../package.json'),
-      updateCheckInterval: 1000 * 60 * 60 * 24 * 14 // 2 weeks
-    }).notify()
-
   const pe = require('pretty-error').start()
   pe.skipPackage('regenerator-runtime')
   pe.skipPackage('babel-runtime')

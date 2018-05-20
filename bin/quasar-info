@@ -35,10 +35,10 @@ function getSpawnOutput (command) {
     const child = spawn(command, ['--version'])
     return child.status === 0
       ? chalk.green(String(child.output[1]).trim())
-      : chalk.red('Not available')
+      : chalk.red('Not installed')
   }
   catch (err) {
-    return chalk.red('Not available')
+    return chalk.red('Not installed')
   }
 }
 
@@ -53,7 +53,7 @@ function safePkgInfo (pkg) {
   catch (err) {
     return {
       key: `  ${pkg}`,
-      value: chalk.red('Not available')
+      value: chalk.red('Not installed')
     }
   }
 }
@@ -80,9 +80,12 @@ const
   'vue-router',
   'vuex',
   'electron',
-  'babel-core',
+  'electron-packager',
+  'electron-builder',
+  '@babel/core',
   'webpack',
-  'webpack-dev-server'
+  'webpack-dev-server',
+  'workbox-webpack-plugin'
 ].forEach(pkg => output.push(safePkgInfo(pkg)))
 
 output.push(
