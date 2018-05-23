@@ -51,12 +51,10 @@ else {
     : ''
 }
 
-useStatement = useStatement.length
-  ? ', {' + useStatement.join(',') + '}'
-  : ''
+useStatement.push(`cfg: ${JSON.stringify(framework.cfg)}`)
 %>
 
 import Vue from 'vue'
 import Quasar<%= importStatement || '' %> from 'quasar'
 
-Vue.use(Quasar<%= useStatement || '' %>)
+Vue.use(Quasar, { <%= useStatement.join(',') %> })
