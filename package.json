@@ -39,11 +39,11 @@
   "bugs": "https://github.com/quasarframework/quasar-cli/issues",
   "homepage": "http://quasar-framework.org",
   "dependencies": {
-    "@babel/core": "7.0.0-beta.46",
-    "@babel/plugin-transform-runtime": "7.0.0-beta.46",
-    "@babel/preset-env": "7.0.0-beta.46",
-    "@babel/preset-stage-2": "7.0.0-beta.46",
-    "@babel/runtime": "7.0.0-beta.46",
+    "@babel/core": "7.0.0-beta.47",
+    "@babel/plugin-transform-runtime": "7.0.0-beta.47",
+    "@babel/preset-env": "7.0.0-beta.47",
+    "@babel/preset-stage-2": "7.0.0-beta.47",
+    "@babel/runtime": "7.0.0-beta.47",
     "ajv": "6.5.0",
     "babel-loader": "8.0.0-beta.2",
     "chalk": "2.4.1",
@@ -97,6 +97,7 @@
   },
   "engines": {
     "node": ">= 8.9.0",
-    "npm": ">= 5.6.0"
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
   }
 }
