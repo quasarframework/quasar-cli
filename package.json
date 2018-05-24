@@ -60,7 +60,6 @@
     "html-webpack-plugin": "3.2.0",
     "import-local-file": "0.2.0",
     "inquirer": "5.2.0",
-    "json-loader": "0.5.7",
     "lodash.debounce": "4.0.8",
     "lodash.template": "4.4.0",
     "mini-css-extract-plugin": "0.4.0",
