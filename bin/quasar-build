@@ -28,6 +28,11 @@ const argv = parseArgs(process.argv.slice(2), {
   }
 })
 
+if (argv.mode === 'cordova') {
+  // force clean
+  argv.clean = argv.c = true
+}
+
 if (argv.help) {
   console.log(`
     Description
