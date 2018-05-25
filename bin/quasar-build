@@ -19,7 +19,7 @@ const argv = parseArgs(process.argv.slice(2), {
     d: 'debug',
     h: 'help'
   },
-  boolean: ['h', 'd', 'c'],
+  boolean: ['h', 'd'],
   string: ['t', 'm', 'T'],
   default: {
     t: 'mat',
