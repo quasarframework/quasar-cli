@@ -17,7 +17,6 @@ const argv = parseArgs(process.argv.slice(2), {
     A: 'arch',
     b: 'bundler',
     d: 'debug',
-    c: 'clean',
     h: 'help'
   },
   boolean: ['h', 'd', 'c'],
@@ -27,11 +26,6 @@ const argv = parseArgs(process.argv.slice(2), {
     m: 'spa'
   }
 })
-
-if (argv.mode === 'cordova') {
-  // force clean
-  argv.clean = argv.c = true
-}
 
 if (argv.help) {
   console.log(`
@@ -48,7 +42,6 @@ if (argv.help) {
                        - Electron with "electron-packager" bundler (default: yours)
                           [darwin|win32|linux|mas|all]
       --debug, -d    Build for debugging purposes
-      --clean, -c    Clean build artifact first
       --help, -h     Displays this message
 
       ONLY for Electron mode:
@@ -108,10 +101,7 @@ async function build () {
     target = argv.target ? argv.target.toUpperCase() : '',
     outputFolder = buildConfig.build.packagedElectronDist || buildConfig.build.distDir
 
-  if (argv.clean) {
-    artifacts.clean(outputFolder)
-  }
-
+  artifacts.clean(outputFolder)
   generator.build(quasarConfig)
 
   log(chalk.bold(`Building main...`))
