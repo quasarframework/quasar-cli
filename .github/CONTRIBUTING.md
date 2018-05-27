@@ -12,7 +12,7 @@ Hi! I’m really excited that you are interested in contributing to Quasar. Befo
 
 - The issue list of this repo is **exclusively** for bug reports and feature requests. Non-conforming issues will be closed immediately.
 
-  - For simple beginner questions, you can get quick answers from the [Quasar Discord chat room](https://discord.gg/5TDhbDg).
+  - For simple beginner questions, you can get quick answers from the [Quasar Discord chat room](https://chat.quasar-framework.org).
 
   - For more complicated questions, you can use [the official forum](http://forum.quasar-framework.org/). Make sure to provide enough information when asking your questions - this makes it easier for others to help you!
 
@@ -47,24 +47,21 @@ Hi! I’m really excited that you are interested in contributing to Quasar. Befo
 
 ## Development Setup
 
-You will need [Node.js](http://nodejs.org) **version 4+** along [NPM](https://docs.npmjs.com/getting-started/installing-node).
+You will need [Node.js](http://nodejs.org) **version 8.9+** along [Yarn](https://yarnpkg.com/) or [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
 
 After cloning the repo, run:
 
 ``` bash
-$ npm install
+$ yarn # or: npm install
 ```
 
 ## Project Structure
 
 - **`bin`**: executables
 
-  - **`wrappers`**: code for wrappers
-
   - **`quasar`**: entry point for CLI
 
   - **`quasar-*`**: entry point for CLI command
 
-- **`lib`**: utilities used by CLI
+- **`lib`**: core
 
-- **`lists`**: list of templates available which **gets downloaded directly from Github repo at runtime** by CLI
