@@ -11,7 +11,7 @@
 import 'quasar-framework/dist/quasar.ie.polyfills'
 <% }
 
-let importStatement, useStatement = []
+let importStatement, useStatement = [ `cfg: ${JSON.stringify(framework.cfg)}` ]
 
 if (framework.i18n) { %>
 import lang from 'quasar-framework/i18n/<%= framework.i18n %>'
@@ -50,13 +50,9 @@ else {
     ? ', {' + importStatement.join(',') + '}'
     : ''
 }
-
-useStatement = useStatement.length
-  ? ', {' + useStatement.join(',') + '}'
-  : ''
 %>
 
 import Vue from 'vue'
 import Quasar<%= importStatement || '' %> from 'quasar'
 
-Vue.use(Quasar<%= useStatement || '' %>)
+Vue.use(Quasar, { <%= useStatement.join(',') %> })

@@ -9,10 +9,10 @@ register(process.env.SERVICE_WORKER_FILE, {
   ready () {
     console.log('App is being served from cache by a service worker.')
   },
-  cached () {
+  cached (registration) { // registration -> a ServiceWorkerRegistration instance
     console.log('Content has been cached for offline use.')
   },
-  updated () {
+  updated (registration) { // registration -> a ServiceWorkerRegistration instance
     console.log('New content is available; please refresh.')
   },
   offline () {
@@ -22,3 +22,5 @@ register(process.env.SERVICE_WORKER_FILE, {
     console.error('Error during service worker registration:', err)
   }
 })
+
+// ServiceWorkerRegistration: https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration
