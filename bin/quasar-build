@@ -39,17 +39,21 @@ if (argv.help) {
       --target, -T   App target
                        - Cordova (default: all installed)
                           [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
-                       - Electron with "electron-packager" bundler (default: yours)
+                       - Electron with default "electron-packager" bundler (default: yours)
                           [darwin|win32|linux|mas|all]
+                       - Electron with "electron-builder" bundler (default: yours)
+                          [darwin|mac|win32|win|linux|all]
       --debug, -d    Build for debugging purposes
       --help, -h     Displays this message
 
       ONLY for Electron mode:
       --bundler, -b  Bundler (electron-packager or electron-builder)
                        [packager|builder]
-      ONLY for Electron mode with default "electron-packager" bundler:
       --arch, -A     App architecture (default: yours)
-                       [ia32|x64|armv7l|arm64|mips64el|all]
+                       - with default "electron-packager" bundler:
+                           [ia32|x64|armv7l|arm64|mips64el|all]
+                       - with "electron-builder" bundler:
+                           [ia32|x64|armv7l|arm64|all]
   `)
   process.exit(0)
 }
