@@ -62,7 +62,7 @@ const
 
 let template = `quasarframework/quasar-starter-kit${argv.type ? `-${argv.type}` : ''}`
 if (argv.version) {
-  template = `#v${argv.version}`
+  template += `#v${argv.version}`
 }
 
 try {
