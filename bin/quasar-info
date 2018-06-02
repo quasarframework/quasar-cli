@@ -85,7 +85,8 @@ const
   '@babel/core',
   'webpack',
   'webpack-dev-server',
-  'workbox-webpack-plugin'
+  'workbox-webpack-plugin',
+  'register-service-worker'
 ].forEach(pkg => output.push(safePkgInfo(pkg)))
 
 output.push(
