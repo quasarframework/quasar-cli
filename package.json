@@ -74,7 +74,7 @@
     "postcss-rtl": "1.2.3",
     "preload-webpack-plugin": "3.0.0-alpha.3",
     "progress-bar-webpack-plugin": "1.11.0",
-    "quasar-extras": "2.0.2",
+    "quasar-extras": "2.0.3",
     "quasar-framework": "0.16.0",
     "register-service-worker": "1.4.0",
     "semver": "5.5.0",
