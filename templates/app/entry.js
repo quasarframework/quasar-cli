@@ -41,8 +41,13 @@ import 'quasar-extras/animate/<%= asset %>.css'
 
 import 'quasar-app-styl'
 
-<% css && css.filter(css => css).forEach(asset => { %>
-import 'src/css/<%= asset %>'
+<%
+css && css.filter(css => css).forEach(asset => {
+  let path = asset[0] === '~'
+    ? asset.substring(1)
+    : `src/css/${asset}`
+%>
+import '<%= path %>'
 <% }) %>
 
 import App from '../<%= sourceFiles.rootComponent %>'
