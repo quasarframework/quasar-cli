@@ -106,6 +106,7 @@ async function build () {
     outputFolder = buildConfig.build.packagedElectronDist || buildConfig.build.distDir
 
   artifacts.clean(outputFolder)
+  generator.prepare()
   generator.build(quasarConfig)
 
   log(chalk.bold(`Building main...`))
