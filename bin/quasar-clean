@@ -6,7 +6,7 @@ const
   chalk = require('chalk')
 
 const
-  appPaths = require('../lib/build/app-paths'),
+  appPaths = require('../lib/app-paths'),
   log = require('../lib/helpers/logger')('app:clean')
 
 const argv = parseArgs(process.argv.slice(2), {
@@ -28,7 +28,7 @@ if (argv.help) {
   process.exit(0)
 }
 
-require('../lib/build/artifacts').cleanAll()
+require('../lib/artifacts').cleanAll()
 
 console.log()
 log(`Done cleaning build artifacts`)

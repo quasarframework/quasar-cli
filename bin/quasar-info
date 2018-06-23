@@ -5,7 +5,7 @@ const
   chalk = require('chalk')
 
 const
-  appPaths = require('../lib/build/app-paths')
+  appPaths = require('../lib/app-paths')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {

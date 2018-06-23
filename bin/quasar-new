@@ -46,7 +46,7 @@ const
   logger = require('../lib/helpers/logger'),
   log = logger('app:new'),
   warn = logger('app:new', 'red'),
-  appPaths = require('../lib/build/app-paths'),
+  appPaths = require('../lib/app-paths'),
   path = require('path'),
   fs = require('fs'),
   fse = require('fs-extra')

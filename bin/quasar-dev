@@ -8,7 +8,7 @@ const
   logger = require('../lib/helpers/logger'),
   log = logger('app:dev'),
   warn = logger('app:dev', 'red'),
-  appPaths = require('../lib/build/app-paths')
+  appPaths = require('../lib/app-paths')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {

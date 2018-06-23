@@ -70,10 +70,10 @@ if (argv.mode !== 'spa') {
 const webpack = require('webpack')
 
 const
-  appPaths = require('../lib/build/app-paths'),
+  appPaths = require('../lib/app-paths'),
   QuasarConfig = require('../lib/quasar-config'),
   Generator = require('../lib/generator'),
-  artifacts = require('../lib/build/artifacts')
+  artifacts = require('../lib/artifacts')
 
 async function build () {
   const quasarConfig = new QuasarConfig({
