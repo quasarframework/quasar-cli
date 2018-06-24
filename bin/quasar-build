@@ -35,7 +35,7 @@ if (argv.help) {
       $ quasar build -p <port number>
     Options
       --theme, -t    App theme (default: mat)
-      --mode, -m     App mode [spa|pwa|cordova|electron] (default: spa)
+      --mode, -m     App mode [spa|ssr|pwa|cordova|electron] (default: spa)
       --target, -T   App target
                        - Cordova (default: all installed)
                           [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
@@ -98,7 +98,7 @@ async function build () {
   quasarConfig.compile()
 
   const
-    generator = new Generator(),
+    generator = new Generator(quasarConfig),
     webpackConfig = quasarConfig.getWebpackConfig(),
     buildConfig = quasarConfig.getBuildConfig(),
     mode = argv.mode.toUpperCase(),
@@ -107,7 +107,7 @@ async function build () {
 
   artifacts.clean(outputFolder)
   generator.prepare()
-  generator.build(quasarConfig)
+  generator.build()
 
   log(chalk.bold(`Building main...`))
   log()

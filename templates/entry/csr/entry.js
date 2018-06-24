@@ -7,7 +7,7 @@
  * One plugin per concern. Then reference the file(s) in quasar.conf.js > plugins:
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
-import './quasar'
+import './import-quasar'
 
 import Vue from 'vue'
 Vue.config.productionTip = <%= ctx.dev ? false : true %>
@@ -23,7 +23,7 @@ console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() %> with <%= ctx.th
 %>
 
 <% if (ctx.prod && ctx.mode.pwa) { %>
-import '../<%= sourceFiles.registerServiceWorker %>'
+import 'app/<%= sourceFiles.registerServiceWorker %>'
 <% } %>
 
 <%
@@ -60,11 +60,11 @@ css && css.filter(css => css).forEach(asset => {
 import '<%= path %>'
 <% }) %>
 
-import App from '../<%= sourceFiles.rootComponent %>'
+import App from 'app/<%= sourceFiles.rootComponent %>'
 
-import router from '../<%= sourceFiles.router %>'
+import router from 'app/<%= sourceFiles.router %>'
 <% if (store) { %>
-import store from '../<%= sourceFiles.store %>'
+import store from 'app/<%= sourceFiles.store %>'
 <% } %>
 
 const app = {

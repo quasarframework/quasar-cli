@@ -37,7 +37,7 @@ if (argv.help) {
       $ quasar dev -p <port number>
     Options
       --theme, -t      App theme (default: mat)
-      --mode, -m       App mode [spa|pwa|cordova|electron] (default: spa)
+      --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
       --port, -p       A port number on which to start the application
       --hostname, -H   A hostname to use for serving the application
       --help, -h       Displays this message
@@ -154,7 +154,7 @@ async function goLive () {
   quasarConfig.compile()
 
   const
-    generator = new Generator(),
+    generator = new Generator(quasarConfig),
     Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
     Electron = argv.mode === 'electron' ? require('../lib/electron') : false
 
@@ -166,7 +166,7 @@ async function goLive () {
     return Promise.resolve()
       .then(() => devServer = new DevServer(quasarConfig))
       .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve())
-      .then(() => generator.build(quasarConfig)) // Update generated files
+      .then(() => generator.build()) // Update generated files
       .then(() => devServer.listen()) // Start listening
       .then(() => Electron ? Electron.run(quasarConfig) : Promise.resolve())
       .then(() => Cordova ? Cordova.run(quasarConfig) : Promise.resolve())
