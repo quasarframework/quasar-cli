@@ -8,7 +8,7 @@
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
 <% if (supportIE) { %>
-import 'quasar-framework/dist/quasar.ie.polyfills'
+// import 'quasar-framework/dist/quasar.ie.polyfills'
 <% }
 
 let importStatement, useStatement = [ `cfg: ${JSON.stringify(framework.cfg)}` ]

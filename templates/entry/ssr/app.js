@@ -3,10 +3,43 @@ import './import-quasar'
 import Vue from 'vue'
 Vue.config.productionTip = <%= ctx.dev ? false : true %>
 
+<%
+extras && extras.filter(asset => asset).forEach(asset => {
+%>
+import 'quasar-extras/<%= asset %>/<%= asset %>.css'
+<% }) %>
+
+<%
+if (animations) {
+  if (animations === 'all') {
+%>
+import 'quasar-extras/animate'
+<%
+  }
+  else {
+    animations.filter(asset => asset).forEach(asset => {
+%>
+import 'quasar-extras/animate/<%= asset %>.css'
+<%
+    })
+  }
+}
+%>
+
+import 'quasar-app-styl'
+
+<%
+css && css.filter(css => css).forEach(asset => {
+  let path = asset[0] === '~'
+    ? asset.substring(1)
+    : `src/css/${asset}`
+%>
+import '<%= path %>'
+<% }) %>
+
 import Quasar from 'quasar'
 import App from 'app/<%= sourceFiles.rootComponent %>'
 import { createRouter } from 'app/<%= sourceFiles.router %>'
-import router from
 <% if (store) { %>
 import { createStore } from 'app/<%= sourceFiles.store %>'
 <% } %>
@@ -33,10 +66,10 @@ if (plugins) {
 
 export function createApp (ssrContext) {
   // create store and router instances
-  const router = createRouter()
   <% if (store) { %>
   const store = createStore()
   <% } %>
+  const router = createRouter(store)
 
   <% if (plugins) { %>
   plugins.forEach(plugin => plugin({
@@ -63,14 +96,14 @@ export function createApp (ssrContext) {
       req: ssrContext.req,
       res: ssrContext.res,
       setBodyClasses (cls) {
-        ssrContext.bodyClasses = cls.join(' ')
+        ssrContext.BODY_CLASSES = cls.join(' ')
       },
       setHtmlAttrs (attrs) {
         const str = []
         for (let key in attrs) {
-          str.push(`${key}=${attrs[key]}`)
+          str.push(key + '=' + attrs[key])
         }
-        ssrContext.htmlAttrs = str.join(' ')
+        ssrContext.HTML_ATTRS = str.join(' ')
       }
     }
   }

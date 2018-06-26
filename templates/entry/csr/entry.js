@@ -15,8 +15,8 @@ Vue.config.productionTip = <%= ctx.dev ? false : true %>
 <% if (ctx.dev) { %>
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() %> with <%= ctx.themeName.toUpperCase() %> theme.')
 <% if (ctx.mode.pwa) { %>
-    console.info('[Quasar] PWA: a no-op service worker is being supplied in dev mode in order to reset any previous registered one. This ensures HMR works correctly.')
-    console.info('[Quasar] Do not run Lighthouse test in dev mode.')
+  console.info('[Quasar] PWA: a no-op service worker is being supplied in dev mode in order to reset any previous registered one. This ensures HMR works correctly.')
+  console.info('[Quasar] Do not run Lighthouse test in dev mode.')
 <%
   }
 }
@@ -29,7 +29,7 @@ import 'app/<%= sourceFiles.registerServiceWorker %>'
 <%
 extras && extras.filter(asset => asset).forEach(asset => {
 %>
-import 'quasar-extras/<%= asset %>'
+import 'quasar-extras/<%= asset %>/<%= asset %>.css'
 <% }) %>
 
 <%
@@ -62,10 +62,14 @@ import '<%= path %>'
 
 import App from 'app/<%= sourceFiles.rootComponent %>'
 
-import router from 'app/<%= sourceFiles.router %>'
 <% if (store) { %>
-import store from 'app/<%= sourceFiles.store %>'
+import { createStore } from 'app/<%= sourceFiles.store %>'
 <% } %>
+import { createRouter } from 'app/<%= sourceFiles.router %>'
+
+const
+  store = createStore(),
+  router = createRouter(store)
 
 const app = {
   el: '#q-app',

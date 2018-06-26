@@ -9,7 +9,7 @@ const isDev = process.env.NODE_ENV !== 'production'
 // return a Promise that resolves to the app instance.
 export default context => {
   return new Promise((resolve, reject) => {
-    const s = isDev && Date.now()
+    const startTime = isDev ? Date.now() : ''
     const { app, <% if (store) { %>store, <% } %>router } = createApp(context)
 
     const { url } = context
@@ -37,7 +37,7 @@ export default context => {
         <% if (store) { %>store,<% } %>
         route: router.currentRoute
       }))).then(() => {
-        isDev && console.log(`data pre-fetch: ${Date.now() - s}ms`)
+        isDev && console.log('data pre-fetch: ' + (Date.now() - startTime) + 'ms')
         // After all preFetch hooks are resolved, our store is now
         // filled with the state needed to render the app.
         // Expose the state on the render context, and let the request handler
