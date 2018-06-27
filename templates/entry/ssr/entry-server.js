@@ -37,7 +37,7 @@ export default context => {
         <% if (store) { %>store,<% } %>
         route: router.currentRoute
       }))).then(() => {
-        isDev && console.log('data pre-fetch: ' + (Date.now() - startTime) + 'ms')
+        isDev && console.log(url + ' -> data pre-fetch took: ' + (Date.now() - startTime) + 'ms')
         // After all preFetch hooks are resolved, our store is now
         // filled with the state needed to render the app.
         // Expose the state on the render context, and let the request handler
