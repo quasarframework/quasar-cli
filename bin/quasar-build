@@ -75,6 +75,16 @@ const
   Generator = require('../lib/generator'),
   artifacts = require('../lib/artifacts')
 
+function parseWebpackConfig (webpackConfig, mode) {
+  if (mode === 'ssr') {
+    return [ webpackConfig.server, webpackConfig.client ]
+  }
+  if (mode === 'electron') {
+    return [ webpackConfig.renderer, webpackConfig.main ]
+  }
+  return webpackConfig
+}
+
 async function build () {
   const quasarConfig = new QuasarConfig({
     theme: argv.theme,
@@ -102,17 +112,16 @@ async function build () {
     webpackConfig = quasarConfig.getWebpackConfig(),
     buildConfig = quasarConfig.getBuildConfig(),
     mode = argv.mode.toUpperCase(),
-    target = argv.target ? argv.target.toUpperCase() : '',
     outputFolder = buildConfig.build.packagedElectronDist || buildConfig.build.distDir
 
   artifacts.clean(outputFolder)
   generator.prepare()
   generator.build()
 
-  log(chalk.bold(`Building main...`))
+  log(chalk.bold(`Building...`))
   log()
 
-  webpack(webpackConfig, (err, stats) => {
+  webpack(parseWebpackConfig(webpackConfig, argv.mode), (err, stats) => {
     if (err) { throw err }
 
     artifacts.add(outputFolder)

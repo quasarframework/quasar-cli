@@ -1,3 +1,12 @@
+/**
+ * THIS FILE IS GENERATED AUTOMATICALLY.
+ * DO NOT EDIT.
+ *
+ * You are probably looking on adding initialization code.
+ * Use "quasar new plugin <name>" and add it there.
+ * One plugin per concern. Then reference the file(s) in quasar.conf.js > plugins:
+ * plugins: ['file', ...] // do not add ".js" extension to it.
+ **/
 import { createApp } from './app'
 
 const isDev = process.env.NODE_ENV !== 'production'
@@ -9,7 +18,7 @@ const isDev = process.env.NODE_ENV !== 'production'
 // return a Promise that resolves to the app instance.
 export default context => {
   return new Promise((resolve, reject) => {
-    const startTime = isDev ? Date.now() : ''
+    const startTime = isDev && Date.now()
     const { app, <% if (store) { %>store, <% } %>router } = createApp(context)
 
     const { url } = context
@@ -33,10 +42,12 @@ export default context => {
       // A preFetch hook dispatches a store action and returns a Promise,
       // which is resolved when the action is complete and store state has been
       // updated.
-      Promise.all(matchedComponents.map(({ asyncData }) => asyncData && asyncData({
-        <% if (store) { %>store,<% } %>
-        route: router.currentRoute
-      }))).then(() => {
+      Promise.all(
+        matchedComponents.map(({ asyncData }) => asyncData && asyncData({
+          <% if (store) { %>store,<% } %>
+          route: router.currentRoute
+        }))
+      ).then(() => {
         isDev && console.log(url + ' -> data pre-fetch took: ' + (Date.now() - startTime) + 'ms')
         // After all preFetch hooks are resolved, our store is now
         // filled with the state needed to render the app.
