@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.16.5",
+  "version": "0.17.0-beta.0",
   "description": "Quasar Framework CLI",
   "scripts": {
     "postinstall": "node lib/node-version-check.js"
@@ -81,7 +81,7 @@
     "postcss-rtl": "1.3.0",
     "preload-webpack-plugin": "3.0.0-alpha.3",
     "quasar-extras": "2.0.3",
-    "quasar-framework": "0.16.0",
+    "quasar-framework": "0.17.0-beta.4",
     "register-service-worker": "1.4.1",
     "semver": "5.5.0",
     "stylus": "0.54.5",

@@ -52,9 +52,7 @@ if (argv.help) {
 }
 
 require('../lib/helpers/ensure-argv')(argv, 'dev')
-
-log(`Running: Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
-log()
+require('../lib/helpers/banner')(argv, 'dev')
 
 if (argv.mode !== 'spa') {
   require('../lib/mode/install-missing')(argv.mode, argv.target)
