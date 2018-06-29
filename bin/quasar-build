@@ -119,7 +119,6 @@ async function build () {
   generator.build()
 
   log(chalk.bold(`Building...`))
-  log()
 
   webpack(parseWebpackConfig(webpackConfig, argv.mode), (err, stats) => {
     if (err) { throw err }
