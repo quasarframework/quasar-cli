@@ -89,15 +89,16 @@ if (fs.existsSync(ssrEntryFile)) {
   process.exit(0)
 }
 
-let green, grey
+let green, grey, red
 
 if (argv.colors) {
   const chalk = require('chalk')
   green = chalk.green
   grey = chalk.grey
+  red = chalk.red
 }
 else {
-  green = grey = text => text
+  green = grey = red = text => text
 }
 
 const express = require('express')
@@ -153,6 +154,9 @@ if (argv.proxy) {
 app.get('*', (req, res) => {
   res.setHeader('Content-Type', 'text/html')
   res.status(404).send('404 | Page Not Found')
+  if (!argv.silent) {
+    console.log(red(`  404 on ${req.url}`))
+  }
 })
 
 getServer(app).listen(argv.port, argv.hostname, () => {
