@@ -59,13 +59,17 @@ if (argv.help) {
 }
 
 require('../lib/helpers/ensure-argv')(argv, 'build')
-require('../lib/helpers/banner')(argv, 'build')
+const banner = require('../lib/helpers/banner')
+
+banner(argv, 'build')
 
 if (argv.mode !== 'spa') {
   require('../lib/mode/install-missing')(argv.mode, argv.target)
 }
 
-const webpack = require('webpack')
+const
+  path = require('path'),
+  webpack = require('webpack')
 
 const
   appPaths = require('../lib/app-paths'),
@@ -81,6 +85,17 @@ function parseWebpackConfig (webpackConfig, mode) {
     return [ webpackConfig.renderer, webpackConfig.main ]
   }
   return webpackConfig
+}
+
+function finalize (mode, quasarConfig) {
+  if (mode === 'cordova') {
+    return require('../lib/cordova').build(quasarConfig)
+  }
+  if (mode === 'electron') {
+    return require('../lib/electron').build(quasarConfig)
+  }
+
+  return Promise.resolve()
 }
 
 async function build () {
@@ -123,45 +138,40 @@ async function build () {
 
     artifacts.add(outputFolder)
 
-    process.stdout.write(stats.toString({
-      colors: true,
-      modules: false,
-      children: stats.stats !== void 0,
-      chunks: false,
-      chunkModules: false
-    }) + '\n')
+    statsArray = stats.stats || [ stats ]
+    statsArray.forEach(stat => {
+      process.stdout.write('\n\n' + stat.toString({
+        colors: true,
+        performance: false,
+        hash: false,
+        assets: true,
+        chunks: false,
+        chunkModules: false,
+        chunkOrigins: false,
+        modules: false,
+        nestedModules: false,
+        moduleAssets: false,
+        children: false
+      }) + '\n\n')
+    })
 
-    if (stats.hasErrors()) {
-      warn()
-      warn(chalk.red('[FAIL] Build failed with errors'))
-      warn()
+    statsArray.forEach(stat => {
+      if (stat.hasErrors()) {
+        warn()
+        warn(chalk.red('[FAIL] Build failed with errors'))
+        warn()
 
-      process.exit(1)
-    }
+        process.exit(1)
+      }
+    })
 
-    log()
-    log(
-      `[SUCCESS] ${chalk.bold(mode)} with "${chalk.bold(argv.theme)}" theme in "${chalk.bold(buildConfig.build.distDir)}" folder`
-    )
-    log()
-
-    if (argv.mode === 'cordova') {
-      const Cordova = require('../lib/cordova')
-
-      Cordova.build(quasarConfig)
-      return
-    }
-    else if (argv.mode === 'electron') {
-      const Electron = require('../lib/electron')
-
-      Electron.build(quasarConfig)
-      return
-    }
-
-    log()
-    warn('Built files are meant to be served over an HTTP server')
-    warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work`)
-    log()
+    finalize(argv.mode, quasarConfig).then(() => {
+      banner(argv, 'build', {
+        outputFolder: argv.mode === 'cordova'
+          ? path.join(outputFolder, '..')
+          : outputFolder
+      })
+    })
   })
 }
 
