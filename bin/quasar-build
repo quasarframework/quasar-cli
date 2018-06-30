@@ -126,7 +126,7 @@ async function build () {
     process.stdout.write(stats.toString({
       colors: true,
       modules: false,
-      children: false,
+      children: stats.stats !== void 0,
       chunks: false,
       chunkModules: false
     }) + '\n')
