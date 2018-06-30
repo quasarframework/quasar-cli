@@ -16,12 +16,12 @@ const argv = parseArgs(process.argv.slice(2), {
 
 if (argv.help) {
   console.log(`
-    Description
-      Displays information about your machine and your Quasar App.
-    Usage
-      $ quasar info
-    Options
-      --help, -h     Displays this message
+  Description
+    Displays information about your machine and your Quasar App.
+  Usage
+    $ quasar info
+  Options
+    --help, -h     Displays this message
   `)
   process.exit(0)
 }

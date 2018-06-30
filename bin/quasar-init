@@ -14,26 +14,26 @@ const argv = parseArgs(process.argv.slice(2), {
 
 if (argv.help) {
   console.log(`
-    Description
-      Create a Quasar App folder from the starter kit.
-      You need "vue-cli" package installed globally.
-    Usage
-      # Install latest starter kit:
-      $ quasar init <folder_name>
+  Description
+    Create a Quasar App folder from the starter kit.
+    You need "vue-cli" package installed globally.
+  Usage
+    # Install latest starter kit:
+    $ quasar init <folder_name>
 
-      # Install starter kit for specific Quasar version.
-      # Only specify the major and minor version (no patch version).
-      # Good example: 0.15, 1.0, 1.2
-      # Bad example: 0.15.2, 1.0.1, 1.2.2
-      $ quasar init -v 0.15
+    # Install starter kit for specific Quasar version.
+    # Only specify the major and minor version (no patch version).
+    # Good example: 0.15, 1.0, 1.2
+    # Bad example: 0.15.2, 1.0.1, 1.2.2
+    $ quasar init -v 0.15
 
-      # Install UMD starter kit
-      $ quasar init -t umd <folder_name>
+    # Install UMD starter kit
+    $ quasar init -t umd <folder_name>
 
-    Options
-      --version, -v  Install specific Quasar version
-      --type, -t     Install specific starter kit
-      --help, -h     Displays this message
+  Options
+    --version, -v  Install specific Quasar version
+    --type, -t     Install specific starter kit
+    --help, -h     Displays this message
   `)
   process.exit(0)
 }

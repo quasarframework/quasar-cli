@@ -20,17 +20,17 @@ const argv = parseArgs(process.argv.slice(2), {
 
 if (argv.help) {
   console.log(`
-    Description
-      Add/Remove support for PWA / Cordova / Electron modes.
-    Usage
-      $ quasar mode -r|-a pwa|cordova|electron
+  Description
+    Add/Remove support for PWA / Cordova / Electron modes.
+  Usage
+    $ quasar mode -r|-a pwa|cordova|electron
 
-      # determine what modes are currently installed:
-      $ quasar mode
-    Options
-      --add, -a     Add support for mode [pwa|cordova|electron]
-      --remove, -r  Remove support for mode [pwa|cordova|electron]
-      --help, -h     Displays this message
+    # determine what modes are currently installed:
+    $ quasar mode
+  Options
+    --add, -a     Add support for mode [pwa|cordova|electron]
+    --remove, -r  Remove support for mode [pwa|cordova|electron]
+    --help, -h     Displays this message
   `)
   process.exit(0)
 }
