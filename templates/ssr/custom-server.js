@@ -1,3 +1,18 @@
+/*
+ * This file runs in a Node context (it's NOT transpiled by Babel), so use only
+ * the ES6 features that are supported by your Node version. https://node.green/
+ *
+ * If you want to use this file as /server.js instead of the default Quasar CLI
+ * generated one then enable it from quasar.conf > ssr > customServer: true.
+ * Otherwise this file won't be picked up by the build.
+ *
+ * Note: Except for "customServer", all other quasar.conf > ssr properties
+ * do NOT apply to this file.
+ *
+ * Note: Using this file instead of the default server.js will not protect you
+ * against possible future breaking changes.
+ */
+
 const
   fs = require('fs'),
   path = require('path'),
@@ -9,11 +24,7 @@ const
 
 const
   app = express(),
-  port = process.env.PORT || 3000,
-  useMicroCache = process.env.MICRO_CACHE !== 'false',
-  serverInfo =
-    `express/${require('express/package.json').version} ` +
-    `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
+  port = process.env.PORT || 3000
 
 const
   template = fs.readFileSync(resolve('../template.html'), 'utf-8'),
@@ -44,7 +55,6 @@ app.use('/', serve('.', true))
 
 app.get('*', (req, res) => {
   res.setHeader('Content-Type', 'text/html')
-  res.setHeader('Server', serverInfo)
 
   const context = {
     url: req.url,
@@ -75,5 +85,5 @@ app.get('*', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`server started at localhost:${port}`)
+  console.log(`Server started at localhost:${port}`)
 })

@@ -158,7 +158,7 @@ async function build () {
     statsArray.forEach(stat => {
       if (stat.hasErrors()) {
         warn()
-        warn(chalk.red('[FAIL] Build failed with errors'))
+        warn(chalk.red('[FAIL] Build failed with errors. Check log above.'))
         warn()
 
         process.exit(1)
