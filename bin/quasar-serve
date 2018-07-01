@@ -199,8 +199,6 @@ function getServer (app) {
     return app
   }
 
-  const spdy = require('spdy')
-
   let fakeCert, key, cert
 
   if (argv.key && argv.cert) {
@@ -307,11 +305,8 @@ function getServer (app) {
     fakeCert = fs.readFileSync(certPath)
   }
 
-  return spdy.createServer({
+  return require('https').createServer({
     key: key || fakeCert,
-    cert: cert || fakeCert,
-    spdy: {
-      protocols: ['h2', 'http/1.1']
-    }
+    cert: cert || fakeCert
   }, app)
 }

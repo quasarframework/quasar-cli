@@ -15,8 +15,8 @@ Vue.config.productionTip = <%= ctx.dev ? false : true %>
 <% if (ctx.dev) { %>
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() %> with <%= ctx.themeName.toUpperCase() %> theme.')
 <% if (ctx.mode.pwa) { %>
-  console.info('[Quasar] PWA: a no-op service worker is being supplied in dev mode in order to reset any previous registered one. This ensures HMR works correctly.')
-  console.info('[Quasar] Do not run Lighthouse test in dev mode.')
+console.info('[Quasar] PWA: a no-op service worker is being supplied in dev mode in order to reset any previous registered one. This ensures HMR works correctly.')
+console.info('[Quasar] Do not run Lighthouse test in dev mode.')
 <%
   }
 }
