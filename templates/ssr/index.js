@@ -51,7 +51,7 @@ app.use('/', serve('.', true))
 // this should be last get(), rendering with SSR
 app.get('*', (req, res) => {
   res.setHeader('Content-Type', 'text/html')
-  ssr.render({ req, res }, (err, html) => {
+  ssr.renderToString({ req, res }, (err, html) => {
     if (err) {
       if (err.url) {
         res.redirect(err.url)
