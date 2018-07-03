@@ -145,16 +145,15 @@ const app = {
 %>
 const plugins = []
 <%
-plugins.filter(asset => asset && asset !== 'boot').forEach(asset => {
-  if (asset === 'boot') { return }
-  let importName = 'plugin' + hash(asset)
+plugins.filter(asset => asset.path !== 'boot' && asset.client !== false).forEach(asset => {
+  let importName = 'plugin' + hash(asset.path)
 %>
-import <%= importName %> from 'src/plugins/<%= asset %>'
+import <%= importName %> from 'src/plugins/<%= asset.path %>'
 plugins.push(<%= importName %>)
 <% }) %>
 plugins.forEach(plugin => plugin({ app, router,<% if (store) { %> store,<% } %> Vue }))
 <% }
-const hasBootPlugin = plugins && plugins.find(asset => asset === 'boot')
+const hasBootPlugin = plugins && plugins.find(asset => asset.path === 'boot')
 
 if (hasBootPlugin) { %>
 import boot from 'src/plugins/boot'

@@ -8,11 +8,10 @@
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
 import Vue from 'vue'
-import { createApp } from './app'
-
 <% if (ctx.prod && ctx.mode.pwa) { %>
 import 'app/<%= sourceFiles.registerServiceWorker %>'
 <% } %>
+import { createApp } from './app'
 
 <% if (ctx.dev) { %>
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() %> with <%= ctx.themeName.toUpperCase() %> theme.')
@@ -52,7 +51,35 @@ Vue.mixin({
   }
 })
 
+<%
+if (plugins) {
+  function hash (str) {
+    const name = str.replace(/\W+/g, '')
+    return name.charAt(0).toUpperCase() + name.slice(1)
+  }
+%>
+  const plugins = []
+  <%
+  plugins.filter(asset => asset.client !== false).forEach(asset => {
+    let importName = 'plugin' + hash(asset.path)
+  %>
+  import <%= importName %> from 'src/plugins/<%= asset.path %>'
+  plugins.push(<%= importName %>)
+<%
+  })
+}
+%>
+
 const { app, <% if (store) { %>store, <% } %>router } = createApp()
+
+<% if (plugins) { %>
+plugins.forEach(plugin => plugin({
+  app,
+  router,
+  <% if (store) { %> store,<% } %>
+  Vue
+}))
+<% } %>
 
 // prime the store with server-initialized state.
 // the state is determined during SSR and inlined in the page markup.
@@ -61,6 +88,8 @@ if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }
 <% } %>
+
+const appInstance = new Vue(app)
 
 // wait until router has resolved all async before hooks
 // and async components...
@@ -101,5 +130,5 @@ router.onReady(() => {
   })
 
   // actually mount to DOM
-  app.$mount('#q-app')
+  appInstance.$mount('#q-app')
 })

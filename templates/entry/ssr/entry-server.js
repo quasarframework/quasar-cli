@@ -8,8 +8,28 @@
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
 import { createApp } from './app'
+import Vue from 'vue'
 
-const isDev = process.env.NODE_ENV !== 'production'
+Vue.config.productionTip = <%= ctx.dev ? false : true %>
+
+<%
+if (plugins) {
+  function hash (str) {
+    const name = str.replace(/\W+/g, '')
+    return name.charAt(0).toUpperCase() + name.slice(1)
+  }
+%>
+  const plugins = []
+  <%
+  plugins.filter(asset => asset.server !== false).forEach(asset => {
+    let importName = 'plugin' + hash(asset.path)
+  %>
+  import <%= importName %> from 'src/plugins/<%= asset.path %>'
+  plugins.push(<%= importName %>)
+<%
+  })
+}
+%>
 
 // This exported function will be called by `bundleRenderer`.
 // This is where we perform data-prefetching to determine the
@@ -18,8 +38,16 @@ const isDev = process.env.NODE_ENV !== 'production'
 // return a Promise that resolves to the app instance.
 export default context => {
   return new Promise((resolve, reject) => {
-    const startTime = isDev && Date.now()
     const { app, <% if (store) { %>store, <% } %>router } = createApp(context)
+
+    <% if (plugins) { %>
+    plugins.forEach(plugin => plugin({
+      app,
+      router,
+      <% if (store) { %> store,<% } %>
+      Vue
+    }))
+    <% } %>
 
     const { url } = context
     const { fullPath } = router.resolve(url).route
@@ -48,7 +76,6 @@ export default context => {
           route: router.currentRoute
         }))
       ).then(() => {
-        isDev && console.log(url + ' -> data pre-fetch took: ' + (Date.now() - startTime) + 'ms')
         // After all preFetch hooks are resolved, our store is now
         // filled with the state needed to render the app.
         // Expose the state on the render context, and let the request handler
@@ -56,7 +83,7 @@ export default context => {
         // store to pick-up the server-side state without having to duplicate
         // the initial data fetching on the client.
         <% if (store) { %>context.state = store.state<% } %>
-        resolve(app)
+        resolve(new Vue(app))
       }).catch(reject)
     }, reject)
   })
