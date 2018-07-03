@@ -9,7 +9,6 @@
  **/
 import Vue from 'vue'
 import { createApp } from './app'
-import { QAjaxBar } from 'quasar'
 
 <% if (ctx.prod && ctx.mode.pwa) { %>
 import 'app/<%= sourceFiles.registerServiceWorker %>'
@@ -25,14 +24,17 @@ console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() %> with <%= ctx.th
 }
 %>
 
+<% if (loadingBar) { %>
 // global progress bar
+import { QAjaxBar } from 'quasar'
 const bar = Vue.prototype.$bar = new Vue({
   render: h => h(QAjaxBar, {
-    ref: 'bar',
-    props: { color: 'secondary' }
+    ref: 'bar'<% if (loadingBar !== true) { %>,
+    props: <%= JSON.stringify(loadingBar) %><% } %>
   })
 }).$mount().$refs.bar
 document.body.appendChild(bar.$parent.$el)
+<% } %>
 
 // a global mixin that calls `asyncData` when a route component's params change
 Vue.mixin({
@@ -68,29 +70,34 @@ router.onReady(() => {
   // the data that we already have. Using router.beforeResolve() so that all
   // async components are resolved.
   router.beforeResolve((to, from, next) => {
-    const matched = router.getMatchedComponents(to)
-    const prevMatched = router.getMatchedComponents(from)
+    const
+      matched = router.getMatchedComponents(to),
+      prevMatched = router.getMatchedComponents(from)
     let diffed = false
     const activated = matched.filter((c, i) => {
       return diffed || (diffed = (prevMatched[i] !== c))
     })
     const asyncDataHooks = activated.map(c => c.asyncData).filter(_ => _)
-    if (!asyncDataHooks.length) {
+
+    if (asyncDataHooks.length === 0) {
       return next()
     }
 
+<% if (loadingBar) { %>
+    const proceed = () => {
+      bar.stop()
+      next()
+    }
+
     bar.start()
+<% } %>
     Promise.all(
       asyncDataHooks.map(hook => hook({
         <% if (store) { %>store,<% } %>
         route: to
       }))
     )
-    .then(() => {
-      bar.stop()
-      next()
-    })
-    .catch(next)
+    .then(<%= loadingBar ? 'proceed' : 'next' %>).catch(<%= loadingBar ? 'proceed' : 'next' %>)
   })
 
   // actually mount to DOM
