@@ -45,7 +45,8 @@ export default context => {
       app,
       router,
       <% if (store) { %> store,<% } %>
-      Vue
+      Vue,
+      ssrContext: context
     }))
     <% } %>
 

@@ -151,7 +151,13 @@ plugins.filter(asset => asset.path !== 'boot' && asset.client !== false).forEach
 import <%= importName %> from 'src/plugins/<%= asset.path %>'
 plugins.push(<%= importName %>)
 <% }) %>
-plugins.forEach(plugin => plugin({ app, router,<% if (store) { %> store,<% } %> Vue }))
+plugins.forEach(plugin => plugin({
+  app,
+  router,
+  <% if (store) { %> store,<% } %>
+  Vue,
+  ssrContext: null
+}))
 <% }
 const hasBootPlugin = plugins && plugins.find(asset => asset.path === 'boot')
 

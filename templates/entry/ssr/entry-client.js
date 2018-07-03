@@ -77,7 +77,8 @@ plugins.forEach(plugin => plugin({
   app,
   router,
   <% if (store) { %> store,<% } %>
-  Vue
+  Vue,
+  ssrContext: null
 }))
 <% } %>
 
