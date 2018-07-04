@@ -7,10 +7,7 @@
  * One plugin per concern. Then reference the file(s) in quasar.conf.js > plugins:
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
-<% if (supportIE) { %>
-// import 'quasar-framework/dist/quasar.ie.polyfills'
-<% }
-
+<%
 let importStatement, useStatement = [ `cfg: ${JSON.stringify(framework.cfg)}` ]
 
 if (framework.i18n) { %>

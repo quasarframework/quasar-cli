@@ -7,6 +7,10 @@
  * One plugin per concern. Then reference the file(s) in quasar.conf.js > plugins:
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
+<% if (supportIE) { %>
+import 'quasar-framework/dist/quasar.ie.polyfills'
+<% } %>
+
 import './import-quasar'
 
 import Vue from 'vue'

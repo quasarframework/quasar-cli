@@ -7,6 +7,10 @@
  * One plugin per concern. Then reference the file(s) in quasar.conf.js > plugins:
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
+<% if (supportIE) { %>
+import 'quasar-framework/dist/quasar.ie.polyfills'
+<% } %>
+
 import Vue from 'vue'
 <% if (ctx.prod && ctx.mode.pwa) { %>
 import 'app/<%= sourceFiles.registerServiceWorker %>'
