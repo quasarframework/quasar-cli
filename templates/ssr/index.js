@@ -3,22 +3,8 @@
  * the ES6 features that are supported by your Node version. https://node.green/
  *
  * All content of this folder will be copied as is to the output folder. So only import:
- *  1. node_modules (and add your deps through quasar.conf > ssr > extendPackageJson(pkg))
+ *  1. node_modules (and yarn/npm install your dependencies -- NOT devDependecies)
  *  2. create files in this folder and import only those with the relative path
- *
- * Example adding a dependency to the generated package.json:
- *   // quasar.conf
- *   module.exports = function (ctx) {
- *     return {
- *       // ...
- *       ssr: {
- *         extendPackageJson (pkg) {
- *           // adds "my-dep" npm package version 1.0.2
- *           pkg.dependencies['my-dep'] = '1.0.2'
- *         }
- *       }
- *     }
- *   }
  *
  * Note: This file is used only for PRODUCTION. It is not picked up while in dev mode.
  */
