@@ -44,7 +44,7 @@ export default context => {
     plugins.forEach(plugin => plugin({
       app,
       router,
-      <% if (store) { %> store,<% } %>
+      <% if (store) { %>store,<% } %>
       Vue,
       ssrContext: context
     }))

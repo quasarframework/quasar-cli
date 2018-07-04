@@ -132,7 +132,7 @@ router.beforeResolve((to, from, next) => {
 const app = {
   el: '#q-app',
   router,
-<% if (store) { %>store,<% } %>
+  <% if (store) { %>store,<% } %>
   ...App
 }
 
@@ -154,7 +154,7 @@ plugins.push(<%= importName %>)
 plugins.forEach(plugin => plugin({
   app,
   router,
-  <% if (store) { %> store,<% } %>
+  <% if (store) { %>store,<% } %>
   Vue,
   ssrContext: null
 }))
