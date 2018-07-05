@@ -43,7 +43,11 @@ css && css.filter(css => css).forEach(asset => {
 import '<%= path %>'
 <% }) %>
 
+<% if (framework.all) { %>
 import Quasar from 'quasar'
+<% } else { %>
+import { Quasar } from 'quasar'
+<% } %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
 import { createRouter } from 'app/<%= sourceFiles.router %>'
 <% if (store) { %>

@@ -8,7 +8,7 @@
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
 <%
-let importStatement, useStatement = [ `cfg: ${JSON.stringify(framework.cfg)}` ]
+let useStatement = [ `cfg: ${JSON.stringify(framework.cfg)}` ]
 
 if (framework.i18n) { %>
 import lang from 'quasar-framework/i18n/<%= framework.i18n %>'
@@ -21,17 +21,13 @@ import iconSet from 'quasar-framework/icons/<%= framework.iconSet %>'
 <%
   useStatement.push('iconSet: iconSet')
 }
+%>
 
-if (framework.all) {
-  importStatement = ', * as All'
-  useStatement.push(
-    'components: All',
-    'directives: All',
-    'plugins: All'
-  )
-}
-else {
-  importStatement = []
+import Vue from 'vue'
+<% if (framework.all) { %>
+import Quasar from 'quasar'
+<% } else {
+  let importStatement = []
 
   ;['components', 'directives', 'plugins'].forEach(type => {
     if (framework[type]) {
@@ -43,13 +39,9 @@ else {
     }
   })
 
-  importStatement = importStatement.length
-    ? ', {' + importStatement.join(',') + '}'
-    : ''
-}
+  importStatement = '{Quasar' + (importStatement.length ? ',' + importStatement.join(',') : '') + '}'
 %>
-
-import Vue from 'vue'
-import Quasar<%= importStatement || '' %> from 'quasar'
+import <%= importStatement %> from 'quasar'
+<% } %>
 
 Vue.use(Quasar, { <%= useStatement.join(',') %> })

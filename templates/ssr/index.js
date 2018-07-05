@@ -48,6 +48,11 @@ app.get('*', (req, res) => {
       else {
         // Render Error Page or Redirect
         res.status(500).send('500 | Internal Server Error')
+        if (process.env.DEBUG) {
+          console.log(`500 on ${req.url}`)
+          console.log(err)
+          console.log(err.stack)
+        }
       }
     }
     else {
