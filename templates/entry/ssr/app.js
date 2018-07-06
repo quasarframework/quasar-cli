@@ -17,18 +17,11 @@ import 'quasar-extras/<%= asset %>/<%= asset %>.css'
 
 <%
 if (animations) {
-  if (animations === 'all') {
-%>
-import 'quasar-extras/animate'
-<%
-  }
-  else {
-    animations.filter(asset => asset).forEach(asset => {
+  animations.filter(asset => asset).forEach(asset => {
 %>
 import 'quasar-extras/animate/<%= asset %>.css'
 <%
-    })
-  }
+  })
 }
 %>
 

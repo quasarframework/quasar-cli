@@ -21,7 +21,7 @@ const argv = parseArgs(process.argv.slice(2), {
   boolean: ['g', 'https', 'colors', 'S', 'history', 'h'],
   string: ['H', 'C', 'K'],
   default: {
-    p: process.env.PORT || 8080,
+    p: process.env.PORT || 4000,
     H: process.env.HOSTNAME || '0.0.0.0',
     g: true,
     c: 24 * 60 * 60,
