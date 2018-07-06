@@ -26,8 +26,8 @@ const serve = (path, cache) => express.static(ssr.resolveWWW(path), {
 // gzip
 app.use(compression({ threshold: 0 }))
 
-// serve this with no cache, if it exists:
-if (fs.existsSync(ssr.resolveWWW('service-worker.js'))) {
+// serve this with no cache, if built with PWA:
+if (ssr.settings.pwa) {
   app.use('/service-worker.js', serve('service-worker.js'))
 }
 
@@ -48,7 +48,7 @@ app.get('*', (req, res) => {
       else {
         // Render Error Page or Redirect
         res.status(500).send('500 | Internal Server Error')
-        if (process.env.DEBUG) {
+        if (ssr.settings.debug) {
           console.log(`500 on ${req.url}`)
           console.log(err)
           console.log(err.stack)

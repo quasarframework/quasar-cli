@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.17.0-beta.10",
+  "version": "0.17.0-beta.11",
   "description": "Quasar Framework CLI",
   "scripts": {
     "postinstall": "node lib/node-version-check.js"
@@ -39,11 +39,11 @@
   "bugs": "https://github.com/quasarframework/quasar-cli/issues",
   "homepage": "http://quasar-framework.org",
   "dependencies": {
-    "@babel/core": "7.0.0-beta.51",
-    "@babel/plugin-transform-runtime": "7.0.0-beta.51",
-    "@babel/preset-env": "7.0.0-beta.51",
-    "@babel/preset-stage-2": "7.0.0-beta.51",
-    "@babel/runtime": "7.0.0-beta.51",
+    "@babel/core": "7.0.0-beta.52",
+    "@babel/plugin-transform-runtime": "7.0.0-beta.52",
+    "@babel/preset-env": "7.0.0-beta.52",
+    "@babel/preset-stage-2": "7.0.0-beta.52",
+    "@babel/runtime": "7.0.0-beta.52",
     "ajv": "6.5.1",
     "babel-loader": "8.0.0-beta.2",
     "babel-plugin-transform-imports": "1.5.0",
