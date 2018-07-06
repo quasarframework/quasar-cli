@@ -137,7 +137,7 @@ const app = {
   el: '#q-app',
   router,
   <% if (store) { %>store,<% } %>
-  ...App
+  render: h => h(App)
 }
 
 <%

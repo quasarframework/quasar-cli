@@ -67,7 +67,7 @@ export function createApp (ssrContext) {
   const app = {
     router,
     <% if (store) { %>store,<% } %>
-    ...App
+    render: h => h(App)
   }
 
   const ctx = { app }
