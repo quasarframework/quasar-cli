@@ -4179,10 +4179,6 @@ os-tmpdir@^1.0.0, os-tmpdir@~1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
 
-os@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/os/-/os-0.1.1.tgz#208845e89e193ad4d971474b93947736a56d13f3"
-
 osenv@^0.1.4:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/osenv/-/osenv-0.1.5.tgz#85cdfafaeb28e8677f416e287592b5f3f49ea410"
@@ -4975,9 +4971,9 @@ quasar-extras@2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/quasar-extras/-/quasar-extras-2.0.4.tgz#63cb738fcd046e57cedd9a57483c4ecb5059e17d"
 
-quasar-framework@0.17.0-beta.8:
-  version "0.17.0-beta.8"
-  resolved "https://registry.yarnpkg.com/quasar-framework/-/quasar-framework-0.17.0-beta.8.tgz#e17b886b76c93118b3ed5bbf45be14db9fcdc6e0"
+quasar-framework@0.17.0-beta.9:
+  version "0.17.0-beta.9"
+  resolved "https://registry.yarnpkg.com/quasar-framework/-/quasar-framework-0.17.0-beta.9.tgz#f929a1dab6e1559021d785962fb258589618bd74"
 
 query-string@^4.1.0:
   version "4.3.4"
