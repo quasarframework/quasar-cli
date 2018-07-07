@@ -49,9 +49,9 @@ app.get('*', (req, res) => {
         // Render Error Page or Redirect
         res.status(500).send('500 | Internal Server Error')
         if (ssr.settings.debug) {
-          console.log(`500 on ${req.url}`)
-          console.log(err)
-          console.log(err.stack)
+          console.error(`500 on ${req.url}`)
+          console.error(err)
+          console.error(err.stack)
         }
       }
     }
@@ -61,7 +61,24 @@ app.get('*', (req, res) => {
   })
 })
 
-// finally, start listening
-app.listen(port, () => {
-  console.log(`Server started at port ${port}\n`)
-})
+const cluster = require('cluster')
+
+if (cluster.isMaster) {
+  const cpuCount = require('os').cpus().length
+
+  for (let i = 0; i < cpuCount; i++) {
+    cluster.fork()
+  }
+
+  cluster.on('exit', (worker, code, signal) => {
+    if (ssr.settings.debug) {
+      console.error(`worker ${worker.process.pid} died`)
+    }
+    cluster.fork()
+  })
+}
+else { // worker
+  app.listen(port, () => {
+    console.log(`Worker ${process.pid} - Server started at port ${port}`)
+  })
+}
