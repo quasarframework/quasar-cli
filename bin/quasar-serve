@@ -11,6 +11,7 @@ const argv = parseArgs(process.argv.slice(2), {
     colors: 'colors',
     o: 'open',
     c: 'cache',
+    m: 'micro',
     history: 'history',
     https: 'https',
     C: 'cert',
@@ -25,6 +26,7 @@ const argv = parseArgs(process.argv.slice(2), {
     H: process.env.HOSTNAME || '0.0.0.0',
     g: true,
     c: 24 * 60 * 60,
+    m: 1,
     colors: true
   }
 })
@@ -51,6 +53,7 @@ if (argv.help) {
     --cache, -c <number>   Cache time (max-age) in seconds;
                            Does not apply to /service-worker.js
                            (default: 86400 - 24 hours)
+    --micro, -m <seconds>  Use micro-cache (default: 1 second)
     --history              Use history api fallback;
                            All requests fallback to index.html
     --https                Enable HTTPS
@@ -117,7 +120,11 @@ if (ssrDetected === false) {
     green = grey = red = text => text
   }
 
-  const express = require('express')
+  const
+    express = require('express'),
+    microCacheSeconds = argv.micro
+      ? parseInt(argv.micro, 10)
+      : false
 
   function serve (path, cache) {
     return express.static(resolve(path), {
@@ -153,6 +160,16 @@ if (ssrDetected === false) {
 
   app.use('/', serve('.', true))
 
+  if (microCacheSeconds) {
+    const microcache = require('route-cache')
+    app.use(
+      microcache.cacheSeconds(
+        microCacheSeconds,
+        req => req.originalUrl
+      )
+    )
+  }
+
   if (argv.proxy) {
     let file = argv.proxy = getAbsolutePath(argv.proxy)
     if (!fs.existsSync(file)) {
@@ -187,6 +204,7 @@ if (ssrDetected === false) {
       argv.https ? ['HTTPS', 'enabled'] : '',
       argv.gzip ? ['Gzip', 'enabled'] : '',
       ['Cache (max-age)', argv.cache || 'disabled'],
+      microCacheSeconds ? ['Micro-cache', microCacheSeconds + 's'] : '',
       argv.history ? ['History mode', 'enabled'] : '',
       argv.proxy ? ['Proxy definitions', argv.proxy] : ''
     ]
