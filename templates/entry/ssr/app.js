@@ -9,21 +9,13 @@
  **/
 import './import-quasar'
 
-<%
-extras && extras.filter(asset => asset).forEach(asset => {
-%>
+<% extras && extras.filter(asset => asset).forEach(asset => { %>
 import 'quasar-extras/<%= asset %>/<%= asset %>.css'
 <% }) %>
 
-<%
-if (animations) {
-  animations.filter(asset => asset).forEach(asset => {
-%>
+<% if (animations) { animations.filter(asset => asset).forEach(asset => { %>
 import 'quasar-extras/animate/<%= asset %>.css'
-<%
-  })
-}
-%>
+<% }) } %>
 
 import 'quasar-app-styl'
 
@@ -41,6 +33,7 @@ import Quasar from 'quasar'
 <% } else { %>
 import { Quasar } from 'quasar'
 <% } %>
+
 import App from 'app/<%= sourceFiles.rootComponent %>'
 import { createRouter } from 'app/<%= sourceFiles.router %>'
 <% if (store) { %>

@@ -30,7 +30,7 @@ console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() %> with <%= ctx.th
 <% if (loadingBar) { %>
 // global progress bar
 import { QAjaxBar } from 'quasar'
-const bar = Vue.prototype.$bar = new Vue({
+const bar = Vue.prototype.$q.loadingBar = new Vue({
   render: h => h(QAjaxBar, {
     ref: 'bar'<% if (loadingBar !== true) { %>,
     props: <%= JSON.stringify(loadingBar) %><% } %>
