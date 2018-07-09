@@ -13,8 +13,7 @@
     "bin",
     "lib",
     "lists",
-    "templates",
-    "ssl"
+    "templates"
   ],
   "keywords": [
     "quasar",
