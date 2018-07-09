@@ -192,9 +192,15 @@ if (ssrDetected === false) {
     }
   })
 
+  function getHostname (host) {
+    return host === '0.0.0.0'
+      ? 'localhost'
+      : host
+  }
+
   getServer(app).listen(argv.port, argv.hostname, () => {
     const
-      url = `http${argv.https ? 's' : ''}://${argv.hostname}:${argv.port}`,
+      url = `http${argv.https ? 's' : ''}://${getHostname(argv.hostname)}:${argv.port}`,
       { version } = require('../package.json')
 
     const info = [
