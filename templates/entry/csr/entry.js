@@ -61,12 +61,14 @@ import App from 'app/<%= sourceFiles.rootComponent %>'
 
 <% if (store) { %>
 import { createStore } from 'app/<%= sourceFiles.store %>'
+const store = createStore()
 <% } %>
-import { createRouter } from 'app/<%= sourceFiles.router %>'
 
-const
-  store = createStore(),
-  router = createRouter(store)
+import { createRouter } from 'app/<%= sourceFiles.router %>'
+const router = createRouter(<% if (store) { %>store<% } %>)
+<% if (store) { %>
+store.$router = router
+<% } %>
 
 <% if (loadingBar) { %>
 // global progress bar

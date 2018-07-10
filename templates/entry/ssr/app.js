@@ -35,17 +35,21 @@ import { Quasar } from 'quasar'
 <% } %>
 
 import App from 'app/<%= sourceFiles.rootComponent %>'
-import { createRouter } from 'app/<%= sourceFiles.router %>'
+
 <% if (store) { %>
 import { createStore } from 'app/<%= sourceFiles.store %>'
 <% } %>
+import { createRouter } from 'app/<%= sourceFiles.router %>'
 
 export function createApp (ssrContext) {
   // create store and router instances
   <% if (store) { %>
   const store = createStore()
   <% } %>
-  const router = createRouter(store)
+  const router = createRouter(<% if (store) { %>store<% } %>)
+  <% if (store) { %>
+  store.$router = router
+  <% } %>
 
   // create the app instance.
   // here we inject the router, store and ssr context to all child components,
