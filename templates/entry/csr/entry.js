@@ -60,12 +60,16 @@ import '<%= path %>'
 import App from 'app/<%= sourceFiles.rootComponent %>'
 
 <% if (store) { %>
-import { createStore } from 'app/<%= sourceFiles.store %>'
-const store = createStore()
+import createStore from 'app/<%= sourceFiles.store %>'
+const store = typeof createStore === 'function'
+  ? createStore()
+  : createStore
 <% } %>
 
-import { createRouter } from 'app/<%= sourceFiles.router %>'
-const router = createRouter(<% if (store) { %>{ store }<% } %>)
+import createRouter from 'app/<%= sourceFiles.router %>'
+const router = typeof createRouter === 'function'
+  ? createRouter(<% if (store) { %>{ store }<% } %>)
+  : createRouter
 <% if (store) { %>
 // make router instance available in store
 store.$router = router

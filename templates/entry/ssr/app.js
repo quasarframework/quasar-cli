@@ -37,9 +37,9 @@ import { Quasar } from 'quasar'
 import App from 'app/<%= sourceFiles.rootComponent %>'
 
 <% if (store) { %>
-import { createStore } from 'app/<%= sourceFiles.store %>'
+import createStore from 'app/<%= sourceFiles.store %>'
 <% } %>
-import { createRouter } from 'app/<%= sourceFiles.router %>'
+import createRouter from 'app/<%= sourceFiles.router %>'
 
 export function createApp (ssrContext) {
   // create store and router instances
