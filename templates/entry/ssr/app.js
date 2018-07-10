@@ -46,7 +46,7 @@ export function createApp (ssrContext) {
   <% if (store) { %>
   const store = createStore()
   <% } %>
-  const router = createRouter(<% if (store) { %>store<% } %>)
+  const router = createRouter(<% if (store) { %>{ store }<% } %>)
   <% if (store) { %>
   // make router instance available in store
   store.$router = router
