@@ -67,6 +67,7 @@ const store = createStore()
 import { createRouter } from 'app/<%= sourceFiles.router %>'
 const router = createRouter(<% if (store) { %>store<% } %>)
 <% if (store) { %>
+// make router instance available in store
 store.$router = router
 <% } %>
 
