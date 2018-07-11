@@ -78,7 +78,7 @@ store.$router = router
 <% if (loadingBar) { %>
 // global progress bar
 import { QAjaxBar } from 'quasar'
-const bar = Vue.prototype.$bar = new Vue({
+const bar = Vue.prototype.$q.loadingBar = new Vue({
   render: h => h(QAjaxBar, {
     ref: 'bar'<% if (loadingBar !== true) { %>,
     props: <%= JSON.stringify(loadingBar) %><% } %>
@@ -108,13 +108,15 @@ Vue.mixin({
 // the data that we already have. Using router.beforeResolve() so that all
 // async components are resolved.
 router.beforeResolve((to, from, next) => {
-  const asyncDataHooks = router.getMatchedComponents(to)
-    .map(c => c.asyncData)
-    .filter(_ => _)
+  const
+    matched = router.getMatchedComponents(to),
+    prevMatched = router.getMatchedComponents(from)
+  let diffed = false
+  const components = matched.filter((c, i) => {
+    return diffed || (diffed = (prevMatched[i] !== c))
+  }).filter(c => c && typeof c.asyncData === 'function')
 
-  if (asyncDataHooks.length === 0) {
-    return next()
-  }
+  if (!components.length) { return next() }
 
 <% if (loadingBar) { %>
   const proceed = () => {
@@ -125,12 +127,13 @@ router.beforeResolve((to, from, next) => {
   bar.start()
 <% } %>
   Promise.all(
-    asyncDataHooks.map(hook => hook({
+    components.map(c => c.asyncData({
       <% if (store) { %>store,<% } %>
       route: to
     }))
   )
-  .then(<%= loadingBar ? 'proceed' : 'next' %>).catch(<%= loadingBar ? 'proceed' : 'next' %>)
+  .then(<%= loadingBar ? 'proceed' : 'next' %>)
+  .catch(<%= loadingBar ? 'proceed' : 'next' %>)
 })
 
 const app = {

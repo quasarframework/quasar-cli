@@ -108,14 +108,11 @@ router.onReady(() => {
       matched = router.getMatchedComponents(to),
       prevMatched = router.getMatchedComponents(from)
     let diffed = false
-    const activated = matched.filter((c, i) => {
+    const components = matched.filter((c, i) => {
       return diffed || (diffed = (prevMatched[i] !== c))
-    })
-    const asyncDataHooks = activated.map(c => c.asyncData).filter(_ => _)
+    }).filter(c => c && typeof c.asyncData === 'function')
 
-    if (asyncDataHooks.length === 0) {
-      return next()
-    }
+    if (!components.length) { return next() }
 
 <% if (loadingBar) { %>
     const proceed = () => {
@@ -126,12 +123,13 @@ router.onReady(() => {
     bar.start()
 <% } %>
     Promise.all(
-      asyncDataHooks.map(hook => hook({
+      components.map(c => c.asyncData({
         <% if (store) { %>store,<% } %>
         route: to
       }))
     )
-    .then(<%= loadingBar ? 'proceed' : 'next' %>).catch(<%= loadingBar ? 'proceed' : 'next' %>)
+    .then(<%= loadingBar ? 'proceed' : 'next' %>)
+    .catch(<%= loadingBar ? 'proceed' : 'next' %>)
   })
 
   // actually mount to DOM
