@@ -8,7 +8,7 @@
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
 <%
-let useStatement = [ `cfg: ${JSON.stringify(framework.cfg)}` ]
+let useStatement = [ `config: ${JSON.stringify(framework.config)}` ]
 
 if (framework.i18n) { %>
 import lang from 'quasar-framework/i18n/<%= framework.i18n %>'
