@@ -12,7 +12,7 @@ import 'quasar-framework/dist/quasar.ie.polyfills.js'
 <% } %>
 
 <% if (ctx.dev) { %>
-console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() %> with <%= ctx.themeName.toUpperCase() %> theme.')
+console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %> with <%= ctx.themeName.toUpperCase() %> theme.')
 <% if (ctx.mode.pwa) { %>console.info('[Quasar] Forcing PWA into the network-first approach to not break Hot Module Replacement while developing.')<% } %>
 <% } %>
 
