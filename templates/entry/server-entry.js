@@ -7,29 +7,22 @@
  * One plugin per concern. Then reference the file(s) in quasar.conf.js > plugins:
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
-import { createApp } from './app'
+import createApp from './app'
 import Vue from 'vue'
 
-Vue.config.productionTip = <%= ctx.dev ? false : true %>
-
 <%
+const pluginNames = []
 if (plugins) {
   function hash (str) {
     const name = str.replace(/\W+/g, '')
     return name.charAt(0).toUpperCase() + name.slice(1)
   }
-%>
-  const plugins = []
-  <%
-  plugins.filter(asset => asset.server !== false).forEach(asset => {
+  plugins.filter(asset => asset.path !== 'boot' && asset.server !== false).forEach(asset => {
     let importName = 'plugin' + hash(asset.path)
-  %>
-  import <%= importName %> from 'src/plugins/<%= asset.path %>'
-  plugins.push(<%= importName %>)
-<%
-  })
-}
+    pluginNames.push(importName)
 %>
+import <%= importName %> from 'src/plugins/<%= asset.path %>'
+<% }) } %>
 
 // This exported function will be called by `bundleRenderer`.
 // This is where we perform data-prefetching to determine the
@@ -38,20 +31,21 @@ if (plugins) {
 // return a Promise that resolves to the app instance.
 export default context => {
   return new Promise((resolve, reject) => {
-    const { app, <% if (store) { %>store, <% } %>router } = createApp(context)
+    const { app, <%= store ? 'store, ' : '' %>router } = createApp(context)
 
-    <% if (plugins) { %>
-    plugins.forEach(plugin => plugin({
+    <% if (pluginNames.length > 0) { %>
+    ;[<%= pluginNames.join(',') %>].forEach(plugin => plugin({
       app,
       router,
-      <% if (store) { %>store,<% } %>
+      <%= store ? 'store,' : '' %>
       Vue,
       ssrContext: context
     }))
     <% } %>
 
-    const { url } = context
-    const { fullPath } = router.resolve(url).route
+    const
+      { url } = context,
+      { fullPath } = router.resolve(url).route
 
     if (fullPath !== url) {
       return reject({ url: fullPath })

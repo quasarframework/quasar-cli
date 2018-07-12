@@ -7,31 +7,24 @@
  * One plugin per concern. Then reference the file(s) in quasar.conf.js > plugins:
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
-import './import-quasar'
+import './import-quasar.js'
 
 <% extras && extras.filter(asset => asset).forEach(asset => { %>
 import 'quasar-extras/<%= asset %>/<%= asset %>.css'
 <% }) %>
 
-<% if (animations) { animations.filter(asset => asset).forEach(asset => { %>
+<% animations && animations.filter(asset => asset).forEach(asset => { %>
 import 'quasar-extras/animate/<%= asset %>.css'
-<% }) } %>
+<% }) %>
 
 import 'quasar-app-styl'
 
-<%
-css && css.filter(css => css).forEach(asset => {
-  let path = asset[0] === '~'
-    ? asset.substring(1)
-    : `src/css/${asset}`
-%>
-import '<%= path %>'
+<% css && css.forEach(asset => { %>
+import '<%= asset %>'
 <% }) %>
 
-<% if (framework.all) { %>
-import Quasar from 'quasar'
-<% } else { %>
-import { Quasar } from 'quasar'
+<% if (ctx.mode.ssr) { %>
+import <%= framework.all ? 'Quasar' : '{ Quasar }' %> from 'quasar'
 <% } %>
 
 import App from 'app/<%= sourceFiles.rootComponent %>'
@@ -41,26 +34,32 @@ import createStore from 'app/<%= sourceFiles.store %>'
 <% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
-export function createApp (ssrContext) {
+export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // create store and router instances
   <% if (store) { %>
-  const store = createStore()
+  const store = typeof createStore === 'function'
+    ? createStore()
+    : createStore
   <% } %>
-  const router = createRouter(<% if (store) { %>{ store }<% } %>)
+  const router = typeof createRouter === 'function'
+    ? createRouter({<%= store ? 'store' : '' %>})
+    : createRouter
   <% if (store) { %>
   // make router instance available in store
   store.$router = router
   <% } %>
 
-  // create the app instance.
-  // here we inject the router, store and ssr context to all child components,
+  // Create the app instantiation Object.
+  // Here we inject the router, store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
+    <% if (!ctx.mode.ssr) { %>el: '#q-app',<% } %>
     router,
-    <% if (store) { %>store,<% } %>
+    <%= store ? 'store,' : '' %>
     render: h => h(App)
   }
 
+  <% if (ctx.mode.ssr) { %>
   const ctx = { app }
 
   if (ssrContext) {
@@ -81,13 +80,14 @@ export function createApp (ssrContext) {
   }
 
   Quasar.ssrUpdate(ctx)
+  <% } %>
 
   // expose the app, the router and the store.
   // note we are not mounting the app here, since bootstrapping will be
   // different depending on whether we are in a browser or on the server.
   return {
     app,
-    <% if (store) { %>store,<% } %>
+    <%= store ? 'store,' : '' %>
     router
   }
 }

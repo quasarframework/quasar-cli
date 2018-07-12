@@ -136,7 +136,7 @@ async function goLive () {
       },
       onAppChange () {
         log(`App changes detected. Updating app...`)
-        generator.build(quasarConfig)
+        generator.build()
       }
     })
 
