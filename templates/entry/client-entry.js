@@ -56,7 +56,9 @@ if (pluginNames.length > 0) {
 import bar from './loading-bar.js'
 <% } %>
 
-import { addAsyncDataHooks } from './client-async-data.js'
+<% if (preFetch) { %>
+import { addPreFetchHooks } from './client-prefetch.js'
+<% } %>
 
 <% if (ctx.mode.ssr) { %>
 
@@ -73,13 +75,18 @@ const appInstance = new Vue(app)
 // wait until router has resolved all async before hooks
 // and async components...
 router.onReady(() => {
-  addAsyncDataHooks(router<%= store ? ', store' : '' %>)
+  <% if (preFetch) { %>
+  addPreFetchHooks(router<%= store ? ', store' : '' %>)
+  <% } %>
   appInstance.$mount('#q-app')
 })
 
 <% } else { // not SSR %>
 
-addAsyncDataHooks(router<%= store ? ', store' : '' %>)
+<% if (preFetch) { %>
+addPreFetchHooks(router<%= store ? ', store' : '' %>)
+<% } %>
+
 <%
 const hasBootPlugin = plugins && plugins.find(asset => asset.path === 'boot')
 

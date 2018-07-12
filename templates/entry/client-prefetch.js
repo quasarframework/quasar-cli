@@ -13,11 +13,11 @@ import Vue from 'vue'
 import bar from './loading-bar.js'
 <% } %>
 
-// a global mixin that calls `asyncData` when a route component's params change
+// a global mixin that calls `preFetch` when a route component's params change
 Vue.mixin({
   beforeRouteUpdate (to, from, next) {
-    const { asyncData } = this.$options
-    if (asyncData) {
+    const { preFetch } = this.$options
+    if (preFetch) {
       <% if (loadingBar) { %>
       const proceed = () => {
         bar.stop()
@@ -26,7 +26,7 @@ Vue.mixin({
 
       bar.start()
       <% } %>
-      asyncData({
+      preFetch({
         <%= store ? 'store: this.$store,' : '' %>
         route: to
       })
@@ -39,8 +39,8 @@ Vue.mixin({
   }
 })
 
-export function addAsyncDataHooks (router<%= store ? ', store' : '' %>) {
-  // Add router hook for handling asyncData.
+export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
+  // Add router hook for handling preFetch.
   // Doing it after initial route is resolved so that we don't double-fetch
   // the data that we already have. Using router.beforeResolve() so that all
   // async components are resolved.
@@ -51,7 +51,7 @@ export function addAsyncDataHooks (router<%= store ? ', store' : '' %>) {
     let diffed = false
     const components = matched.filter((c, i) => {
       return diffed || (diffed = (prevMatched[i] !== c))
-    }).filter(c => c && typeof c.asyncData === 'function')
+    }).filter(c => c && typeof c.preFetch === 'function')
 
     if (!components.length) { return next() }
 
@@ -64,7 +64,7 @@ export function addAsyncDataHooks (router<%= store ? ', store' : '' %>) {
     bar.start()
 <% } %>
     Promise.all(
-      components.map(c => c.asyncData({
+      components.map(c => c.preFetch({
         <%= store ? 'store,' : '' %>
         route: to
       }))

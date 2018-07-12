@@ -61,12 +61,15 @@ export default context => {
       if (!matchedComponents.length) {
         return reject({ code: 404 })
       }
-      // Call fetchData hooks on components matched by the route.
+
+      <% if (preFetch) { %>
+
+      // Call preFetch hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,
       // which is resolved when the action is complete and store state has been
       // updated.
       Promise.all(
-        matchedComponents.map(({ asyncData }) => asyncData && asyncData({
+        matchedComponents.map(c => c.preFetch && c.preFetch({
           <% if (store) { %>store,<% } %>
           route: router.currentRoute
         }))
@@ -80,6 +83,13 @@ export default context => {
         <% if (store) { %>context.state = store.state<% } %>
         resolve(new Vue(app))
       }).catch(reject)
+
+      <% } else { %>
+
+      <% if (store) { %>context.state = store.state<% } %>
+      resolve(new Vue(app))
+
+      <% } %>
     }, reject)
   })
 }
