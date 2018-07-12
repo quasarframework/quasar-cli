@@ -53,7 +53,7 @@ if (pluginNames.length > 0) {
 <% } } %>
 
 <% if (loadingBar) { %>
-import bar from './loading-bar.js'
+import './loading-bar.js'
 <% } %>
 
 <% if (preFetch) { %>
