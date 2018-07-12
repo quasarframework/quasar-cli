@@ -52,10 +52,6 @@ if (pluginNames.length > 0) {
 }))
 <% } } %>
 
-<% if (loadingBar) { %>
-import './loading-bar.js'
-<% } %>
-
 <% if (preFetch) { %>
 import { addPreFetchHooks } from './client-prefetch.js'
 <% } %>

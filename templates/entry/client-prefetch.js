@@ -9,8 +9,8 @@
  **/
 import Vue from 'vue'
 
-<% if (loadingBar) { %>
-import bar from './loading-bar.js'
+<% if (__loadingBar) { %>
+import { LoadingBar } from 'quasar'
 <% } %>
 
 // a global mixin that calls `preFetch` when a route component's params change
@@ -18,20 +18,20 @@ Vue.mixin({
   beforeRouteUpdate (to, from, next) {
     const { preFetch } = this.$options
     if (preFetch) {
-      <% if (loadingBar) { %>
+      <% if (__loadingBar) { %>
       const proceed = () => {
-        bar.stop()
+        LoadingBar.stop()
         next()
       }
 
-      bar.start()
+      LoadingBar.start()
       <% } %>
       preFetch({
         <%= store ? 'store: this.$store,' : '' %>
         route: to
       })
-      .then(<%= loadingBar ? 'proceed' : 'next' %>)
-      .catch(<%= loadingBar ? 'proceed' : 'next' %>)
+      .then(<%= __loadingBar ? 'proceed' : 'next' %>)
+      .catch(<%= __loadingBar ? 'proceed' : 'next' %>)
     }
     else {
       next()
@@ -55,13 +55,13 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
 
     if (!components.length) { return next() }
 
-<% if (loadingBar) { %>
+<% if (__loadingBar) { %>
     const proceed = () => {
-      bar.stop()
+      LoadingBar.stop()
       next()
     }
 
-    bar.start()
+    LoadingBar.start()
 <% } %>
     Promise.all(
       components.map(c => c.preFetch({
@@ -69,7 +69,7 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
         route: to
       }))
     )
-    .then(<%= loadingBar ? 'proceed' : 'next' %>)
-    .catch(<%= loadingBar ? 'proceed' : 'next' %>)
+    .then(<%= __loadingBar ? 'proceed' : 'next' %>)
+    .catch(<%= __loadingBar ? 'proceed' : 'next' %>)
   })
 }
