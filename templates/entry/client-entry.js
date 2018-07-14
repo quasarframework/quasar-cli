@@ -19,7 +19,7 @@ console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr &&
 import Vue from 'vue'
 Vue.config.productionTip = <%= ctx.dev ? false : true %>
 
-import createApp from './app'
+import createApp from './app.js'
 
 <% if (ctx.mode.pwa) { %>
 import 'app/<%= sourceFiles.registerServiceWorker %>'
@@ -87,7 +87,7 @@ addPreFetchHooks(router<%= store ? ', store' : '' %>)
 const hasBootPlugin = plugins && plugins.find(asset => asset.path === 'boot')
 
 if (hasBootPlugin) { %>
-import boot from 'src/plugins/boot'
+import boot from 'src/plugins/boot.js'
 <% } %>
 
 <% if (ctx.mode.electron) { %>

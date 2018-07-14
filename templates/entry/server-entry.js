@@ -7,7 +7,7 @@
  * One plugin per concern. Then reference the file(s) in quasar.conf.js > plugins:
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
-import createApp from './app'
+import createApp from './app.js'
 import Vue from 'vue'
 
 <%
@@ -81,13 +81,28 @@ export default context => {
         // store to pick-up the server-side state without having to duplicate
         // the initial data fetching on the client.
         <% if (store) { %>context.state = store.state<% } %>
+
+        <% if (__meta) { %>
+        const App = new Vue(app)
+        context.$getMeta = App.$getMeta(App)
+        resolve(App)
+        <% } else { %>
         resolve(new Vue(app))
+        <% } %>
+
       }).catch(reject)
 
       <% } else { %>
 
       <% if (store) { %>context.state = store.state<% } %>
+
+      <% if (__meta) { %>
+      const App = new Vue(app)
+      context.$getMeta = App.$getMeta(App)
+      resolve(App)
+      <% } else { %>
       resolve(new Vue(app))
+      <% } %>
 
       <% } %>
     }, reject)

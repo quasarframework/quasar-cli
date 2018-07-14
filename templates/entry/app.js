@@ -67,14 +67,14 @@ export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
       req: ssrContext.req,
       res: ssrContext.res,
       setBodyClasses (cls) {
-        ssrContext.BODY_CLASSES = cls.join(' ')
+        ssrContext.Q_BODY_CLASSES = cls.join(' ')
       },
       setHtmlAttrs (attrs) {
         const str = []
         for (let key in attrs) {
           str.push(key + '=' + attrs[key])
         }
-        ssrContext.HTML_ATTRS = str.join(' ')
+        ssrContext.Q_HTML_ATTRS = str.join(' ')
       }
     }
   }
