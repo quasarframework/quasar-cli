@@ -60,26 +60,7 @@ export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   }
 
   <% if (ctx.mode.ssr) { %>
-  const ctx = { app }
-
-  if (ssrContext) {
-    ctx.ssr = {
-      req: ssrContext.req,
-      res: ssrContext.res,
-      setBodyClasses (cls) {
-        ssrContext.Q_BODY_CLASSES = cls.join(' ')
-      },
-      setHtmlAttrs (attrs) {
-        const str = []
-        for (let key in attrs) {
-          str.push(key + '=' + attrs[key])
-        }
-        ssrContext.Q_HTML_ATTRS = str.join(' ')
-      }
-    }
-  }
-
-  Quasar.ssrUpdate(ctx)
+  Quasar.ssrUpdate({ app, ssr: ssrContext })
   <% } %>
 
   // expose the app, the router and the store.

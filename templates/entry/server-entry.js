@@ -84,7 +84,7 @@ export default context => {
 
         <% if (__meta) { %>
         const App = new Vue(app)
-        context.$getMeta = App.$getMeta(App)
+        context.$getMetaHTML = App.$getMetaHTML(App)
         resolve(App)
         <% } else { %>
         resolve(new Vue(app))
@@ -98,7 +98,7 @@ export default context => {
 
       <% if (__meta) { %>
       const App = new Vue(app)
-      context.$getMeta = App.$getMeta(App)
+      context.$getMetaHTML = App.$getMetaHTML(App)
       resolve(App)
       <% } else { %>
       resolve(new Vue(app))
