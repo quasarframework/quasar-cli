@@ -8,6 +8,7 @@
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
 import Vue from 'vue'
+import App from 'app/<%= sourceFiles.rootComponent %>'
 
 <% if (__loadingBar) { %>
 import { LoadingBar } from 'quasar'
@@ -39,6 +40,10 @@ Vue.mixin({
   }
 })
 
+<% if (!ctx.mode.ssr) { %>
+let appPrefetch = App.preFetch
+<% } %>
+
 export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
   // Add router hook for handling preFetch.
   // Doing it after initial route is resolved so that we don't double-fetch
@@ -48,10 +53,18 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
     const
       matched = router.getMatchedComponents(to),
       prevMatched = router.getMatchedComponents(from)
+
     let diffed = false
     const components = matched.filter((c, i) => {
       return diffed || (diffed = (prevMatched[i] !== c))
     }).filter(c => c && typeof c.preFetch === 'function')
+
+    <% if (!ctx.mode.ssr) { %>
+    if (appPrefetch) {
+      appPrefetch = false
+      components.unshift(App)
+    }
+    <% } %>
 
     if (!components.length) { return next() }
 

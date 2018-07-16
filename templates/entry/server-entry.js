@@ -9,6 +9,9 @@
  **/
 import createApp from './app.js'
 import Vue from 'vue'
+<% if (preFetch) { %>
+import App from 'app/<%= sourceFiles.rootComponent %>'
+<% } %>
 
 <%
 const pluginNames = []
@@ -63,6 +66,8 @@ export default context => {
       }
 
       <% if (preFetch) { %>
+
+      App.preFetch && matchedComponents.unshift(App)
 
       // Call preFetch hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,
