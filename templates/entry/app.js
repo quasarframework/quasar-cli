@@ -38,11 +38,11 @@ export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // create store and router instances
   <% if (store) { %>
   const store = typeof createStore === 'function'
-    ? createStore()
+    ? createStore(<%= ctx.mode.ssr ? '{ ssrContext }' : '' %>)
     : createStore
   <% } %>
   const router = typeof createRouter === 'function'
-    ? createRouter({<%= store ? 'store' : '' %>})
+    ? createRouter({<%= ctx.mode.ssr ? 'ssrContext, ' : '' %><%= store ? 'store' : '' %>})
     : createRouter
   <% if (store) { %>
   // make router instance available in store

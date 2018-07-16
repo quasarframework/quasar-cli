@@ -76,7 +76,8 @@ export default context => {
       Promise.all(
         matchedComponents.map(c => c.preFetch && c.preFetch({
           <% if (store) { %>store,<% } %>
-          route: router.currentRoute
+          route: router.currentRoute,
+          ssrContext: context
         }))
       ).then(() => {
         // After all preFetch hooks are resolved, our store is now
