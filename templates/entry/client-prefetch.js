@@ -19,20 +19,27 @@ Vue.mixin({
   beforeRouteUpdate (to, from, next) {
     const { preFetch } = this.$options
     if (preFetch) {
-      <% if (__loadingBar) { %>
+      let redirected = false
       const proceed = () => {
+        <% if (__loadingBar) { %>
         LoadingBar.stop()
-        next()
+        <% } %>
+        if (!redirected) { next() }
       }
 
+      <% if (__loadingBar) { %>
       LoadingBar.start()
       <% } %>
       preFetch({
         <%= store ? 'store: this.$store,' : '' %>
-        route: to
+        currentRoute: to,
+        redirect: url => {
+          redirected = true
+          next(url)
+        }
       })
-      .then(<%= __loadingBar ? 'proceed' : 'next' %>)
-      .catch(<%= __loadingBar ? 'proceed' : 'next' %>)
+      .then(proceed)
+      .catch(proceed)
     }
     else {
       next()
@@ -68,21 +75,34 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
 
     if (!components.length) { return next() }
 
-<% if (__loadingBar) { %>
+    let redirected = false
+    const redirect = url => {
+      redirected = true
+      next(url)
+    }
     const proceed = () => {
+      <% if (__loadingBar) { %>
       LoadingBar.stop()
-      next()
+      <% } %>
+      if (!redirected) { next() }
     }
 
+    <% if (__loadingBar) { %>
     LoadingBar.start()
-<% } %>
+    <% } %>
     Promise.all(
-      components.map(c => c.preFetch({
-        <%= store ? 'store,' : '' %>
-        route: to
-      }))
+      components.map(c => {
+        if (redirected) { return }
+        if (c && c.preFetch) {
+          return c.preFetch({
+            <% if (store) { %>store,<% } %>
+            currentRoute: router.currentRoute,
+            redirect
+          })
+        }
+      })
     )
-    .then(<%= __loadingBar ? 'proceed' : 'next' %>)
-    .catch(<%= __loadingBar ? 'proceed' : 'next' %>)
+    .then(proceed)
+    .catch(proceed)
   })
 }

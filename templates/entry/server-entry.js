@@ -33,18 +33,8 @@ import <%= importName %> from 'src/plugins/<%= asset.path %>'
 // Since data fetching is async, this function is expected to
 // return a Promise that resolves to the app instance.
 export default context => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const { app, <%= store ? 'store, ' : '' %>router } = createApp(context)
-
-    <% if (pluginNames.length > 0) { %>
-    ;[<%= pluginNames.join(',') %>].forEach(plugin => plugin({
-      app,
-      router,
-      <%= store ? 'store,' : '' %>
-      Vue,
-      ssrContext: context
-    }))
-    <% } %>
 
     const
       { url } = context,
@@ -57,8 +47,31 @@ export default context => {
     // set router's location
     router.push(url)
 
+    let redirected = false
+    const redirect = url => {
+      redirected = true
+      reject({ url })
+    }
+
     // wait until router has resolved possible async hooks
     router.onReady(() => {
+      <% if (pluginNames.length > 0) { %>
+      ;[<%= pluginNames.join(',') %>].forEach(plugin => {
+        if (redirected) { return }
+        plugin({
+          app,
+          router,
+          currentRoute: router.currentRoute,
+          redirect,
+          <%= store ? 'store,' : '' %>
+          Vue,
+          ssrContext: context
+        })
+      })
+      <% } %>
+
+      if (redirected) { return }
+
       const matchedComponents = router.getMatchedComponents()
       // no matched routes
       if (!matchedComponents.length) {
@@ -74,18 +87,21 @@ export default context => {
       // which is resolved when the action is complete and store state has been
       // updated.
       Promise.all(
-        matchedComponents.map(c => c.preFetch && c.preFetch({
-          <% if (store) { %>store,<% } %>
-          route: router.currentRoute,
-          ssrContext: context
-        }))
-      ).then(() => {
-        // After all preFetch hooks are resolved, our store is now
-        // filled with the state needed to render the app.
-        // Expose the state on the render context, and let the request handler
-        // inline the state in the HTML response. This allows the client-side
-        // store to pick-up the server-side state without having to duplicate
-        // the initial data fetching on the client.
+        matchedComponents.map(c => {
+          if (redirected) { return }
+          if (c && c.preFetch) {
+            return c.preFetch({
+              <% if (store) { %>store,<% } %>
+              currentRoute: router.currentRoute,
+              ssrContext: context,
+              redirect
+            })
+          }
+        })
+      )
+      .then(() => {
+        if (redirected) { return }
+
         <% if (store) { %>context.state = store.state<% } %>
 
         <% if (__meta) { %>
@@ -95,8 +111,8 @@ export default context => {
         <% } else { %>
         resolve(new Vue(app))
         <% } %>
-
-      }).catch(reject)
+      })
+      .catch(reject)
 
       <% } else { %>
 

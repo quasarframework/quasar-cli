@@ -11,54 +11,107 @@
 import 'quasar-framework/dist/quasar.ie.polyfills.js'
 <% } %>
 
-<% if (ctx.dev) { %>
-console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %> with <%= ctx.themeName.toUpperCase() %> theme.')
-<% if (ctx.mode.pwa) { %>console.info('[Quasar] Forcing PWA into the network-first approach to not break Hot Module Replacement while developing.')<% } %>
-<% } %>
-
 import Vue from 'vue'
-Vue.config.productionTip = <%= ctx.dev ? false : true %>
-
 import createApp from './app.js'
 
 <% if (ctx.mode.pwa) { %>
 import 'app/<%= sourceFiles.registerServiceWorker %>'
 <% } %>
 
-const { app, <%= store ? 'store, ' : '' %>router } = createApp()
-
 <%
+const pluginNames = []
 if (plugins) {
   function hash (str) {
     const name = str.replace(/\W+/g, '')
     return name.charAt(0).toUpperCase() + name.slice(1)
   }
-  const pluginNames = []
   plugins.filter(asset => asset.path !== 'boot' && asset.client !== false).forEach(asset => {
-    let importName = 'plugin' + hash(asset.path)
+    let importName = 'p' + hash(asset.path)
     pluginNames.push(importName)
 %>
 import <%= importName %> from 'src/plugins/<%= asset.path %>'
-<%
-})
-if (pluginNames.length > 0) {
-%>
-;[<%= pluginNames.join(',') %>].forEach(plugin => plugin({
-  app,
-  router,
-  <%= store ? 'store,' : '' %>
-  Vue,
-  ssrContext: null
-}))
-<% } } %>
+<% }) } %>
 
 <% if (preFetch) { %>
 import { addPreFetchHooks } from './client-prefetch.js'
 <% } %>
 
+<%
+const needsFastClick = ctx.mode.pwa || (ctx.mode.cordova && ctx.target.ios)
+if (needsFastClick) {
+%>
+import FastClick from 'fastclick'
+<% } %>
+
+<% if (ctx.mode.electron) { %>
+import electron from 'electron'
+Vue.prototype.$q.electron = electron
+<% } %>
+
+<%
+let hasBootPlugin = false
+if (!ctx.mode.ssr) {
+hasBootPlugin = plugins && plugins.find(asset => asset.path === 'boot')
+
+if (hasBootPlugin) { %>
+import boot from 'src/plugins/boot.js'
+<% } } %>
+
+
+Vue.config.productionTip = <%= ctx.dev ? false : true %>
+
+<% if (ctx.dev) { %>
+console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %> with <%= ctx.themeName.toUpperCase() %> theme.')
+<% if (ctx.mode.pwa) { %>console.info('[Quasar] Forcing PWA into the network-first approach to not break Hot Module Replacement while developing.')<% } %>
+<% } %>
+
+const { app, <%= store ? 'store, ' : '' %>router } = createApp()
+
+<% if (needsFastClick) { %>
+<% if (ctx.mode.pwa) { %>
+  // Needed only for iOS PWAs
+if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.navigator.standalone) {
+<% } %>
+  document.addEventListener('DOMContentLoaded', () => {
+    FastClick.attach(document.body)
+  }, false)
+<% if (ctx.mode.pwa) { %>
+}
+<% } %>
+<% } %>
+
+const burnHook = router.beforeEach((to, from, next) => {
+  burnHook()
+
+  let redirectedUrl
+  const redirect = url => {
+    redirectedUrl = url
+  }
+
+  <% if (pluginNames.length > 0) { %>
+  ;[<%= pluginNames.join(',') %>].forEach(plugin => {
+    plugin({
+      app,
+      router,
+      currentRoute: to,
+      redirect: url => {
+        if (!redirectedUrl) {
+          redirectedUrl = url
+        }
+      },
+      <%= store ? 'store,' : '' %>
+      Vue,
+      ssrContext: null
+    })
+  })
+  <% } %>
+
+  next(redirectedUrl)
+})
+
 <% if (ctx.mode.ssr) { %>
 
-// prime the store with server-initialized state.
+  // prime the store with server-initialized state.
 // the state is determined during SSR and inlined in the page markup.
 <% if (store) { %>
 if (window.__INITIAL_STATE__) {
@@ -83,36 +136,7 @@ router.onReady(() => {
 addPreFetchHooks(router<%= store ? ', store' : '' %>)
 <% } %>
 
-<%
-const hasBootPlugin = plugins && plugins.find(asset => asset.path === 'boot')
-
-if (hasBootPlugin) { %>
-import boot from 'src/plugins/boot.js'
-<% } %>
-
-<% if (ctx.mode.electron) { %>
-import electron from 'electron'
-Vue.prototype.$q.electron = electron
-<% } %>
-
-<% if (ctx.mode.pwa) { %>
-import FastClick from 'fastclick'
-// Needed only for iOS PWAs
-if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.navigator.standalone) {
-  document.addEventListener('DOMContentLoaded', () => {
-    FastClick.attach(document.body)
-  }, false)
-}
-<% } %>
-
 <% if (ctx.mode.cordova) { %>
-  <% if (ctx.target.ios) { %>
-    // Needed only for iOS
-    import FastClick from 'fastclick'
-    document.addEventListener('DOMContentLoaded', () => {
-      FastClick.attach(document.body)
-    }, false)
-  <% } %>
 document.addEventListener('deviceready', () => {
 Vue.prototype.$q.cordova = window.cordova
 <% } %>
