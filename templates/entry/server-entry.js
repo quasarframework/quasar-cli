@@ -47,30 +47,19 @@ export default context => {
     // set router's location
     router.push(url)
 
-    let redirected = false
-    const redirect = url => {
-      redirected = true
-      reject({ url })
-    }
-
     // wait until router has resolved possible async hooks
     router.onReady(() => {
       <% if (pluginNames.length > 0) { %>
       ;[<%= pluginNames.join(',') %>].forEach(plugin => {
-        if (redirected) { return }
         plugin({
           app,
           router,
-          currentRoute: router.currentRoute,
-          redirect,
           <%= store ? 'store,' : '' %>
           Vue,
           ssrContext: context
         })
       })
       <% } %>
-
-      if (redirected) { return }
 
       const matchedComponents = router.getMatchedComponents()
       // no matched routes
@@ -80,6 +69,11 @@ export default context => {
 
       <% if (preFetch) { %>
 
+      let redirected = false
+      const redirect = url => {
+        redirected = true
+        reject({ url })
+      }
       App.preFetch && matchedComponents.unshift(App)
 
       // Call preFetch hooks on components matched by the route.
@@ -92,8 +86,8 @@ export default context => {
           if (c && c.preFetch) {
             return c.preFetch({
               <% if (store) { %>store,<% } %>
-              currentRoute: router.currentRoute,
               ssrContext: context,
+              currentRoute: router.currentRoute,
               redirect
             })
           }

@@ -80,34 +80,17 @@ if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.n
 <% } %>
 <% } %>
 
-const burnHook = router.beforeEach((to, from, next) => {
-  burnHook()
-
-  let redirectedUrl
-  const redirect = url => {
-    redirectedUrl = url
-  }
-
-  <% if (pluginNames.length > 0) { %>
-  ;[<%= pluginNames.join(',') %>].forEach(plugin => {
-    plugin({
-      app,
-      router,
-      currentRoute: to,
-      redirect: url => {
-        if (!redirectedUrl) {
-          redirectedUrl = url
-        }
-      },
-      <%= store ? 'store,' : '' %>
-      Vue,
-      ssrContext: null
-    })
+<% if (pluginNames.length > 0) { %>
+;[<%= pluginNames.join(',') %>].forEach(plugin => {
+  plugin({
+    app,
+    router,
+    <%= store ? 'store,' : '' %>
+    Vue,
+    ssrContext: null
   })
-  <% } %>
-
-  next(redirectedUrl)
 })
+<% } %>
 
 <% if (ctx.mode.ssr) { %>
 
