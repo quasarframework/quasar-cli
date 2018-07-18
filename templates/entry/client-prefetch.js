@@ -96,7 +96,7 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
         if (c && c.preFetch) {
           return c.preFetch({
             <% if (store) { %>store,<% } %>
-            currentRoute: router.currentRoute,
+            currentRoute: to,
             redirect
           })
         }
