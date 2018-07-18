@@ -58,6 +58,8 @@ import boot from 'src/plugins/boot.js'
 <% } } %>
 
 
+Vue.config.devtools = <%= ctx.dev %>
+Vue.config.performance = <%= ctx.dev %>
 Vue.config.productionTip = <%= ctx.dev ? false : true %>
 
 <% if (ctx.dev) { %>
