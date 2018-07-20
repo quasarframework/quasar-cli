@@ -163,11 +163,11 @@ async function goLive () {
 
     return Promise.resolve()
       .then(() => devServer = new DevServer(quasarConfig))
-      .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve())
+      .then(() => oldDevServer && oldDevServer.stop())
       .then(() => generator.build()) // Update generated files
       .then(() => devServer.listen()) // Start listening
-      .then(() => Electron ? Electron.run(quasarConfig) : Promise.resolve())
-      .then(() => Cordova ? Cordova.run(quasarConfig) : Promise.resolve())
+      .then(() => Electron && Electron.run(quasarConfig))
+      .then(() => Cordova && Cordova.run(quasarConfig))
       .then(() => devServer) // Pass new builder to watch chain
   }
 
