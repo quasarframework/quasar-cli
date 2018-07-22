@@ -41,7 +41,7 @@ if (argv.help) {
     $ quasar serve . # serve current folder
 
     If you serve a SSR folder built with the CLI then
-    control is yielded to /server.js and params have no effect.
+    control is yielded to /index.js and params have no effect.
 
   Options
     --port, -p             Port to use (default: 8080)

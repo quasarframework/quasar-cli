@@ -7,49 +7,31 @@
  * One plugin per concern. Then reference the file(s) in quasar.conf.js > plugins:
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
-import Vue from 'vue'
 import App from 'app/<%= sourceFiles.rootComponent %>'
 
 <% if (__loadingBar) { %>
 import { LoadingBar } from 'quasar'
 <% } %>
 
-// a global mixin that calls `preFetch` when a route component's params change
-Vue.mixin({
-  beforeRouteUpdate (to, from, next) {
-    const { preFetch } = this.$options
-    if (preFetch) {
-      let redirected = false
-      const proceed = () => {
-        <% if (__loadingBar) { %>
-        LoadingBar.stop()
-        <% } %>
-        if (!redirected) { next() }
-      }
-
-      <% if (__loadingBar) { %>
-      LoadingBar.start()
-      <% } %>
-      preFetch({
-        <%= store ? 'store: this.$store,' : '' %>
-        currentRoute: to,
-        redirect: url => {
-          redirected = true
-          next(url)
-        }
-      })
-      .then(proceed)
-      .catch(proceed)
-    }
-    else {
-      next()
-    }
-  }
-})
-
 <% if (!ctx.mode.ssr) { %>
-let appPrefetch = App.preFetch
+let appPrefetch = typeof App.preFetch === 'function'
 <% } %>
+
+function getMatchedComponents (to, router) {
+  const route = to
+    ? (to.matched ? to : router.resolve(to).route)
+    : router.currentRoute
+
+  if (!route) { return [] }
+  return [].concat.apply([], route.matched.map(m => {
+    return Object.keys(m.components).map(key => {
+      return {
+        path: m.path,
+        c: m.components[key]
+      }
+    })
+  }))
+}
 
 export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
   // Add router hook for handling preFetch.
@@ -58,13 +40,20 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
   // async components are resolved.
   router.beforeResolve((to, from, next) => {
     const
-      matched = router.getMatchedComponents(to),
-      prevMatched = router.getMatchedComponents(from)
+      matched = getMatchedComponents(to, router),
+      prevMatched = getMatchedComponents(from, router)
 
     let diffed = false
-    const components = matched.filter((c, i) => {
-      return diffed || (diffed = (prevMatched[i] !== c))
-    }).filter(c => c && typeof c.preFetch === 'function')
+    const components = matched
+      .filter((m, i) => {
+        return diffed || (diffed = (
+          !prevMatched[i] ||
+          prevMatched[i].c !== m.c ||
+          m.path.indexOf('/:') > -1 // does it has params?
+        ))
+      })
+      .filter(m => m.c && typeof m.c.preFetch === 'function')
+      .map(m => m.c)
 
     <% if (!ctx.mode.ssr) { %>
     if (appPrefetch) {
@@ -93,13 +82,12 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
     Promise.all(
       components.map(c => {
         if (redirected) { return }
-        if (c && c.preFetch) {
-          return c.preFetch({
-            <% if (store) { %>store,<% } %>
-            currentRoute: to,
-            redirect
-          })
-        }
+        return c.preFetch({
+          <% if (store) { %>store,<% } %>
+          currentRoute: to,
+          previousRoute: from,
+          redirect
+        })
       })
     )
     .then(proceed)
