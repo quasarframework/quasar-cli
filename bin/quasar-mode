@@ -6,7 +6,7 @@ const
 
 const
   log = require('../lib/helpers/logger')('app:mode')
-  appPaths = require('../lib/build/app-paths')
+  appPaths = require('../lib/app-paths')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -20,23 +20,25 @@ const argv = parseArgs(process.argv.slice(2), {
 
 if (argv.help) {
   console.log(`
-    Description
-      Add/Remove support for PWA / Cordova / Electron modes.
-    Usage
-      $ quasar mode -r|-a pwa|cordova|electron
+  Description
+    Add/Remove support for PWA / Cordova / Electron modes.
+  Usage
+    $ quasar mode -r|-a pwa|ssr|cordova|electron
 
-      # determine what modes are currently installed:
-      $ quasar mode
-    Options
-      --add, -a     Add support for mode [pwa|cordova|electron]
-      --remove, -r  Remove support for mode [pwa|cordova|electron]
-      --help, -h     Displays this message
+    # determine what modes are currently installed:
+    $ quasar mode
+  Options
+    --add, -a     Add support for mode [pwa|ssr|cordova|electron]
+    --remove, -r  Remove support for mode [pwa|ssr|cordova|electron]
+    --help, -h    Displays this message
   `)
   process.exit(0)
 }
 
 require('../lib/helpers/ensure-argv')(argv, 'mode')
-const getMode = require('../lib/mode')
+const
+  getMode = require('../lib/mode'),
+  { green, grey } = require('chalk')
 
 if (argv.add) {
   getMode(argv.add).add()
@@ -48,10 +50,18 @@ else if (argv.remove) {
 }
 
 log(`Detecting installed modes...`)
-;['pwa', 'cordova', 'electron'].forEach(mode => {
+
+const info = []
+;['pwa', 'ssr', 'cordova', 'electron'].forEach(mode => {
   const QuasarMode = getMode(mode)
-  log(
-    `[${getMode(mode).isInstalled ? ' yes ' : '  -  '}] Mode ${mode.toUpperCase()}`
-  )
+  info.push([
+    `Mode ${mode.toUpperCase()}`,
+    getMode(mode).isInstalled ? green('yes') : grey('no')
+  ])
 })
-log()
+
+console.log(
+  '\n' +
+  info.map(msg => ' ' + msg[0].padEnd(16, '.') + ' ' + msg[1]).join('\n') +
+  '\n'
+)

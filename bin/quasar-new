@@ -11,29 +11,29 @@ const argv = parseArgs(process.argv.slice(2), {
 
 function showHelp () {
   console.log(`
-    Description
-      Quickly scaffold a page/layout/component/store module.
+  Description
+    Quickly scaffold a page/layout/component/store module.
 
-    Usage
-      $ quasar new [p|page] <page_file_name>
-      $ quasar new [l|layout] <layout_file_name>
-      $ quasar new [c|component] <component_file_name>
-      $ quasar new plugin <plugin_name>
-      $ quasar new [s|store] <store_module_name>
+  Usage
+    $ quasar new [p|page] <page_file_name>
+    $ quasar new [l|layout] <layout_file_name>
+    $ quasar new [c|component] <component_file_name>
+    $ quasar new plugin <plugin_name>
+    $ quasar new [s|store] <store_module_name>
 
-      # Examples:
+    # Examples:
 
-      # Create src/pages/MyNewPage.vue:
-      $ quasar new p MyNewPage
+    # Create src/pages/MyNewPage.vue:
+    $ quasar new p MyNewPage
 
-      # Create src/pages/MyNewPage.vue and src/pages/OtherPage.vue:
-      $ quasar new p MyNewPage OtherPage
+    # Create src/pages/MyNewPage.vue and src/pages/OtherPage.vue:
+    $ quasar new p MyNewPage OtherPage
 
-      # Create src/layouts/shop/Checkout.vue
-      $ quasar new layout shop/Checkout.vue
+    # Create src/layouts/shop/Checkout.vue
+    $ quasar new layout shop/Checkout.vue
 
-    Options
-      --help, -h     Displays this message
+  Options
+    --help, -h     Displays this message
   `)
   process.exit(0)
 }
@@ -46,7 +46,7 @@ const
   logger = require('../lib/helpers/logger'),
   log = logger('app:new'),
   warn = logger('app:new', 'red'),
-  appPaths = require('../lib/build/app-paths'),
+  appPaths = require('../lib/app-paths'),
   path = require('path'),
   fs = require('fs'),
   fse = require('fs-extra')

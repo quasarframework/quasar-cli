@@ -6,7 +6,7 @@ const
   chalk = require('chalk')
 
 const
-  appPaths = require('../lib/build/app-paths'),
+  appPaths = require('../lib/app-paths'),
   log = require('../lib/helpers/logger')('app:clean')
 
 const argv = parseArgs(process.argv.slice(2), {
@@ -18,17 +18,17 @@ const argv = parseArgs(process.argv.slice(2), {
 
 if (argv.help) {
   console.log(`
-    Description
-      Cleans all build artifacts
-    Usage
-      $ quasar clean
-    Options
-      --help, -h     Displays this message
+  Description
+    Cleans all build artifacts
+  Usage
+    $ quasar clean
+  Options
+    --help, -h     Displays this message
   `)
   process.exit(0)
 }
 
-require('../lib/build/artifacts').cleanAll()
+require('../lib/artifacts').cleanAll()
 
 console.log()
 log(`Done cleaning build artifacts`)

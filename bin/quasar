@@ -6,16 +6,7 @@ if (localFile) {
 }
 else {
   require('../lib/node-version-check')
-
-  const pe = require('pretty-error').start()
-  pe.skipPackage('regenerator-runtime')
-  pe.skipPackage('babel-runtime')
-  pe.skipNodeFiles()
-
-  // Console error unhandled promises
-  process.on('unhandledRejection', err => {
-    console.error(pe.render(err))
-  })
+  require('../lib/helpers/cli-error-handling')
 
   const commands = [
     'init',

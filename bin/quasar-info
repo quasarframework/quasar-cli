@@ -5,7 +5,7 @@ const
   chalk = require('chalk')
 
 const
-  appPaths = require('../lib/build/app-paths')
+  appPaths = require('../lib/app-paths')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -16,12 +16,12 @@ const argv = parseArgs(process.argv.slice(2), {
 
 if (argv.help) {
   console.log(`
-    Description
-      Displays information about your machine and your Quasar App.
-    Usage
-      $ quasar info
-    Options
-      --help, -h     Displays this message
+  Description
+    Displays information about your machine and your Quasar App.
+  Usage
+    $ quasar info
+  Options
+    --help, -h     Displays this message
   `)
   process.exit(0)
 }
@@ -85,7 +85,8 @@ const
   '@babel/core',
   'webpack',
   'webpack-dev-server',
-  'workbox-webpack-plugin'
+  'workbox-webpack-plugin',
+  'register-service-worker'
 ].forEach(pkg => output.push(safePkgInfo(pkg)))
 
 output.push(

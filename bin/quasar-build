@@ -1,13 +1,6 @@
 #!/usr/bin/env node
 
-const
-  parseArgs = require('minimist'),
-  chalk = require('chalk')
-
-const
-  logger = require('../lib/helpers/logger')
-  log = logger('app:build')
-  warn = logger('app:build', 'red')
+const parseArgs = require('minimist')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -29,51 +22,80 @@ const argv = parseArgs(process.argv.slice(2), {
 
 if (argv.help) {
   console.log(`
-    Description
-      Builds distributables of your app.
-    Usage
-      $ quasar build -p <port number>
-    Options
-      --theme, -t    App theme (default: mat)
-      --mode, -m     App mode [spa|pwa|cordova|electron] (default: spa)
-      --target, -T   App target
-                       - Cordova (default: all installed)
-                          [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
-                       - Electron with default "electron-packager" bundler (default: yours)
-                          [darwin|win32|linux|mas|all]
-                       - Electron with "electron-builder" bundler (default: yours)
-                          [darwin|mac|win32|win|linux|all]
-      --debug, -d    Build for debugging purposes
-      --help, -h     Displays this message
+  Description
+    Builds distributables of your app.
+  Usage
+    $ quasar build -p <port number>
+  Options
+    --theme, -t    App theme (default: mat)
+    --mode, -m     App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --target, -T   App target
+                      - Cordova (default: all installed)
+                        [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+                      - Electron with default "electron-packager" bundler (default: yours)
+                        [darwin|win32|linux|mas|all]
+                      - Electron with "electron-builder" bundler (default: yours)
+                        [darwin|mac|win32|win|linux|all]
+    --debug, -d    Build for debugging purposes
+    --help, -h     Displays this message
 
-      ONLY for Electron mode:
-      --bundler, -b  Bundler (electron-packager or electron-builder)
-                       [packager|builder]
-      --arch, -A     App architecture (default: yours)
-                       - with default "electron-packager" bundler:
-                           [ia32|x64|armv7l|arm64|mips64el|all]
-                       - with "electron-builder" bundler:
-                           [ia32|x64|armv7l|arm64|all]
+    ONLY for Electron mode:
+    --bundler, -b  Bundler (electron-packager or electron-builder)
+                      [packager|builder]
+    --arch, -A     App architecture (default: yours)
+                      - with default "electron-packager" bundler:
+                          [ia32|x64|armv7l|arm64|mips64el|all]
+                      - with "electron-builder" bundler:
+                          [ia32|x64|armv7l|arm64|all]
   `)
   process.exit(0)
 }
 
-require('../lib/helpers/ensure-argv')(argv, 'build')
+const chalk = require('chalk')
 
-log(`${argv.debug ? chalk.red('[ DEBUG ] ') : ''}Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
-log()
+const
+  logger = require('../lib/helpers/logger')
+  log = logger('app:build')
+  warn = logger('app:build', 'red'),
+  banner = require('../lib/helpers/banner')
+
+require('../lib/helpers/ensure-argv')(argv, 'build')
+banner(argv, 'build')
 
 if (argv.mode !== 'spa') {
   require('../lib/mode/install-missing')(argv.mode, argv.target)
 }
 
-const webpack = require('webpack')
+const
+  path = require('path'),
+  webpack = require('webpack')
 
 const
-  appPaths = require('../lib/build/app-paths'),
+  appPaths = require('../lib/app-paths'),
   QuasarConfig = require('../lib/quasar-config'),
   Generator = require('../lib/generator'),
-  artifacts = require('../lib/build/artifacts')
+  artifacts = require('../lib/artifacts')
+
+function parseWebpackConfig (webpackConfig, mode) {
+  if (mode === 'ssr') {
+    return [ webpackConfig.server, webpackConfig.client ]
+  }
+  if (mode === 'electron') {
+    return [ webpackConfig.renderer, webpackConfig.main ]
+  }
+  return webpackConfig
+}
+
+function finalize (mode, quasarConfig) {
+  if (mode === 'cordova') {
+    return require('../lib/cordova').build(quasarConfig)
+  }
+  if (mode === 'electron') {
+    return require('../lib/electron').build(quasarConfig)
+  }
+
+  return Promise.resolve()
+}
 
 async function build () {
   const quasarConfig = new QuasarConfig({
@@ -98,63 +120,57 @@ async function build () {
   quasarConfig.compile()
 
   const
-    generator = new Generator(),
+    generator = new Generator(quasarConfig),
     webpackConfig = quasarConfig.getWebpackConfig(),
     buildConfig = quasarConfig.getBuildConfig(),
     mode = argv.mode.toUpperCase(),
-    target = argv.target ? argv.target.toUpperCase() : '',
     outputFolder = buildConfig.build.packagedElectronDist || buildConfig.build.distDir
 
   artifacts.clean(outputFolder)
-  generator.build(quasarConfig)
+  generator.prepare()
+  generator.build()
 
-  log(chalk.bold(`Building main...`))
-  log()
+  log(chalk.bold(`Building...`))
 
-  webpack(webpackConfig, (err, stats) => {
+  webpack(parseWebpackConfig(webpackConfig, argv.mode), (err, stats) => {
     if (err) { throw err }
 
     artifacts.add(outputFolder)
 
-    process.stdout.write(stats.toString({
-      colors: true,
-      modules: false,
-      children: false,
-      chunks: false,
-      chunkModules: false
-    }) + '\n')
+    statsArray = stats.stats || [ stats ]
+    statsArray.forEach(stat => {
+      process.stdout.write('\n\n' + stat.toString({
+        colors: true,
+        performance: false,
+        hash: false,
+        assets: true,
+        chunks: false,
+        chunkModules: false,
+        chunkOrigins: false,
+        modules: false,
+        nestedModules: false,
+        moduleAssets: false,
+        children: false
+      }) + '\n\n')
+    })
 
-    if (stats.hasErrors()) {
-      warn()
-      warn(chalk.red('[FAIL] Build failed with errors'))
-      warn()
+    statsArray.forEach(stat => {
+      if (stat.hasErrors()) {
+        warn()
+        warn(chalk.red('[FAIL] Build failed with errors. Check log above.'))
+        warn()
 
-      process.exit(1)
-    }
+        process.exit(1)
+      }
+    })
 
-    log()
-    log(
-      `[SUCCESS] ${chalk.bold(mode)} with "${chalk.bold(argv.theme)}" theme in "${chalk.bold(buildConfig.build.distDir)}" folder`
-    )
-    log()
-
-    if (argv.mode === 'cordova') {
-      const Cordova = require('../lib/cordova')
-
-      Cordova.build(quasarConfig)
-      return
-    }
-    else if (argv.mode === 'electron') {
-      const Electron = require('../lib/electron')
-
-      Electron.build(quasarConfig)
-      return
-    }
-
-    log()
-    warn('Built files are meant to be served over an HTTP server')
-    warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work`)
-    log()
+    finalize(argv.mode, quasarConfig).then(() => {
+      banner(argv, 'build', {
+        outputFolder: argv.mode === 'cordova'
+          ? path.join(outputFolder, '..')
+          : outputFolder
+      })
+    })
   })
 }
 
