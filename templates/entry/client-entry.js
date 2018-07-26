@@ -11,6 +11,20 @@
 import 'quasar-framework/dist/quasar.ie.polyfills.js'
 <% } %>
 
+<% extras && extras.filter(asset => asset).forEach(asset => { %>
+import 'quasar-extras/<%= asset %>/<%= asset %>.css'
+<% }) %>
+
+<% animations && animations.filter(asset => asset).forEach(asset => { %>
+import 'quasar-extras/animate/<%= asset %>.css'
+<% }) %>
+
+import 'quasar-app-styl'
+
+<% css && css.forEach(asset => { %>
+import '<%= asset %>'
+<% }) %>
+
 import Vue from 'vue'
 import createApp from './app.js'
 
