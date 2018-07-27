@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.17.3",
+  "version": "0.17.2",
   "description": "Quasar Framework CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -88,7 +88,7 @@
     "route-cache": "0.4.4",
     "selfsigned": "1.10.3",
     "semver": "5.5.0",
-    "strip-ansi": "^3.0.0",
+    "strip-ansi": "=3.0.1",
     "stylus": "0.54.5",
     "stylus-loader": "3.0.2",
     "uglifyjs-webpack-plugin": "1.2.7",
