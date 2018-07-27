@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.17.2",
+  "version": "0.17.3",
   "description": "Quasar Framework CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -36,11 +36,11 @@
   "bugs": "https://github.com/quasarframework/quasar-cli/issues",
   "homepage": "http://quasar-framework.org",
   "dependencies": {
-    "@babel/core": "7.0.0-beta.54",
-    "@babel/plugin-transform-runtime": "7.0.0-beta.54",
-    "@babel/preset-env": "7.0.0-beta.54",
-    "@babel/preset-stage-2": "7.0.0-beta.54",
-    "@babel/runtime": "7.0.0-beta.54",
+    "@babel/core": "7.0.0-beta.53",
+    "@babel/plugin-transform-runtime": "7.0.0-beta.53",
+    "@babel/preset-env": "7.0.0-beta.53",
+    "@babel/preset-stage-2": "7.0.0-beta.53",
+    "@babel/runtime": "7.0.0-beta.53",
     "ajv": "6.5.2",
     "babel-loader": "8.0.0-beta.2",
     "babel-plugin-transform-imports": "1.5.0",
@@ -100,7 +100,7 @@
     "vue-style-loader": "4.1.1",
     "vue-template-compiler": "2.5.16",
     "vuex": "3.0.1",
-    "webpack": "4.16.2",
+    "webpack": "4.16.3",
     "webpack-bundle-analyzer": "2.13.1",
     "webpack-chain": "4.8.0",
     "webpack-dev-server": "3.1.5",
