@@ -4770,9 +4770,9 @@ quasar-extras@2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/quasar-extras/-/quasar-extras-2.0.4.tgz#63cb738fcd046e57cedd9a57483c4ecb5059e17d"
 
-quasar-framework@0.17.2:
-  version "0.17.2"
-  resolved "https://registry.yarnpkg.com/quasar-framework/-/quasar-framework-0.17.2.tgz#336731a137dcf4715efcb7163883950e4b8fae21"
+quasar-framework@0.17.3:
+  version "0.17.3"
+  resolved "https://registry.yarnpkg.com/quasar-framework/-/quasar-framework-0.17.3.tgz#829bc2d9255231b7fb605a680838126055e8545c"
 
 querystring-es3@^0.2.0:
   version "0.2.1"
@@ -5484,7 +5484,7 @@ string_decoder@~0.10.x:
   version "0.10.31"
   resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-0.10.31.tgz#62e203bc41766c6c28c9fc84301dab1c5310fa94"
 
-strip-ansi@^3.0.0, strip-ansi@^3.0.1:
+strip-ansi@=3.0.1, strip-ansi@^3.0.0, strip-ansi@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-3.0.1.tgz#6a385fb8853d952d5ff05d0e8aaf94278dc63dcf"
   dependencies:
@@ -5706,8 +5706,8 @@ uglify-es@^3.3.4:
     source-map "~0.6.1"
 
 uglify-js@3.4.x:
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.4.5.tgz#650889c0766cf0f6fd5346cea09cd212f544be69"
+  version "3.4.6"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.4.6.tgz#bc546d53f3e02b05d97d0ca5a7abfe0fb0384ddb"
   dependencies:
     commander "~2.16.0"
     source-map "~0.6.1"
