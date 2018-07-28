@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.17.4",
+  "version": "0.17.5",
   "description": "Quasar Framework CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -83,7 +83,7 @@
     "postcss-safe-parser": "4.0.1",
     "preload-webpack-plugin": "3.0.0-alpha.3",
     "quasar-extras": "2.0.4",
-    "quasar-framework": "0.17.3",
+    "quasar-framework": "0.17.4",
     "register-service-worker": "1.4.1",
     "route-cache": "0.4.4",
     "selfsigned": "1.10.3",
