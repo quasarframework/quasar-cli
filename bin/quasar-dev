@@ -59,7 +59,7 @@ if (argv.mode !== 'spa') {
 }
 
 const
-  ensureDevDeps = require('../lib/helpers/ensure-dev-deps'),
+  ensureDeps = require('../lib/helpers/ensure-deps'),
   findPort = require('../lib/helpers/net').findClosestOpenPort
 
 async function parseAddress ({ host, port }) {
@@ -117,7 +117,7 @@ async function parseAddress ({ host, port }) {
 }
 
 async function goLive () {
-  ensureDevDeps()
+  ensureDeps()
 
   const
     DevServer = require('../lib/dev-server'),
