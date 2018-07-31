@@ -42,6 +42,7 @@
     "@babel/preset-stage-2": "7.0.0-beta.53",
     "@babel/runtime": "7.0.0-beta.53",
     "ajv": "6.5.2",
+    "autoprefixer": "^9.0.2",
     "babel-loader": "8.0.0-beta.2",
     "babel-plugin-transform-imports": "1.5.0",
     "chalk": "2.4.1",
