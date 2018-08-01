@@ -74,7 +74,8 @@ const
   appPaths = require('../lib/app-paths'),
   QuasarConfig = require('../lib/quasar-config'),
   Generator = require('../lib/generator'),
-  artifacts = require('../lib/artifacts')
+  artifacts = require('../lib/artifacts'),
+  ensureDeps = require('../lib/helpers/ensure-deps')
 
 function parseWebpackConfig (webpackConfig, mode) {
   if (mode === 'ssr') {
@@ -174,4 +175,5 @@ async function build () {
   })
 }
 
+ensureDeps()
 build()
