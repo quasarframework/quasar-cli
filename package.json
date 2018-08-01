@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.17.5",
+  "version": "0.17.6",
   "description": "Quasar Framework CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -36,11 +36,11 @@
   "bugs": "https://github.com/quasarframework/quasar-cli/issues",
   "homepage": "http://quasar-framework.org",
   "dependencies": {
-    "@babel/core": "7.0.0-beta.55",
-    "@babel/plugin-transform-runtime": "7.0.0-beta.55",
-    "@babel/preset-env": "7.0.0-beta.55",
-    "@babel/preset-stage-2": "7.0.0-beta.55",
-    "@babel/runtime": "7.0.0-beta.55",
+    "@babel/core": "7.0.0-beta.54",
+    "@babel/plugin-transform-runtime": "7.0.0-beta.54",
+    "@babel/preset-env": "7.0.0-beta.54",
+    "@babel/preset-stage-2": "7.0.0-beta.54",
+    "@babel/runtime": "7.0.0-beta.54",
     "ajv": "6.5.2",
     "autoprefixer": "^9.0.2",
     "babel-loader": "8.0.0-beta.2",
@@ -84,7 +84,7 @@
     "postcss-safe-parser": "4.0.1",
     "preload-webpack-plugin": "3.0.0-alpha.3",
     "quasar-extras": "2.0.4",
-    "quasar-framework": "0.17.4",
+    "quasar-framework": "0.17.5",
     "register-service-worker": "1.4.1",
     "route-cache": "0.4.4",
     "selfsigned": "1.10.3",
