@@ -71,10 +71,11 @@ if (hasBootPlugin) { %>
 import boot from 'src/plugins/boot.js'
 <% } } %>
 
-
-Vue.config.devtools = <%= ctx.dev %>
-Vue.config.performance = <%= ctx.dev %>
-Vue.config.productionTip = <%= ctx.dev ? false : true %>
+<% if (ctx.dev) { %>
+Vue.config.devtools = true
+Vue.config.performance = true
+Vue.config.productionTip = false
+<% } %>
 
 <% if (ctx.dev) { %>
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %> with <%= ctx.themeName.toUpperCase() %> theme.')
