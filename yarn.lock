@@ -666,8 +666,8 @@
   resolved "https://registry.yarnpkg.com/@positron/stack-trace/-/stack-trace-1.0.0.tgz#14fcc712a530038ef9be1ce6952315a839f466a8"
 
 "@vue/component-compiler-utils@^2.0.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@vue/component-compiler-utils/-/component-compiler-utils-2.1.0.tgz#8331eadc8acdbc35aace5a61d2153e6f6434bfe2"
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@vue/component-compiler-utils/-/component-compiler-utils-2.1.1.tgz#9b084cb67023076860687002a29930d30b36ef56"
   dependencies:
     consolidate "^0.15.1"
     hash-sum "^1.0.2"
@@ -4651,9 +4651,9 @@ quasar-extras@2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/quasar-extras/-/quasar-extras-2.0.5.tgz#d486c1c3e1d56b31bc7c67caacbecdcaf6ef062f"
 
-quasar-framework@0.17.6:
-  version "0.17.6"
-  resolved "https://registry.yarnpkg.com/quasar-framework/-/quasar-framework-0.17.6.tgz#cd695ff8577bbf9cb7259068272ddba38dbb881a"
+quasar-framework@0.17.7:
+  version "0.17.7"
+  resolved "https://registry.yarnpkg.com/quasar-framework/-/quasar-framework-0.17.7.tgz#5ce0f7613a3e9d157e47ed3a1b586471dbe7e035"
 
 querystring-es3@^0.2.0:
   version "0.2.1"
