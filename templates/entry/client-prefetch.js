@@ -64,31 +64,32 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
 
     if (!components.length) { return next() }
 
-    let redirected = false
+    let routeUnchanged = true
     const redirect = url => {
-      redirected = true
+      routeUnchanged = false
       next(url)
     }
     const proceed = () => {
       <% if (__loadingBar) { %>
       LoadingBar.stop()
       <% } %>
-      if (!redirected) { next() }
+      if (routeUnchanged) { next() }
     }
 
     <% if (__loadingBar) { %>
     LoadingBar.start()
     <% } %>
-    Promise.all(
-      components.map(c => {
-        if (redirected) { return }
-        return c.preFetch({
-          <% if (store) { %>store,<% } %>
-          currentRoute: to,
-          previousRoute: from,
-          redirect
-        })
-      })
+
+    components
+    .filter(c => c && c.preFetch)
+    .reduce(
+      (promise, c) => promise.then(() => routeUnchanged && c.preFetch({
+        <% if (store) { %>store,<% } %>
+        currentRoute: to,
+        previousRoute: from,
+        redirect
+      })),
+      Promise.resolve()
     )
     .then(proceed)
     .catch(proceed)

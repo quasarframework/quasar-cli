@@ -83,9 +83,9 @@ export default context => {
 
       <% if (preFetch) { %>
 
-      let redirected = false
+      let routeUnchanged = true
       const redirect = url => {
-        redirected = true
+        routeUnchanged = false
         reject({ url })
       }
       App.preFetch && matchedComponents.unshift(App)
@@ -94,21 +94,19 @@ export default context => {
       // A preFetch hook dispatches a store action and returns a Promise,
       // which is resolved when the action is complete and store state has been
       // updated.
-      Promise.all(
-        matchedComponents.map(c => {
-          if (redirected) { return }
-          if (c && c.preFetch) {
-            return c.preFetch({
-              <% if (store) { %>store,<% } %>
-              ssrContext: context,
-              currentRoute: router.currentRoute,
-              redirect
-            })
-          }
-        })
+      matchedComponents
+      .filter(c => c && c.preFetch)
+      .reduce(
+        (promise, c) => promise.then(() => routeUnchanged && c.preFetch({
+          <% if (store) { %>store,<% } %>
+          ssrContext: context,
+          currentRoute: router.currentRoute,
+          redirect
+        })),
+        Promise.resolve()
       )
       .then(() => {
-        if (redirected) { return }
+        if (!routeUnchanged) { return }
 
         <% if (store) { %>context.state = store.state<% } %>
 
