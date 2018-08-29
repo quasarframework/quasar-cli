@@ -92,6 +92,9 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
       Promise.resolve()
     )
     .then(proceed)
-    .catch(proceed)
+    .catch(e => {
+      console.error(e)
+      proceed()
+    })
   })
 }
