@@ -15,6 +15,9 @@ register(process.env.SERVICE_WORKER_FILE, {
   cached (registration) { // registration -> a ServiceWorkerRegistration instance
     console.log('Content has been cached for offline use.')
   },
+  updatefound (registration) { // registration -> a ServiceWorkerRegistration instance
+    console.log('New content is downloading.')
+  },
   updated (registration) { // registration -> a ServiceWorkerRegistration instance
     console.log('New content is available; please refresh.')
   },
