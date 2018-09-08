@@ -50,6 +50,18 @@ export default context => {
   return new Promise(async (resolve, reject) => {
     const { app, <%= store ? 'store, ' : '' %>router } = createApp(context)
 
+    <% if (pluginNames.length > 0) { %>
+    ;[<%= pluginNames.join(',') %>].forEach(plugin => {
+      plugin({
+        app,
+        router,
+        <%= store ? 'store,' : '' %>
+        Vue,
+        ssrContext: context
+      })
+    })
+    <% } %>
+
     const
       { url } = context,
       { fullPath } = router.resolve(url).route
@@ -63,18 +75,6 @@ export default context => {
 
     // wait until router has resolved possible async hooks
     router.onReady(() => {
-      <% if (pluginNames.length > 0) { %>
-      ;[<%= pluginNames.join(',') %>].forEach(plugin => {
-        plugin({
-          app,
-          router,
-          <%= store ? 'store,' : '' %>
-          Vue,
-          ssrContext: context
-        })
-      })
-      <% } %>
-
       const matchedComponents = router.getMatchedComponents()
       // no matched routes
       if (!matchedComponents.length) {
