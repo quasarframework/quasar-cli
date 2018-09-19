@@ -54,8 +54,8 @@ if (argv.help) {
 const chalk = require('chalk')
 
 const
-  logger = require('../lib/helpers/logger')
-  log = logger('app:build')
+  logger = require('../lib/helpers/logger'),
+  log = logger('app:build'),
   warn = logger('app:build', 'red'),
   banner = require('../lib/helpers/banner')
 
@@ -71,7 +71,6 @@ const
   webpack = require('webpack')
 
 const
-  appPaths = require('../lib/app-paths'),
   QuasarConfig = require('../lib/quasar-config'),
   Generator = require('../lib/generator'),
   artifacts = require('../lib/artifacts'),
