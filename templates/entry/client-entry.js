@@ -73,7 +73,6 @@ import boot from 'src/plugins/boot.js'
 
 <% if (ctx.dev) { %>
 Vue.config.devtools = true
-Vue.config.performance = true
 Vue.config.productionTip = false
 <% } %>
 
