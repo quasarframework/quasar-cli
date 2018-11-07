@@ -5339,10 +5339,10 @@ quasar-extras@2.0.9:
   resolved "https://registry.yarnpkg.com/quasar-extras/-/quasar-extras-2.0.9.tgz#f3274f8cd8e054a76d0b52a2410ccf0cdfb197fd"
   integrity sha512-ifwaaop0GNuxlcD7Ams0X3f7S49es+2NlR/fI4YAMAOW70ZxTkD4QkAFsVhk7dNPcpPodSOTKAWDOPaO+MqsBg==
 
-quasar-framework@0.17.17:
-  version "0.17.17"
-  resolved "https://registry.yarnpkg.com/quasar-framework/-/quasar-framework-0.17.17.tgz#e560fb17ac16e8db67e4f559a6d61fef74576455"
-  integrity sha512-evRS9rIAp8Er7gG63ZIvFs7vRh8PDYFqX3e2rtdIhEa0LDDfVrbFCs3+QfXtzWjstQKO+zwG4zaY+udT/+g2aQ==
+quasar-framework@0.17.18:
+  version "0.17.18"
+  resolved "https://registry.yarnpkg.com/quasar-framework/-/quasar-framework-0.17.18.tgz#c700b80863df547171735b48d994aa30917895ed"
+  integrity sha512-4ejEGoPUbBY02kpmfojtABBO76H41ie+Pw2Tyurnn5ZG/ZS0SJiordU+hKn99RhcA1BSX02t40pIheH+Bc/0zg==
 
 querystring-es3@^0.2.0:
   version "0.2.1"
