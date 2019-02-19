@@ -2,7 +2,7 @@
   <q-layout> <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-header>
+    <q-layout-header>
       <q-toolbar>
         <q-btn
           flat
@@ -32,10 +32,10 @@
           label="Other Tab"
         />
       </q-tabs>
-    </q-header>
+    </q-layout-header>
 
     <!-- (Optional) The Footer -->
-    <q-footer>
+    <q-layout-footer>
       <q-toolbar>
         <q-btn
           flat
@@ -65,7 +65,7 @@
           label="Other Tab"
         />
       </q-tabs>
-    </q-footer>
+    </q-layout-footer>
 
     <!-- (Optional) A Drawer; you can add one more with side="right" or change this one's side -->
     <q-layout-drawer
