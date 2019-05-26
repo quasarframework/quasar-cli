@@ -103,7 +103,7 @@
     "vue-template-compiler": "2.5.17",
     "vuex": "3.0.1",
     "webpack": "4.25.1",
-    "webpack-bundle-analyzer": "3.0.3",
+    "webpack-bundle-analyzer": "3.3.2",
     "webpack-chain": "4.11.0",
     "webpack-dev-server": "3.1.14",
     "webpack-merge": "4.1.4",
