@@ -1,6 +1,6 @@
 {
   "name": "quasar-cli",
-  "version": "0.17.23",
+  "version": "0.17.25",
   "description": "Quasar Framework CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -85,7 +85,7 @@
     "postcss-safe-parser": "4.0.1",
     "preload-webpack-plugin": "3.0.0-alpha.3",
     "quasar-extras": "2.0.9",
-    "quasar-framework": "0.17.19",
+    "quasar-framework": "0.17.20",
     "register-service-worker": "1.5.2",
     "route-cache": "0.4.4",
     "selfsigned": "1.10.4",
@@ -103,7 +103,7 @@
     "vue-template-compiler": "2.5.17",
     "vuex": "3.0.1",
     "webpack": "4.25.1",
-    "webpack-bundle-analyzer": "3.0.3",
+    "webpack-bundle-analyzer": "3.3.2",
     "webpack-chain": "4.11.0",
     "webpack-dev-server": "3.1.14",
     "webpack-merge": "4.1.4",
