@@ -67,7 +67,7 @@
     "import-local-file": "0.2.0",
     "inquirer": "6.2.0",
     "lodash.debounce": "4.0.8",
-    "lodash.template": "4.4.0",
+    "lodash.template": "4.5.0",
     "lodash.throttle": "4.1.1",
     "log-update": "2.3.0",
     "lru-cache": "4.1.3",
